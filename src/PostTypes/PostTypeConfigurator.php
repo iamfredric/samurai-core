@@ -3,6 +3,8 @@
 namespace Boil\PostTypes;
 
 use Boil\Support\Concerns\ConfigPath;
+use Boil\Support\Facades\Image;
+use Boil\Support\Wordpress\WpHelper;
 
 class PostTypeConfigurator
 {
@@ -24,11 +26,7 @@ class PostTypeConfigurator
 
     public function boot(): void
     {
-        if (! $this->configPath->exists()) {
-            return;
-        }
-
-        add_action('init', function () {
+        WpHelper::add_action('init', function () {
             $this->registerPostTypes();
         });
     }
@@ -38,13 +36,15 @@ class PostTypeConfigurator
         $this->configPath->include();
 
         foreach ($this->postTypes as $postType) {
-            register_post_type($postType->id, $postType->toArray());
+            WpHelper::register_post_type($postType->id, $postType->toArray());
 
             foreach ($postType->taxonomies as $taxonomy) {
-                register_taxonomy($taxonomy->id, $postType->id, $taxonomy->toArray());
+                WpHelper::register_taxonomy($taxonomy->id, $postType->id, $taxonomy->toArray());
             }
 
-            // Todo: enable images if supports...
+            if ($postType->isMediaSupported) {
+                Image::support($postType->id);
+            }
         }
     }
 }

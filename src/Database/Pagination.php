@@ -125,7 +125,7 @@ class Pagination implements IteratorAggregate
      *
      * @param mixed $offset
      *
-     * @return mixed|null|Modest
+     * @return mixed|null|Model
      */
     public function offsetGet($offset)
     {

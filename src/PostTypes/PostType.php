@@ -2,6 +2,8 @@
 
 namespace Boil\PostTypes;
 
+use Boil\Support\Wordpress\WpHelper;
+
 class PostType
 {
     public function __construct(
@@ -151,6 +153,11 @@ class PostType
         return $this;
     }
 
+    public function isMediaSupported(): bool
+    {
+        return in_array('thumbnail', $this->supports);
+    }
+
     public function toArray(): array
     {
         return [
@@ -177,17 +184,17 @@ class PostType
                 'singular_name' => $this->singular,
                 'menu_name' => $this->plural,
                 'name_admin_bar' => $this->plural,
-                'add_new' => sprintf(__("Add %s"), $this->singular),
-                'add_new_item' => sprintf(__("Add %s"), $this->singular),
-                'edit_item' => sprintf(__("Edit %s"), $this->singular),
-                'new_item' => sprintf(__("New %s"), $this->singular),
-                'view_item' => sprintf(__("Show %s"), $this->singular),
-                'search_items' => sprintf(__("Search %s"), $this->singular),
-                'not_found' => sprintf(__("No %s found"), $this->plural),
-                'not_found_in_trash' => sprintf(__("No %s found in trash"), $this->plural),
-                'all_items' => sprintf(__("All %s"), $this->plural),
-                'parent_item'        => sprintf(__("Parent %s"), $this->singular),
-                'parent_item_colon'  => sprintf(__("Parent: %s"), $this->singular),
+                'add_new' => sprintf(WpHelper::__("Add %s"), $this->singular),
+                'add_new_item' => sprintf(WpHelper::__("Add %s"), $this->singular),
+                'edit_item' => sprintf(WpHelper::__("Edit %s"), $this->singular),
+                'new_item' => sprintf(WpHelper::__("New %s"), $this->singular),
+                'view_item' => sprintf(WpHelper::__("Show %s"), $this->singular),
+                'search_items' => sprintf(WpHelper::__("Search %s"), $this->singular),
+                'not_found' => sprintf(WpHelper::__("No %s found"), $this->plural),
+                'not_found_in_trash' => sprintf(WpHelper::__("No %s found in trash"), $this->plural),
+                'all_items' => sprintf(WpHelper::__("All %s"), $this->plural),
+                'parent_item'        => sprintf(WpHelper::__("Parent %s"), $this->singular),
+                'parent_item_colon'  => sprintf(WpHelper::__("Parent: %s"), $this->singular),
                 'archive_title'      => $this->plural,
             ]
         ];

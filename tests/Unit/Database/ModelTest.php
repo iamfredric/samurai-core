@@ -141,12 +141,6 @@ it('can have accessors', function () {
     expect($model->foo)->toBe('bar');
 });
 
-// With traits:
-// - AdvancedCustomFields
-// - Components
-// - FormatedContent
-// - Thumbnail
-
 function postArray(array $merge = []): array
 {
     $data = array_merge([

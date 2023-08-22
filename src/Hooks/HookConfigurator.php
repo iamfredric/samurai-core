@@ -4,6 +4,7 @@ namespace Boil\Hooks;
 
 use Boil\Application;
 use Boil\Support\Concerns\ConfigPath;
+use Boil\Support\Wordpress\WpHelper;
 
 class HookConfigurator
 {
@@ -14,7 +15,7 @@ class HookConfigurator
 
     public function action(string $name, callable|string|array $callable, int $priority = 10, int $acceptedArgs = 1): void
     {
-        add_action(
+        WpHelper::add_action(
             $name, fn (...$args) => $this->resolveCallable($callable, $args),
             $priority,
             $acceptedArgs
@@ -23,7 +24,7 @@ class HookConfigurator
 
     public function filter(string $name, callable|string|array $callable, int $priority = 10, int $acceptedArgs = 1): void
     {
-        add_filter(
+        WpHelper::add_filter(
             $name, fn (...$args) => $this->resolveCallable($callable, $args),
             $priority,
             $acceptedArgs

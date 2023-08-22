@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Bootstrap;
+namespace Boil\Acf\Bootstrap;
 
 use Boil\Application;
 

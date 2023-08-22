@@ -2,6 +2,7 @@
 
 namespace Boil\Acf\Gutenberg;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Boil\Support\Transformers\AttributeGetters;
 use Boil\Support\Transformers\AttributesWhenNull;
@@ -71,8 +72,11 @@ abstract class Block
 
     public function data(?string $key = null, $default = null)
     {
+
         if ($key) {
-            return $this->data[$key] ?? $default;
+            $data = Arr::dot($this->data);
+
+            return $data[$key] ?? $default;
         }
 
         return $this->data;
@@ -82,8 +86,8 @@ abstract class Block
     {
         return [
             'name' => $this->name(),
-            'title' => trans($this->title()),
-            'description' => trans($this->description()),
+            'title' => $this->title(),
+            'description' => $this->description(),
             'render_callback' => [$this, 'render'],
             'category' => $this->category(),
             'icon' => $this->icon(),

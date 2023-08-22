@@ -2,4 +2,7 @@
 
 namespace Tests\Unit\Acf\Gutenberg\GutenbergConfiguratorTest;
 
-it('shall be written')->todo();
+use Boil\Acf\Gutenberg\GutenbergConfigurator;
+
+it('can register a block', function () {
+})->todo();

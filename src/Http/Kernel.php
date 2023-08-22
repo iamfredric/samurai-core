@@ -2,11 +2,11 @@
 
 namespace Boil\Http;
 
+use Boil\Acf\Bootstrap\HandleExceptions;
+use Boil\Acf\Bootstrap\LoadConfiguration;
+use Boil\Acf\Bootstrap\LoadEnvironmentVariables;
+use Boil\Acf\Bootstrap\RegisterFacades;
 use Boil\Application;
-use Boil\Bootstrap\HandleExceptions;
-use Boil\Bootstrap\LoadConfiguration;
-use Boil\Bootstrap\LoadEnvironmentVariables;
-use Boil\Bootstrap\RegisterFacades;
 use Boil\Routing\Router;
 use Illuminate\Contracts\Http\Kernel as KernelContract;
 
@@ -17,8 +17,8 @@ class Kernel implements KernelContract
         LoadConfiguration::class,
         HandleExceptions::class,
         RegisterFacades::class,
-        \Boil\Bootstrap\RegisterProviders::class,
-        \Boil\Bootstrap\BootProviders::class
+        \Boil\Acf\Bootstrap\RegisterProviders::class,
+        \Boil\Acf\Bootstrap\BootProviders::class
     ];
 
     public function __construct(protected Application $app)

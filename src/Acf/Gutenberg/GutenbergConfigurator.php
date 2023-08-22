@@ -33,6 +33,7 @@ class GutenbergConfigurator
         $config->include();
 
         foreach ($this->blocks as $block) {
+
             $concrete = $this->app->make($block);
 
             $array = array_merge($concrete->toArray(), [

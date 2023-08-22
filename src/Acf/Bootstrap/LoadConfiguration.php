@@ -1,13 +1,13 @@
 <?php
 
-namespace Boil\Bootstrap;
+namespace Boil\Acf\Bootstrap;
 
 use Boil\Application;
 use Exception;
 use Illuminate\Config\Repository;
+use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
-use Illuminate\Contracts\Config\Repository as RepositoryContract;
 
 class LoadConfiguration
 {

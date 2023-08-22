@@ -2,4 +2,12 @@
 
 namespace Tests\Unit\Bootstrap\BootProvidersTest;
 
-it('shall be written')->todo();
+use Boil\Acf\Bootstrap\BootProviders;
+
+it('boots providers', function () {
+    expect($this->app->isBooted())->toBeFalse();
+
+    (new BootProviders())->bootstrap($this->app);
+
+    expect($this->app->isBooted())->toBeTrue();
+});

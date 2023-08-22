@@ -4,6 +4,7 @@ namespace Boil\Menu;
 
 use Boil\Application;
 use Boil\Support\Concerns\ConfigPath;
+use Boil\Support\Wordpress\WpHelper;
 
 class MenuConfigurator
 {
@@ -13,12 +14,12 @@ class MenuConfigurator
 
     public function register(string $slug, string $label)
     {
-        register_nav_menu($slug, $label);
+        WpHelper::register_nav_menu($slug, $label);
     }
 
     public function render(string $slug, array $args = [])
     {
-        return wp_nav_menu(array_merge([
+        return WpHelper::wp_nav_menu(array_merge([
             'theme_location' => $slug,
             'container' => null,
             'items_wrap' => '%3$s'

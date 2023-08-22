@@ -2,6 +2,7 @@
 
 namespace Boil\Database;
 
+use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -26,7 +27,7 @@ class Term
         $instance = new static();
 
         return (new Collection(
-            get_terms(array_merge($args, [
+            WpHelper::get_terms(array_merge($args, [
                 'taxonomy' => $instance->type()
             ]))
         ))->mapInto(static::class);
@@ -34,7 +35,7 @@ class Term
 
     public static function find($id)
     {
-        if ($term = get_term($id)) {
+        if ($term = WpHelper::get_term($id)) {
             return new static($term);
         }
     }
@@ -43,19 +44,19 @@ class Term
     {
         $instance = new static();
 
-        return (new Collection(get_the_terms($model->id, $instance->type())))
+        return (new Collection(WpHelper::get_the_terms($model->id, $instance->type())))
             ->filter()
             ->mapInto(static::class);
     }
 
     public function isActive()
     {
-        return is_category($this->get('term_id')) || is_tax($this->type(), $this->get('term_id'));
+        return WpHelper::is_category($this->get('term_id')) || WpHelper::is_tax($this->type(), $this->get('term_id'));
     }
 
     public function getUrlAttribute()
     {
-        return get_term_link($this->get('term_id'));
+        return WpHelper::get_term_link($this->get('term_id'));
     }
 
     public function type(): string

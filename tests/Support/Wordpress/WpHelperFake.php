@@ -20,7 +20,8 @@ class WpHelperFake
             $result = false;
 
             foreach ($this->called[$function] as $call) {
-                if ($callable($call['args'])) {
+
+                if ($callable(...$call['args'])) {
                     $result = true;
                 };
             }
@@ -31,9 +32,9 @@ class WpHelperFake
         return $this;
     }
 
-    public function callFunction($function, $args = null)
+    public function callFunction($function, ...$args)
     {
-        if (! isset($this->fakes[$function])) {
+        if (! isset($this->called[$function])) {
             $this->called[$function] = [];
         }
 
@@ -42,7 +43,7 @@ class WpHelperFake
         ];
 
         if (isset($this->fakes[$function])) {
-            return $this->fakes[$function]($args);
+            return $this->fakes[$function](...$args);
         }
     }
 }

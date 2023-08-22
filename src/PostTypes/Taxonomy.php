@@ -2,6 +2,8 @@
 
 namespace Boil\PostTypes;
 
+use Boil\Support\Wordpress\WpHelper;
+
 class Taxonomy
 {
     public function __construct(
@@ -137,20 +139,20 @@ class Taxonomy
             'labels'        => [
                 'name'                  => $this->plural,
                 'singular_name'         => $this->singular,
-                'search_items'          => sprintf(__("Search %s"), $this->plural),
-                'popular_items'         => sprintf(__("Popular %s"), $this->plural),
-                'all_items'             => sprintf(__("All %s"), $this->plural),
-                'parent_item'           => sprintf(__("Parent %s"), $this->singular),
-                'parent_item_colon'     => sprintf(__("Parent: %s"), $this->singular),
-                'edit_item'             => sprintf(__("Edit %s"), $this->singular),
-                'view_item'             => sprintf(__("Show %s"), $this->singular),
-                'update_item'           => sprintf(__("Update %s"), $this->singular),
-                'add_new_item'          => sprintf(__("Add %s"), $this->singular),
-                'new_item_name'         => sprintf(__("New %s name"), $this->singular),
-                'add_or_remove_items'   => sprintf(__("Add/Remove %s"), $this->singular),
-                'choose_from_most_used' => sprintf(__("Choose from most used %s"), $this->plural),
-                'not_found'             => sprintf(__("No %s found"), $this->singular),
-                'no_terms'              => sprintf(__("No %s"), $this->plural),
+                'search_items'          => sprintf(WpHelper::__("Search %s"), $this->plural),
+                'popular_items'         => sprintf(WpHelper::__("Popular %s"), $this->plural),
+                'all_items'             => sprintf(WpHelper::__("All %s"), $this->plural),
+                'parent_item'           => sprintf(WpHelper::__("Parent %s"), $this->singular),
+                'parent_item_colon'     => sprintf(WpHelper::__("Parent: %s"), $this->singular),
+                'edit_item'             => sprintf(WpHelper::__("Edit %s"), $this->singular),
+                'view_item'             => sprintf(WpHelper::__("Show %s"), $this->singular),
+                'update_item'           => sprintf(WpHelper::__("Update %s"), $this->singular),
+                'add_new_item'          => sprintf(WpHelper::__("Add %s"), $this->singular),
+                'new_item_name'         => sprintf(WpHelper::__("New %s name"), $this->singular),
+                'add_or_remove_items'   => sprintf(WpHelper::__("Add/Remove %s"), $this->singular),
+                'choose_from_most_used' => sprintf(WpHelper::__("Choose from most used %s"), $this->plural),
+                'not_found'             => sprintf(WpHelper::__("No %s found"), $this->singular),
+                'no_terms'              => sprintf(WpHelper::__("No %s"), $this->plural),
             ],
             'query_var'     => $this->queryVar,
             'description'   => $this->description,
