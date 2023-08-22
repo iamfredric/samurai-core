@@ -4,15 +4,19 @@ namespace Boil\Http;
 
 use Boil\Application;
 use Boil\Bootstrap\HandleExceptions;
+use Boil\Bootstrap\LoadConfiguration;
+use Boil\Bootstrap\LoadEnvironmentVariables;
+use Boil\Bootstrap\RegisterFacades;
 use Boil\Routing\Router;
 use Illuminate\Contracts\Http\Kernel as KernelContract;
 
 class Kernel implements KernelContract
 {
     protected array $bootstrappers = [
-        \Boil\Bootstrap\LoadConfiguration::class,
+        LoadEnvironmentVariables::class,
+        LoadConfiguration::class,
         HandleExceptions::class,
-        \Boil\Bootstrap\RegisterFacades::class,
+        RegisterFacades::class,
         \Boil\Bootstrap\RegisterProviders::class,
         \Boil\Bootstrap\BootProviders::class
     ];

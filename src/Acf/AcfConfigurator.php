@@ -3,7 +3,9 @@
 namespace Boil\Acf;
 
 use Boil\Application;
+use Boil\Support\Concerns\ConfigPath;
 use Boil\Support\Facades\View;
+use Illuminate\Support\Collection;
 
 class AcfConfigurator
 {
@@ -14,6 +16,25 @@ class AcfConfigurator
 
     public function __construct(protected Application $app)
     {
+        $this->groups = $this->app['config']->get('features.acf.groups', []);
+        $this->optionsPages = (new Collection($this->app['config']->get('features.acf.options_pages', [])))
+            ->map(fn (string $className) => new $className)
+            ->map(fn (AcfOptionsPage $option) => new AcfConfiguratorOptionsPage(
+                $option->id(),
+                $option->title(),
+                $option->menuTitle(),
+                $option->parentSlug(),
+                $option->position(),
+                $option->capability(),
+                $option->iconUrl(),
+                $option->redirect(),
+                $option->autoload(),
+                $option->updateButtonLabel(),
+                $option->updateMessage(),
+                $option->slug(),
+                $option->share(),
+            ))
+            ->toArray();
     }
 
     public function addOptionsPage(
@@ -66,13 +87,9 @@ class AcfConfigurator
 
     public function boot()
     {
-        $routesPath = $this->app['config']->get('app.paths.routes.acf');
+        $config = new ConfigPath($this->app['config']->get('features.acf.routes'));
 
-        if (! file_exists($routesPath)) {
-            return;
-        }
-
-        include_once $routesPath;
+        $config->include();
 
         add_action('acf/init', function () {
             foreach ($this->optionsPages as $optionsPage) {

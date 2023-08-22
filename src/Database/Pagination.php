@@ -5,7 +5,7 @@ namespace Boil\Database;
 use ArrayIterator;
 use IteratorAggregate;
 
-class Paginaton implements IteratorAggregate
+class Pagination implements IteratorAggregate
 {
     /**
      * @var array

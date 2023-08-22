@@ -22,8 +22,11 @@ class AcfConfiguratorOptionsPage
         protected ?string $updateButtonLabel = null,
         protected ?string $updateMessage = null,
         protected ?string $slug = null,
+        ?Closure $share = null
     ) {
-        // Todo...
+        if ($share) {
+            $this->share($share);
+        }
     }
 
     public function toArray(): array

@@ -3,6 +3,7 @@
 namespace Boil\Database;
 
 use ArrayAccess;
+use Boil\Support\Wordpress\WpHelper;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -44,7 +45,7 @@ use ReflectionClass;
  * @method static \Boil\Database\Builder latest($orderBy = 'date')
  * @method static \Boil\Database\Builder oldest($orderBy = 'date')
  */
-abstract class Model implements Arrayable, Jsonable, ArrayAccess
+class Model implements Arrayable, Jsonable, ArrayAccess
 {
     /**
      * Specified post type
@@ -125,7 +126,7 @@ abstract class Model implements Arrayable, Jsonable, ArrayAccess
      */
     public static function current()
     {
-        return static::make(get_post());
+        return static::make(WpHelper::callFunction('get_post'));
     }
 
     /**
@@ -173,7 +174,7 @@ abstract class Model implements Arrayable, Jsonable, ArrayAccess
 
         $params['post_type'] = $instance->getType();
 
-        $id = wp_insert_post($params);
+        $id = WpHelper::callFunction('wp_insert_post', $params);
 
         return static::find($id);
     }
@@ -195,7 +196,11 @@ abstract class Model implements Arrayable, Jsonable, ArrayAccess
 
         $params['ID'] = $this->attributes->get('id');
 
-        return static::create($params);
+        $model = static::create($params);
+
+        $this->attributes = $model->attributes;
+
+        return $this;
     }
 
     /**
@@ -205,7 +210,7 @@ abstract class Model implements Arrayable, Jsonable, ArrayAccess
      */
     public function save()
     {
-        wp_update_post($this->toWordpressArray());
+        WpHelper::callFunction('wp_update_post', $this->toWordpressArray());
     }
 
     /**
@@ -256,6 +261,11 @@ abstract class Model implements Arrayable, Jsonable, ArrayAccess
         $this->attributes->put($key, $value);
 
         return $this->attributes->get($key);
+    }
+
+    public function getKey(): int
+    {
+        return $this->get('id');
     }
 
     /**

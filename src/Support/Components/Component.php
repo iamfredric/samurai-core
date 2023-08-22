@@ -76,7 +76,7 @@ class Component implements Arrayable, Jsonable
      */
     public function render()
     {
-        if ($path = config('paths.components')) {
+        if ($path = config('features.acf.components_path')) {
             $view = str_replace('{name}', $this->prefix ? "{$this->prefix}.{$this->view}" : $this->view, $path);
         } else {
             $view = $this->prefix ? "components.{$this->prefix}.{$this->view}" : "components.{$this->view}";

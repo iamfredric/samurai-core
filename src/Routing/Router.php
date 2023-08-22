@@ -4,7 +4,10 @@ namespace Boil\Routing;
 
 use Boil\Application;
 use Boil\Database\Model;
+use Boil\Support\Concerns\ConfigPath;
+use Boil\Support\Concerns\ExtractModelArguments;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 
 class Router
 {
@@ -16,11 +19,13 @@ class Router
 
     public function capture(): void
     {
-        $path = $this->app['config']->get('app.paths.routes.web');
+        $configPaths = new ConfigPath($this->app['config']->get('features.web.routes'));
 
-        $app = $this->app;
+        if (! $configPaths->exists()) {
+            return;
+        }
 
-        include_once $path;
+        $configPaths->include();
 
         $templateHooks = [
             '404_template',
@@ -43,9 +48,21 @@ class Router
             'taxonomy_template',
         ];
 
+        add_filter('theme_page_templates', function($templates) {
+            foreach ($this->app['router']->getTemplates() as $name => $template) {
+                $templates[$name] = $template->name;
+            }
+
+            return $templates;
+        });
+
         foreach ($templateHooks as $hook) {
             add_filter($hook, function ($template, $type, $templates) {
                 foreach ($templates as $t) {
+//                    dd($key = get_post_meta(get_the_ID(), '_wp_page_template', true));
+//                    if ($template != 'search' && $this->routeIsDefined($key = get_post_meta(get_the_ID(), '_wp_page_template', true))) {
+//                        return $this->routeResponse($this->templates[$key]);
+//                    }
                     if  ($x = $this->app['router']->isRegistered($t)) {
                         $this->currentRoute = $x;
 
@@ -61,66 +78,54 @@ class Router
     public function send(): void
     {
         add_action('template_include', function ($template) {
-            if ($this->currentRoute) {
-                $callable = $this->app['router']->resolve($this->currentRoute);
+            if ($template === 'search.php') {
+                $this->currentRoute = $this->app['router']->getSearchTemplate();
+            }
 
-                if (is_string($callable)) {
-                    if (str_contains($callable, '@')) {
-                        [$callable, $method] = explode('@', $callable);
-                    } else {
-                        $method = '__invoke';
-                    }
+            if (! $this->currentRoute) {
+                return $template;
+            }
 
-                    $response = $this->app->call([$this->app->make($callable), $method]);
+            if ($this->currentRoute->getView()) {
+                $attributes = [];
 
-                    if (! $response instanceof \Illuminate\Http\Response) {
-                        $response = new Response($response, 200);
-                    }
+                if ($postType = get_post()->post_type) {
+                    $modelName = Str::of($postType)->studly()->singular()->prepend('App\\Models\\')->toString();
 
-                    $response->send();
+                    $model = class_exists($modelName) ? $modelName : Model::class;
 
-                    return null;
-                } elseif (is_callable($callable)) {
-                    // Todo: Things...
-                    $thing = $this->app->call($callable);
-
-                    die(var_dump($thing));
-                } elseif (is_array($callable)) {
-                    [$controller, $method] = $callable;
-
-                    $controller = $this->app->make($controller);
-                    $reflector = new \ReflectionMethod($controller, $method);
-
-                    $args = [];
-
-                    foreach ($reflector->getParameters() as $param) {
-                        if (! $param->isOptional()) {
-                            $reflector = new \ReflectionClass($param->getType()->getName());
-
-                            if ($reflector?->getParentClass()?->getName() === Model::class) {
-                                $args[$param->getName()] = $reflector->getName()::current();
-                            }
-                        }
-                    }
-
-                    $response = $this->app->call([$controller, $method], $args);
-
-                    if (! $response instanceof \Illuminate\Http\Response) {
-                        $response = new Response($response, 200);
-                    }
-
-                    $response->send();
-
-                    return null;
-                    die('Correct');
+                    $attributes[$postType] = $model::current();
                 }
 
+                $response = new Response(view($this->currentRoute->getView(), $attributes));
+                $response->send();
 
-                die(var_dump($callable));
                 return null;
             }
 
-            return $template;
+            $callable = $this->currentRoute->getCallable();
+
+            if ($callable instanceof \Closure) {
+                $response = $this->app->call($callable, ExtractModelArguments::fromCallable($callable));
+            } else {
+                $controller = $this->app->make(
+                    $callable[0],
+                    ExtractModelArguments::fromConstructor($callable[0])
+                );
+
+                $response = $this->app->call(
+                    [$controller, $callable[1]],
+                    ExtractModelArguments::fromMethod($controller, $callable[1])
+                );
+            }
+
+            if (! $response instanceof \Illuminate\Http\Response) {
+                $response = new Response($response, 200);
+            }
+
+            $response->send();
+
+            return null;
         });
     }
 }

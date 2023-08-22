@@ -3,6 +3,7 @@
 namespace Boil\Menu;
 
 use Boil\Application;
+use Boil\Support\Concerns\ConfigPath;
 
 class MenuConfigurator
 {
@@ -26,12 +27,8 @@ class MenuConfigurator
 
     public function boot(): void
     {
-        $routesPath = $this->app['config']->get('app.paths.routes.menus');
+        $config = new ConfigPath($this->app['config']->get('features.menus.routes'));
 
-        if (! file_exists($routesPath)) {
-            return;
-        }
-
-        include_once $routesPath;
+        $config->include();
     }
 }

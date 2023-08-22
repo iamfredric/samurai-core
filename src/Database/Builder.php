@@ -2,6 +2,7 @@
 
 namespace Boil\Database;
 
+use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 
@@ -85,7 +86,7 @@ class Builder
     {
         $instance = new static($model);
 
-        if ($post = get_post($id)) {
+        if ($post = WpHelper::callFunction('get_post', $id)) {
             return $instance->buildItem($post);
         }
 
@@ -315,8 +316,8 @@ class Builder
      */
     protected function resolveMethodCall($method, $args)
     {
-        if ($this->hasMacro($method)) {
-            $this->resolveMacro($method, $this, ...$args);
+        if (static::hasMacro($method)) {
+            static::$macros[$method]($this);
 
             return $this;
         } elseif (method_exists($this, $name = 'scope'. ucfirst($method))) {

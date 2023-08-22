@@ -1,5 +1,81 @@
 <?php
 
+if (! function_exists('start_app')) {
+    function start_app(string $dir): void
+    {
+        if  (! defined('APP_START')) {
+            define('APP_START', microtime(true));
+        }
+
+        $app = new \Boil\Application(dirname($dir));
+
+        $app->singleton(
+            Illuminate\Contracts\Http\Kernel::class,
+            Boil\Http\Kernel::class
+        );
+
+        $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+
+        $response = $kernel->handle(
+            $request = Illuminate\Http\Request::capture()
+        );
+
+        $response->send();
+
+        $kernel->terminate($request, $response);
+    }
+}
+
+if (! function_exists('app')) {
+    function app(?string $abstract = null) {
+        if ($abstract) {
+            return \Boil\Application::getInstance()->make($abstract);
+        }
+
+        return \Boil\Application::getInstance();
+    }
+}
+
+if (! function_exists('public_path')) {
+    function public_path(string $path = ''): string
+    {
+        return app()->publicPath($path);
+    }
+}
+
+if (! function_exists('theme_url')) {
+    /**
+     * Basic helper for getting the theme url
+     *
+     * @param string $url optional
+     *
+     * @return string
+     */
+    function theme_url($url = '')
+    {
+        return (string) \Illuminate\Support\Str::of(get_bloginfo('stylesheet_directory'))
+            ->append("/$url")
+            ->rtrim('/');
+    }
+}
+
+if (! function_exists('asset')) {
+    /**
+     * @param string $file
+     *
+     * @return string
+     */
+    function asset($file)
+    {
+        $file = ltrim($file, '/');
+
+        return (string) \Illuminate\Support\Str::of($file)
+            ->ltrim('/')
+            ->replace('//', '/')
+            ->prepend(theme_url('public').'/');
+    }
+}
+
 if (! function_exists('config')) {
     /**
      * @param string $key
@@ -100,7 +176,7 @@ if (! function_exists('assets')) {
         return (string) \Illuminate\Support\Str::of($file)
             ->ltrim('/')
             ->replace('//', '/')
-            ->prepend(theme_url(config('paths.assets')).'/');
+            ->prepend(theme_url(config('app.assets_path')).'/');
     }
 }
 

@@ -29,7 +29,14 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
     protected $bootedCallbacks = [];
 
     /**
-     * All of the registered service providers.
+     * The array of terminating callbacks.
+     *
+     * @var callable[]
+     */
+    protected $terminatingCallbacks = [];
+
+    /**
+     * All the registered service providers.
      *
      * @var \Illuminate\Support\ServiceProvider[]
      */
@@ -54,95 +61,108 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         $this->registerBaseServiceProviders();
         $this->registerCoreContainerAliases();
 
-        // static::setInstance($this);
+         static::setInstance($this);
     }
 
-    public function version()
+    public function baseInstallationPath(string $path = ''): string
+    {
+        if (defined('ABSPATH')) {
+            return $this->joinPaths(ABSPATH, $path);
+        }
+
+        throw new \Exception('Absolute path to the WordPress installation directory not defined.');
+    }
+
+    public function version(): string
     {
         return '0.0.1';
     }
 
-    public function basePath($path = '')
+    public function basePath($path = ''): string
     {
         return $this->joinPaths($this->basePath, $path);
     }
 
-    public function joinPaths($basePath, $path = '')
+    public function joinPaths($basePath, $path = ''): string
     {
         return $basePath.($path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '');
     }
 
-    public function bootstrapPath($path = '')
+    public function bootstrapPath($path = ''): string
     {
         return $this->joinPaths($this->bootstrapPath, $path);
     }
 
-    public function configPath($path = '')
+    public function configPath($path = ''): string
     {
         return $this->joinPaths($this->configPath ?: $this->basePath('config'), $path);
     }
 
-    public function databasePath($path = '')
+    public function databasePath($path = ''): string
     {
         return $this->joinPaths($this->databasePath ?: $this->basePath('database'), $path);
     }
 
-    public function langPath($path = '')
+    public function langPath($path = ''): string
     {
         return $this->joinPaths($this->langPath, $path);
     }
 
-    public function publicPath($path = '')
+    public function publicPath($path = ''): string
     {
         return $this->joinPaths($this->publicPath ?: $this->basePath('public'), $path);
     }
 
-    public function resourcePath($path = '')
+    public function resourcePath($path = ''): string
     {
         return $this->joinPaths($this->basePath('resources'), $path);
     }
 
-    public function storagePath($path = '')
+    public function storagePath($path = ''): string
     {
         return $this->joinPaths($this->storagePath ?: $this->basePath('storage'), $path);
     }
 
-    public function environment(...$environments)
+    public function environment(...$environments): string
     {
-        return 'dev';
+        // return WP_DEBUG ? 'dev' : 'production';
+
+        return $this['env'];
     }
 
-    public function runningInConsole()
+    public function runningInConsole(): bool
     {
         return false;
     }
 
-    public function runningUnitTests()
+    public function runningUnitTests(): bool
     {
+        return $this->bound('env') && $this['env'] === 'testing';
+    }
+
+    public function hasDebugModeEnabled(): bool
+    {
+        if (defined('WP_DEBUG')) {
+            return WP_DEBUG;
+        }
+
         return false;
     }
 
-    public function hasDebugModeEnabled()
+    public function maintenanceMode(): bool
     {
-        return true;
+        return $this->isDownForMaintenance();
     }
 
-    public function maintenanceMode()
+    public function isDownForMaintenance(): bool
     {
-        return false;
-    }
-
-    public function isDownForMaintenance()
-    {
-        return false;
+        return file_exists($this->baseInstallationPath('.maintenance'));
     }
 
     public function registerConfiguredProviders(): void
     {
         Collection::make($this->make('config')->get('app.providers'))
             ->each(fn (string $provider) => $this->register($provider));
-
-        // Todo: things here...
     }
 
     public function register($provider, $force = false)
@@ -194,7 +214,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return array_values($this->getProviders($provider))[0] ?? null;
     }
 
-    public function getProviders($provider)
+    public function getProviders($provider): array
     {
         $name = is_string($provider) ? $provider : get_class($provider);
 
@@ -203,7 +223,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         });
     }
 
-    public function registerDeferredProvider($provider, $service = null)
+    public function registerDeferredProvider($provider, $service = null): void
     {
         // Once the provider that provides the deferred service has been registered we
         // will remove it from our local list of the deferred services with related
@@ -226,7 +246,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return new $provider($this);
     }
 
-    public function boot()
+    public function boot(): void
     {
         if ($this->isBooted()) {
             return;
@@ -246,7 +266,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         $this->fireAppCallbacks($this->bootedCallbacks);
     }
 
-    protected function fireAppCallbacks(array &$callbacks)
+    protected function fireAppCallbacks(array &$callbacks): void
     {
         $index = 0;
 
@@ -262,7 +282,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         $this->bootingCallbacks[] = $callback;
     }
 
-    public function booted($callback)
+    public function booted($callback): void
     {
         $this->bootedCallbacks[] = $callback;
 
@@ -271,7 +291,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         }
     }
 
-    public function bootstrapWith(array $bootstrappers)
+    public function bootstrapWith(array $bootstrappers): void
     {
         foreach ($bootstrappers as $bootstrapper) {
             $this->make($bootstrapper)->bootstrap($this);
@@ -301,7 +321,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
 
     public function detectEnvironment(callable $callback)
     {
-
+        return $this['env'] = $callback();
     }
 
     public function loadDeferredProviders()
@@ -314,51 +334,40 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         // TODO: Implement setLocale() method.
     }
 
-    public function shouldSkipMiddleware()
+    public function shouldSkipMiddleware(): bool
     {
         return true;
     }
 
     public function terminating($callback)
     {
-        // TODO: Implement terminating() method.
+        $this->terminatingCallbacks[] = $callback;
     }
 
     public function terminate()
     {
-        // TODO: Implement terminate() method.
+        $index = 0;
+
+        while ($index < count($this->terminatingCallbacks)) {
+            $this->call($this->terminatingCallbacks[$index]);
+
+            $index++;
+        }
     }
 
-    /**
-     * Mark the given provider as registered.
-     *
-     * @param  \Illuminate\Support\ServiceProvider  $provider
-     * @return void
-     */
-    protected function markAsRegistered($provider)
+    protected function markAsRegistered(ServiceProvider $provider): void
     {
         $this->serviceProviders[] = $provider;
 
         $this->loadedProviders[get_class($provider)] = true;
     }
 
-    /**
-     * Determine if the application has booted.
-     *
-     * @return bool
-     */
-    public function isBooted()
+    public function isBooted(): bool
     {
         return $this->booted;
     }
 
-    /**
-     * Boot the given service provider.
-     *
-     * @param  \Illuminate\Support\ServiceProvider  $provider
-     * @return void
-     */
-    protected function bootProvider(ServiceProvider $provider)
+    protected function bootProvider(ServiceProvider $provider): void
     {
         $provider->callBootingCallbacks();
 
@@ -369,7 +378,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         $provider->callBootedCallbacks();
     }
 
-    public function setBasePath(string $basePath)
+    public function setBasePath(string $basePath): static
     {
         $this->basePath = rtrim($basePath, '\/');
 
@@ -378,15 +387,15 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return $this;
     }
 
-    protected function bindPathsInContainer()
+    protected function bindPathsInContainer(): void
     {
         $this->instance('path', $this->path());
         $this->instance('path.base', $this->basePath());
-        $this->instance('path.lang', $this->langPath());
+//        $this->instance('path.lang', $this->langPath());
         $this->instance('path.config', $this->configPath());
         $this->instance('path.public', $this->publicPath());
         $this->instance('path.storage', $this->storagePath());
-        $this->instance('path.database', $this->databasePath());
+//        $this->instance('path.database', $this->databasePath());
         $this->instance('path.resources', $this->resourcePath());
         $this->instance('path.bootstrap', $this->bootstrapPath());
     }
