@@ -196,3 +196,9 @@ if (! function_exists('theme_url')) {
     }
 }
 
+if (! function_exists('translate')) {
+    function translate(?string $string, array $attributes = [])
+    {
+        return app(\Boil\Support\Translations\Translator::class)->translate($string, $attributes);
+    }
+}

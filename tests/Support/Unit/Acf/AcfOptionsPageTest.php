@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\Acf;
+namespace tests\Support\Unit\Acf;
 
 it('has public method id', function () {
     $optionsPage = new TestOptionsPage();

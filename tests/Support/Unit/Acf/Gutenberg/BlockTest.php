@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Acf\Gutenberg\BlockTest;
+namespace tests\Support\Unit\Acf\Gutenberg;
 
 use Boil\Acf\Gutenberg\Block;
 

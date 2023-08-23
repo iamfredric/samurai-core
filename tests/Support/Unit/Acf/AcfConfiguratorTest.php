@@ -1,6 +1,6 @@
 <?php
 
-namespace Unit\Acf;
+namespace tests\Support\Unit\Acf;
 
 use Boil\Acf\AcfConfigurator;
 use Boil\Acf\AcfConfiguratorOptionsPage;

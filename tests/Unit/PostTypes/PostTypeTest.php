@@ -6,10 +6,6 @@ use Boil\PostTypes\PostType;
 use Boil\Support\Wordpress\WpHelper;
 
 it('can be a post type', function () {
-    WpHelper::fake([
-        '__' => fn ($text) => $text,
-    ]);
-
    $postType = new PostType('test-post-type');
 
    $postType->supports('title', 'editor', 'thumbnail')
@@ -26,7 +22,6 @@ it('can be a post type', function () {
        ->hasIndexPage()
        ->slug('test-post-type')
        ->useGutenberg();
-
 
     expect($postType->isMediaSupported())->toBeTrue();
 
@@ -58,17 +53,17 @@ it('can be a post type', function () {
             'menu_name' => 'Me plural name',
             'name_admin_bar' => 'Me plural name',
             'add_new' => 'Add me singular name',
-            'add_new_item' => 'Add me singular name',
+            'add_new_item' => 'Add new me singular name',
             'edit_item' => 'Edit me singular name',
             'new_item' => 'New me singular name',
-            'view_item' => 'Show me singular name',
-            'search_items' => 'Search me singular name',
-            'not_found' => 'No Me plural name found',
+            'view_item' => 'View me singular name',
+            'search_items' => 'Search Me plural name',
+            'not_found' => 'No me singular name found',
             'not_found_in_trash' => 'No Me plural name found in trash',
             'all_items' => 'All Me plural name',
             'parent_item' => 'Parent me singular name',
             'parent_item_colon' => 'Parent: me singular name',
-            'archive_title' => 'Me plural name',
+            'archive_title' => 'Archive: Me plural name',
         ]
     ]);
 });

@@ -6,10 +6,6 @@ use Boil\PostTypes\Taxonomy;
 use Boil\Support\Wordpress\WpHelper;
 
 it('can be a taxonomy', function () {
-    WpHelper::fake([
-        '__' => fn ($string) => $string,
-    ]);
-
    $taxonomy = new Taxonomy('test-taxonomy');
 
     $taxonomy->plural('Test taxonomies')
@@ -36,13 +32,13 @@ it('can be a taxonomy', function () {
             'parent_item' => 'Parent test taxonomy',
             'parent_item_colon' => 'Parent: test taxonomy',
             'edit_item' => 'Edit test taxonomy',
-            'view_item' => 'Show test taxonomy',
+            'view_item' => 'View test taxonomy',
             'update_item' => 'Update test taxonomy',
             'add_new_item' => 'Add test taxonomy',
             'new_item_name' => 'New test taxonomy name',
-            'add_or_remove_items' => 'Add/Remove test taxonomy',
+            'add_or_remove_items' => 'Add or remove test taxonomy',
             'choose_from_most_used' => 'Choose from most used test taxonomies',
-            'not_found' => 'No test taxonomy found',
+            'not_found' => 'No test taxonomys found',
             'no_terms' => 'No test taxonomies',
         ],
         'query_var' => 'test-query-var',

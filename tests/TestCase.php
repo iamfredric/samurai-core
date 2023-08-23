@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Boil\Providers\TranslationServiceProvider;
 use Illuminate\Config\Repository;
 use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\TestCase as BaseTestCase;
@@ -18,7 +19,10 @@ abstract class TestCase extends BaseTestCase
 
         $this->app = new \Boil\Application(dirname(__DIR__) );
 
-        $this->app->instance('config', $config = new Repository([]));
+        $this->app->instance('config', $config = new Repository($this->config()));
+
+        $this->app->registerConfiguredProviders();
+        // $this->app->registerConfiguredProviders();
 //        $app->singleton(
 //            \Illuminate\Contracts\Http\Kernel::class,
 //            \Boil\Http\Kernel::class
@@ -33,5 +37,16 @@ abstract class TestCase extends BaseTestCase
 //        $response->send();
 //
 //        $kernel->terminate($request, $response);
+    }
+
+    protected function config(): array
+    {
+        return [
+            'app' => [
+                'providers' => [
+                    TranslationServiceProvider::class,
+                ]
+            ]
+        ];
     }
 }

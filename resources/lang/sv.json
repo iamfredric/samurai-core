@@ -1,0 +1,20 @@
+{
+  "Add :attribute":  "Skapa :attribute",
+  "Add new :attribute": "Skapa ny :attribute",
+  "Edit :attribute":  "Redigera :attribute",
+  "New :attribute": "Ny :attribute",
+  "View :attribute":  "Visa :attribute",
+  "Search :attributes": "Sök :attributes",
+  "No :attributes found":  "Inga :attributes hittades",
+  "No :attributes found in trash": "Inga :attributes hittades i papperskorgen",
+  "All :attributes":  "Alla :attributes",
+  "Parent :attribute": "Förälder :attribute",
+  "Parent: :attribute":  "Förälder: :attribute",
+  "Archive: :attributes": "Arkiv: :attributes",
+  "Popular :attributes": "Populära :attributes",
+  "Update :attribute": "Uppdatera :attribute",
+  "New :attribute name": "Nytt :attribute namn",
+  "Add or remove :attribute":  "Lägg till eller ta bort :attribute",
+  "Choose from most used :attribute": "Väl från mest använd :attribute",
+  "No :attribute": "Ingen :attribute"
+}

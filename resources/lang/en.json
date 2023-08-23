@@ -1,0 +1,20 @@
+{
+  "Add :attribute":  "Add :attribute",
+  "Add new :attribute": "Add new :attribute",
+  "Edit :attribute":  "Edit :attribute",
+  "New :attribute": "New :attribute",
+  "View :attribute":  "View :attribute",
+  "Search :attributes": "Search :attributes",
+  "No :attributes found":  "No :attributes found",
+  "No :attributes found in trash": "No :attributes found in trash",
+  "All :attributes":  "All :attributes",
+  "Parent :attribute": "Parent :attribute",
+  "Parent: :attribute":  "Parent: :attribute",
+  "Archive: :attributes": "Archive: :attributes",
+  "Popular :attributes": "Popular :attributes",
+  "Update :attribute": "Update :attribute",
+  "New :attribute name": "New :attribute name",
+  "Add or remove :attribute":  "Add or remove :attribute",
+  "Choose from most used :attribute": "Choose from most used :attribute",
+  "No :attribute": "No :attribute"
+}
