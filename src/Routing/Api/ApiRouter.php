@@ -5,6 +5,7 @@ namespace Boil\Routing\Api;
 use Boil\Application;
 use Boil\Support\Concerns\ConfigPath;
 use Boil\Support\Concerns\ExtractModelArguments;
+use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -39,9 +40,9 @@ class ApiRouter
 
         $config->include();
 
-        add_action('rest_api_init', function () {
+        WpHelper::add_action('rest_api_init', function () {
             foreach ($this->routes as $route) {
-                register_rest_route($route->namespace, $route->getUri(), [
+                WpHelper::register_rest_route($route->namespace, $route->getUri(), [
                     'methods' => $route->method,
                     'permission_callback' => '__return_true',
                     'callback' => function ($request) use ($route) {

@@ -17,6 +17,9 @@ class Template
         protected ?string $view = null,
     ) {
         $this->endpoint = is_callable($endpoint) ? Closure::fromCallable($endpoint) : $endpoint;
+        if ($view) {
+            $this->endpoint = (fn() => view($view));
+        }
     }
 
     public function getCallable(): array|string|Closure

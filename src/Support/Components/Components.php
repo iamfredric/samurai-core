@@ -115,7 +115,7 @@ class Components implements Arrayable, Countable, IteratorAggregate, Jsonable
         return new Component($component, $this->prefix);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return (new Collection($this->components))
             ->toArray();

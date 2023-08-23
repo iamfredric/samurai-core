@@ -18,6 +18,7 @@ use Tests\Support\Wordpress\WpHelperFake;
  * @method static \WP_Post_Type|\WP_Error register_post_type(string $post_type, array|string $args = [])
  * @method static string __(string $text, string $domain = 'default')
  * @method static \WP_Taxonomy|\WP_Error register_taxonomy(string $taxonomy, array|string $object_type, array|string $args = [])
+ * @method static bool register_rest_route(string $route_namespace, string $route, array $args = [], bool $override = false)
  */
 class WpHelper
 {

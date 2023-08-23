@@ -134,7 +134,7 @@ class Component implements Arrayable, Jsonable
                     }
 
                     return [$key => $value instanceof Arrayable ? $value->toArray() : $value];
-                })
+                })->toArray(),
         ];
     }
 
@@ -150,7 +150,7 @@ class Component implements Arrayable, Jsonable
 
     public function hash(): string
     {
-        return $this->view;
+        return md5($this->view);
     }
 
     public function toJson($options = 0)

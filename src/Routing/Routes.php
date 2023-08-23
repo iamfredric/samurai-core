@@ -12,17 +12,17 @@ class Routes
 
     public function view(string $name, string $view, array $options = [])
     {
-        $this->views[$name] = new Template($name, null, $options, $view);
+        return $this->views[$name] = new Template($name, null, $options, $view);
     }
 
-    public function register(string $name, string|array|callable $callback)
+    public function register(string $name, string|array|callable $callback): Template
     {
-        $this->routes[$name] = new Template($name, $callback); //$callback;
+        return $this->routes[$name] = new Template($name, $callback);
     }
 
     public function template($key, $name, $endpoint, $options = [])
     {
-        $this->templates[$key] = new Template($name, $endpoint, $options);
+        return $this->templates[$key] = new Template($name, $endpoint, $options);
     }
 
     /**
@@ -60,10 +60,10 @@ class Routes
         return false;
     }
 
-    public function getCurrentRoute()
-    {
-        return 'A current route has emerged!';
-    }
+//    public function getCurrentRoute()
+//    {
+//        return 'A current route has emerged!';
+//    }
 
     public function resolve(string $route)
     {

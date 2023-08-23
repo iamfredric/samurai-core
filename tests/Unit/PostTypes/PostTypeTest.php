@@ -3,7 +3,6 @@
 namespace Tests\Unit\PostTypes\PostTypeTest;
 
 use Boil\PostTypes\PostType;
-use Boil\Support\Wordpress\WpHelper;
 
 it('can be a post type', function () {
    $postType = new PostType('test-post-type');
