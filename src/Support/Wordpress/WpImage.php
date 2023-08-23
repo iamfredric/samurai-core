@@ -33,7 +33,7 @@ class WpImage implements Arrayable, Jsonable
     public function id()
     {
         if (! $this->thumbnailId) {
-            $this->thumbnailId = get_post_thumbnail_id($this->postId);
+            $this->thumbnailId = WpHelper::get_post_thumbnail_id($this->postId);
         }
 
         return $this->thumbnailId;
@@ -52,7 +52,7 @@ class WpImage implements Arrayable, Jsonable
      */
     public function title()
     {
-        return get_the_title($this->id());
+        return WpHelper::get_the_title($this->id());
     }
 
     /**
@@ -62,7 +62,7 @@ class WpImage implements Arrayable, Jsonable
      */
     public function url($size = null)
     {
-        return wp_get_attachment_image_url($this->id(), $size);
+        return WpHelper::wp_get_attachment_image_url($this->id(), $size);
     }
 
     /**
@@ -126,7 +126,7 @@ class WpImage implements Arrayable, Jsonable
      */
     public function exists()
     {
-        return has_post_thumbnail($this->postId);
+        return WpHelper::has_post_thumbnail($this->postId);
     }
 
     public function toArray(): array

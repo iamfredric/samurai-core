@@ -2,4 +2,8 @@
 
 namespace Tests\Unit\Support\Transformers\AutoCasterTest;
 
-it('shall be written')->todo();
+use Boil\Support\Transformers\AutoCaster;
+
+it('casts values to predefined presets', function () {
+
+})->todo();

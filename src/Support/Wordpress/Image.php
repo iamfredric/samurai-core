@@ -110,7 +110,7 @@ class Image implements Arrayable, Jsonable
             return $this->thumbnailUrl;
         }
 
-        return $this->getSizes($size);
+        return $this->getSizes($size)['source-url'] ?? $this->thumbnailUrl;
     }
 
     public function getWidth($size = null)
@@ -119,7 +119,7 @@ class Image implements Arrayable, Jsonable
             return $this->width();
         }
 
-        return $this->thumbnailSizes["{$size}-width"] ?? null;
+        return $this->thumbnailSizes["{$size}-width"] ?? $this->width();
     }
 
     public function getHeight($size = null)
@@ -128,7 +128,7 @@ class Image implements Arrayable, Jsonable
             return $this->height();
         }
 
-        return $this->thumbnailSizes["{$size}-height"] ?? null;
+        return $this->thumbnailSizes["{$size}-height"] ?? $this->height();
     }
 
     /**
@@ -192,7 +192,7 @@ class Image implements Arrayable, Jsonable
      */
     public function srcset($size = null)
     {
-        return wp_get_attachment_image_srcset($this->id(), $size);
+        return WpHelper::wp_get_attachment_image_srcset($this->id(), $size);
     }
 
     /**

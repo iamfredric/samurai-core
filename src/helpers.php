@@ -202,3 +202,118 @@ if (! function_exists('translate')) {
         return app(\Boil\Support\Translations\Translator::class)->translate($string, $attributes);
     }
 }
+
+function acf_get_attachment( $attachment ) {
+
+    // Allow filter to short-circuit load attachment logic.
+    // Alternatively, this filter may be used to switch blogs for multisite media functionality.
+    $response = apply_filters( 'acf/pre_load_attachment', null, $attachment );
+    if ( $response !== null ) {
+        return $response;
+    }
+
+    // Get the attachment post object.
+    $attachment = get_post( $attachment );
+    if ( ! $attachment ) {
+        return false;
+    }
+    if ( $attachment->post_type !== 'attachment' ) {
+        return false;
+    }
+
+    // Load various attachment details.
+    $meta          = wp_get_attachment_metadata( $attachment->ID );
+    $attached_file = get_attached_file( $attachment->ID );
+    if ( strpos( $attachment->post_mime_type, '/' ) !== false ) {
+        list( $type, $subtype ) = explode( '/', $attachment->post_mime_type );
+    } else {
+        list( $type, $subtype ) = array( $attachment->post_mime_type, '' );
+    }
+
+    // Generate response.
+    $response = array(
+        'ID'          => $attachment->ID,
+        'id'          => $attachment->ID,
+        'title'       => $attachment->post_title,
+        'filename'    => wp_basename( $attached_file ),
+        'filesize'    => 0,
+        'url'         => wp_get_attachment_url( $attachment->ID ),
+        'link'        => get_attachment_link( $attachment->ID ),
+        'alt'         => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
+        'author'      => $attachment->post_author,
+        'description' => $attachment->post_content,
+        'caption'     => $attachment->post_excerpt,
+        'name'        => $attachment->post_name,
+        'status'      => $attachment->post_status,
+        'uploaded_to' => $attachment->post_parent,
+        'date'        => $attachment->post_date_gmt,
+        'modified'    => $attachment->post_modified_gmt,
+        'menu_order'  => $attachment->menu_order,
+        'mime_type'   => $attachment->post_mime_type,
+        'type'        => $type,
+        'subtype'     => $subtype,
+        'icon'        => wp_mime_type_icon( $attachment->ID ),
+    );
+
+    // Append filesize data.
+    if ( isset( $meta['filesize'] ) ) {
+        $response['filesize'] = $meta['filesize'];
+    } elseif ( file_exists( $attached_file ) ) {
+        $response['filesize'] = filesize( $attached_file );
+    }
+
+    // Restrict the loading of image "sizes".
+    $sizes_id = 0;
+
+    // Type specific logic.
+    switch ( $type ) {
+        case 'image':
+            $sizes_id = $attachment->ID;
+            $src      = wp_get_attachment_image_src( $attachment->ID, 'full' );
+            if ( $src ) {
+                $response['url']    = $src[0];
+                $response['width']  = $src[1];
+                $response['height'] = $src[2];
+            }
+            break;
+        case 'video':
+            $response['width']  = acf_maybe_get( $meta, 'width', 0 );
+            $response['height'] = acf_maybe_get( $meta, 'height', 0 );
+            if ( $featured_id = get_post_thumbnail_id( $attachment->ID ) ) {
+                $sizes_id = $featured_id;
+            }
+            break;
+        case 'audio':
+            if ( $featured_id = get_post_thumbnail_id( $attachment->ID ) ) {
+                $sizes_id = $featured_id;
+            }
+            break;
+    }
+
+    // Load array of image sizes.
+    if ( $sizes_id ) {
+        $sizes      = get_intermediate_image_sizes();
+        $sizes_data = array();
+        foreach ( $sizes as $size ) {
+            $src = wp_get_attachment_image_src( $sizes_id, $size );
+            if ( $src ) {
+                $sizes_data[ $size ]             = $src[0];
+                $sizes_data[ $size . '-width' ]  = $src[1];
+                $sizes_data[ $size . '-height' ] = $src[2];
+            }
+        }
+        $response['sizes'] = $sizes_data;
+    }
+
+    /**
+     * Filters the attachment $response after it has been loaded.
+     *
+     * @date    16/06/2020
+     * @since   5.9.0
+     *
+     * @param   array $response Array of loaded attachment data.
+     * @param   WP_Post $attachment Attachment object.
+     * @param   array|false $meta Array of attachment meta data, or false if there is none.
+     */
+    return apply_filters( 'acf/load_attachment', $response, $attachment, $meta );
+}

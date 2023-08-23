@@ -4,6 +4,7 @@ namespace Boil\Support\Concerns;
 
 class ConfigPath
 {
+
     public function __construct(protected array|string|null $paths)
     {
     }

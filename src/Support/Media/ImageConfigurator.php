@@ -3,6 +3,7 @@
 namespace Boil\Support\Media;
 
 use Boil\Support\Concerns\ConfigPath;
+use Boil\Support\Wordpress\WpHelper;
 
 class ImageConfigurator
 {
@@ -34,18 +35,14 @@ class ImageConfigurator
 
     public function boot(): void
     {
-        if (! $this->routesPath->exists()) {
-            return;
-        }
-
         $this->routesPath->include();
 
-        add_action('after_setup_theme', function () {
+        WpHelper::add_action('after_setup_theme', function () {
             if ($this->types) {
-                add_theme_support('post-thumbnails', $this->types);
+                WpHelper::add_theme_support('post-thumbnails', $this->types);
             }
             foreach ($this->imageSizes as $imageSize) {
-                add_image_size($imageSize->name, $imageSize->width, $imageSize->height, $imageSize->crop);
+                WpHelper::add_image_size($imageSize->name, $imageSize->width, $imageSize->height, $imageSize->crop);
             }
         });
     }

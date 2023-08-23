@@ -2,4 +2,4 @@
 
 namespace Tests\Unit\Support\Transformers\CasterTest;
 
-it('shall be written')->todo();
+it('casts given things')->todo();

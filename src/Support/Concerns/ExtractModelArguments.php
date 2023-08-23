@@ -45,6 +45,8 @@ class ExtractModelArguments
                     if (isset($arguments[$parameter->getName()])) {
                         continue;
                     }
+
+                    continue;
                 }
 
                 $reflector = new ReflectionClass($parameter->getType()->getName());
