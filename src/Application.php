@@ -117,13 +117,13 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return $this->joinPaths($this->storagePath ?: $this->basePath('storage'), $path);
     }
 
-    /** @param string|string[] $environments */
+    /** @param string[]|null $environments */
     public function environment(...$environments): string|bool
     {
         if (count($environments) > 0) {
             $patterns = is_array($environments[0]) ? $environments[0] : $environments;
 
-            return Str::is($patterns, $this['env']);
+            return in_array($this['env'], $patterns, true);
         }
         // Todo: return WP_DEBUG ? 'dev' : 'production';
 
@@ -179,7 +179,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         // application instance automatically for the developer. This is simply
         // a more convenient way of specifying your service provider classes.
         if (is_string($provider)) {
-            $provider = $this->resolveProvider($provider);
+            $provider = $this->resolveProvider($provider); // @phpstan-ignore-line
         }
 
         $provider->register();
@@ -251,7 +251,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
             unset($this->deferredServices[$service]);
         }
 
-        $this->register($instance = new $provider($this));
+        $this->register($instance = $this->resolveProvider($provider)); // @phpstan-ignore-line
 
         if (! $this->isBooted()) {
             $this->booting(function () use ($instance) {
@@ -261,7 +261,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
     }
 
     /**
-     * @param  string  $provider
+     * @param  class-string<ServiceProvider>  $provider
      * @return \Illuminate\Support\ServiceProvider
      */
     public function resolveProvider($provider)
@@ -380,6 +380,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return true;
     }
 
+    /** @param callable $callback */
     public function terminating($callback)
     {
         $this->terminatingCallbacks[] = $callback;

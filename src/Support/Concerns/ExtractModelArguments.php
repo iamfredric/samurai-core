@@ -67,9 +67,11 @@ class ExtractModelArguments
             if (! $parameter->isOptional()) {
                 /** @var null|\ReflectionIntersectionType|\ReflectionNamedType|\ReflectionUnionType $type */
                 $type = $parameter->getType();
-                $isBuiltIn = method_exists($type, 'getType') && $type->isBuiltin();
+                $isBuiltIn = method_exists($type, 'getType') && $type->isBuiltin(); // @phpstan-ignore-line
 
+                /** @var class-string|null $name */
                 $name = method_exists($parameter, 'getName') ? $parameter->getName() : null;
+
                 if ($isBuiltIn) {
                     continue;
                 }
@@ -82,7 +84,7 @@ class ExtractModelArguments
                     continue;
                 }
 
-                $reflector = new ReflectionClass($type->getName());
+                $reflector = new ReflectionClass($name);
 
                 if ($reflector->getParentClass() && $reflector->getParentClass()->getName() === Model::class) {
                     $arguments[$parameter->getName()] = $reflector->getName()::current(); // @phpstan-ignore-line

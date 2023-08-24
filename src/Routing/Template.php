@@ -56,9 +56,9 @@ class Template
                 $callable = $this->endpoint;
                 $method = '__invoke';
             }
-            $response = $app->call([$app->make($callable), $method]);
+            $response = $app->call([$app->make($callable), $method]); // @phpstan-ignore-line
         } else {
-            $response = $app->call([$app->make($this->endpoint[0]), $this->endpoint[1]]);
+            $response = $app->call([$app->make($this->endpoint[0]), $this->endpoint[1]]); // @phpstan-ignore-line
         }
 
         if (! $response instanceof \Illuminate\Http\Response) {

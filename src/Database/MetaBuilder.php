@@ -9,7 +9,7 @@ class MetaBuilder
      */
     protected array $groups = [];
 
-    /** @var array<string, mixed> */
+    /** @var array<mixed, mixed> */
     protected array $arguments = [];
 
     protected string $relation = 'AND';
@@ -42,7 +42,7 @@ class MetaBuilder
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<mixed, mixed>
      */
     public function toArray(): array
     {

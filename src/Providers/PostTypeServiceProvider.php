@@ -12,8 +12,8 @@ class PostTypeServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             PostTypeConfigurator::class,
-            fn () => new PostTypeConfigurator(
-                new ConfigPath($this->app['config']->get('features.menus.routes'))
+            fn ($app) => new PostTypeConfigurator(
+                new ConfigPath($app['config']->get('features.menus.routes'))
             )
         );
     }

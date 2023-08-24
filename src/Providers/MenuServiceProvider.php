@@ -9,7 +9,7 @@ class MenuServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(\Boil\Menu\MenuConfigurator::class, fn () => new \Boil\Menu\MenuConfigurator($this->app));
+        $this->app->singleton(MenuConfigurator::class, fn ($app) => new MenuConfigurator($app));
     }
 
     public function boot(): void

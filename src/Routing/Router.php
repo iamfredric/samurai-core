@@ -2,7 +2,7 @@
 
 namespace Boil\Routing;
 
-use Illuminate\Contracts\Foundation\Application;
+use Boil\Application;
 use Boil\Database\Model;
 use Boil\Support\Concerns\ConfigPath;
 use Boil\Support\Concerns\ExtractModelArguments;
@@ -20,7 +20,7 @@ class Router
 
     public function capture(): void
     {
-        $configPaths = new ConfigPath($this->app->make('config')->get('features.web.routes'));
+        $configPaths = new ConfigPath($this->app['config']->get('features.web.routes'));
 
         if (! $configPaths->exists()) {
             return;
@@ -111,11 +111,11 @@ class Router
             } else {
                 $controller = $this->app->make(
                     $callable[0],
-                    ExtractModelArguments::fromConstructor($callable[0])
+                    ExtractModelArguments::fromConstructor($callable[0]) // @phpstan-ignore-line
                 );
 
                 $response = $this->app->call(
-                    [$controller, $callable[1]],
+                    [$controller, $callable[1]], // @phpstan-ignore-line
                     ExtractModelArguments::fromMethod($controller, $callable[1])
                 );
             }

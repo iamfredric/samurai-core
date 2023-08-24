@@ -58,7 +58,7 @@ abstract class AcfOptionsPage
         return null;
     }
 
-    public function share(): ?callable
+    public function share(): ?\Closure
     {
         return null;
     }

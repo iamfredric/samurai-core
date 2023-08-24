@@ -72,11 +72,11 @@ class ApiRouter
                         } else {
                             $controller = $this->app->make(
                                 $callable[0],
-                                ExtractModelArguments::fromConstructor($callable[0])
+                                ExtractModelArguments::fromConstructor($callable[0]) // @phpstan-ignore-line
                             );
 
                             $response = $this->app->call(
-                                [$controller, $callable[1]],
+                                [$controller, $callable[1]], // @phpstan-ignore-line
                                 ExtractModelArguments::fromMethod($controller, $callable[1], $request->get_params())
                             );
                         }

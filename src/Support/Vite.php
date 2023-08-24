@@ -254,6 +254,10 @@ class Vite implements Htmlable
      */
     public function __invoke($entrypoints, $buildDirectory = null)
     {
+        if (is_string($entrypoints)) {
+            $entrypoints = [$entrypoints];
+        }
+
         $entrypoints = collect($entrypoints);
         $buildDirectory ??= $this->buildDirectory;
 

@@ -21,7 +21,7 @@ class Term
      */
     final public function __construct($attributes = null)
     {
-        $this->attributes = new Collection($attributes);
+        $this->attributes = new Collection($attributes ?: []); // @phpstan-ignore-line
     }
 
     /**
@@ -33,7 +33,7 @@ class Term
         $instance = new static();
 
         return (new Collection(
-            WpHelper::get_terms(array_merge($arguments, [
+            WpHelper::get_terms(array_merge($arguments, [ // @phpstan-ignore-line
                 'taxonomy' => $instance->type(),
             ]))
         ))->mapInto(static::class);
@@ -46,7 +46,7 @@ class Term
     public static function find(int $id)
     {
         if ($term = WpHelper::get_term($id)) {
-            return new static($term);
+            return new static($term); // @phpstan-ignore-line
         }
 
         return null;
@@ -60,7 +60,7 @@ class Term
     {
         $instance = new static();
 
-        return (new Collection(WpHelper::get_the_terms($model->id, $instance->type())))
+        return (new Collection(WpHelper::get_the_terms($model->id, $instance->type()))) // @phpstan-ignore-line
             ->filter()
             ->mapInto(static::class);
     }

@@ -12,8 +12,8 @@ class ImageServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             ImageConfigurator::class,
-            fn () => new ImageConfigurator(
-                new ConfigPath($this->app['config']->get('features.images.routes')),
+            fn ($app) => new ImageConfigurator(
+                new ConfigPath($app['config']->get('features.images.routes')),
             )
         );
     }

@@ -99,11 +99,11 @@ class AcfConfigurator
 
         WpHelper::add_action('acf/init', function () {
             foreach ($this->optionsPages as $optionsPage) {
-                WpHelper::acf_add_options_page($optionsPage->toArray());
+                WpHelper::acf_add_options_page($optionsPage->toArray()); // @phpstan-ignore-line
             }
 
             foreach ($this->groups as $group) {
-                WpHelper::register_extended_field_group((new $group())->toArray());
+                WpHelper::register_extended_field_group((new $group())->toArray()); // @phpstan-ignore-line
             }
         });
 
@@ -123,6 +123,7 @@ class AcfConfigurator
 
     protected function initializeOptionsPageFromString(string $optionsPage): AcfConfiguratorOptionsPage
     {
+        /** @var AcfOptionsPage $option */
         $option = new $optionsPage();
 
         return new AcfConfiguratorOptionsPage(

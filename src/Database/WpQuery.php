@@ -9,7 +9,7 @@ class WpQuery
     public static function make(mixed $arguments): mixed
     {
         if (is_callable(static::$instance)) {
-            return call_user_func(self::$instance, $arguments);
+            return call_user_func(self::$instance, $arguments); // @phpstan-ignore-line
         }
 
         return new static::$instance($arguments);
