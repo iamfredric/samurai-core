@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Contracts\Foundation\Application;
+
 if (! function_exists('start_app')) {
     function start_app(string $dir): void
     {
@@ -14,6 +16,7 @@ if (! function_exists('start_app')) {
             Boil\Http\Kernel::class
         );
 
+        /** @var \Illuminate\Contracts\Http\Kernel $kernel */
         $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
         $response = $kernel->handle(
@@ -27,13 +30,22 @@ if (! function_exists('start_app')) {
 }
 
 if (! function_exists('app')) {
-    function app(string $abstract = null)
+    /**
+     * Get the available container instance.
+     *
+     * @param string|null $abstract
+     * @param array $parameters
+     * @return mixed|Application
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    function app(string $abstract = null, array $parameters = []): mixed
     {
-        if ($abstract) {
-            return \Boil\Application::getInstance()->make($abstract);
+        if (is_null($abstract)) {
+            return \Boil\Application::getInstance();
         }
 
-        return \Boil\Application::getInstance();
+        return \Boil\Application::getInstance()->make($abstract, $parameters);
     }
 }
 
