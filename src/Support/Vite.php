@@ -304,7 +304,7 @@ class Vite implements Htmlable
                     ]);
 
                     $tags->push($this->makeTagForChunk(
-                        $partialManifest->keys()->first(),
+                        $partialManifest->keys()->first() ?: '',
                         $this->assetPath("{$buildDirectory}/{$css}"),
                         $partialManifest->first(),
                         $manifest
@@ -330,7 +330,7 @@ class Vite implements Htmlable
                 ]);
 
                 $tags->push($this->makeTagForChunk(
-                    $partialManifest->keys()->first(),
+                    $partialManifest->keys()->first() ?: '',
                     $this->assetPath("{$buildDirectory}/{$css}"),
                     $partialManifest->first(),
                     $manifest

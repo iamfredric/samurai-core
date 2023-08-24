@@ -64,6 +64,10 @@ abstract class Block
     /** @param array<string, mixed> $data */
     protected function transform(?array $data): mixed
     {
+        if (empty($data)) {
+            return $data;
+        }
+        
         $items = [];
 
         foreach ($data as $key => $value) {

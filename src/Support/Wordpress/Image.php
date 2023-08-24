@@ -14,7 +14,7 @@ class Image implements Arrayable, Jsonable
     /** @param array<string, mixed>|null $thumbnail */
     public function __construct(array $thumbnail = null)
     {
-        $this->attributes = new Collection(Arr::dot($thumbnail));
+        $this->attributes = new Collection(Arr::dot($thumbnail ?: []));
     }
 
     public function id(): ?int
@@ -100,7 +100,7 @@ class Image implements Arrayable, Jsonable
         $size ??= 'default';
 
         if (! $this->attributes->has("src-sets.{$size}")) {
-            $this->attributes->put("src-sets.{$size}", WpHelper::wp_get_attachment_image_srcset($this->id(), $size));
+            $this->attributes->put("src-sets.{$size}", WpHelper::wp_get_attachment_image_srcset($this->id(), $size)); // @phpstan-ignore-line
         }
 
         return $this->attributes->get("src-sets.{$size}");
@@ -113,7 +113,7 @@ class Image implements Arrayable, Jsonable
 
     protected function generateStyleSheet(string $size = null): string
     {
-        if (! $srcset = WpHelper::wp_get_attachment_image_srcset($this->id(), $size)) {
+        if (! $srcset = WpHelper::wp_get_attachment_image_srcset($this->id(), $size)) { // @phpstan-ignore-line
             return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).')}</style>';
         }
 

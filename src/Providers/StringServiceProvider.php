@@ -14,6 +14,10 @@ class StringServiceProvider extends ServiceProvider
 
             $number = preg_replace('/[^+0-9]+/', '', $number);
 
+            if (empty($number)) {
+                return $number;
+            }
+
             if (str_starts_with($number, '00')) {
                 $number = '+'.substr($number, 2);
             }

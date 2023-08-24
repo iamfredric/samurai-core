@@ -138,7 +138,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
 
         $model = static::create($params);
 
-        $this->attributes = $model->attributes;
+        $this->attributes = $model?->attributes ?? new Collection();
 
         return $this;
     }
@@ -262,6 +262,10 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /** @param  \WP_Post|null  $attributes */
     public function setAttributes($attributes): void
     {
+        if (empty($attributes)) {
+            return;
+        }
+
         if ($attributes instanceof \WP_Post) {
             $attributes = $attributes->to_array();
         }

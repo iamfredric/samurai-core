@@ -61,7 +61,7 @@ class WpImage implements Arrayable, Jsonable
      */
     public function url($size = null)
     {
-        return $this->id() ? WpHelper::wp_get_attachment_image_url($this->id(), $size): false;
+        return $this->id() ? WpHelper::wp_get_attachment_image_url($this->id(), $size): false; // @phpstan-ignore-line
     }
 
     /**
@@ -71,7 +71,7 @@ class WpImage implements Arrayable, Jsonable
      */
     public function render($size = null, $attributes = [])
     {
-        return WpHelper::get_the_post_thumbnail($this->postId, $size, $attributes);
+        return WpHelper::get_the_post_thumbnail($this->postId, $size, $attributes); // @phpstan-ignore-line
     }
 
     /**
@@ -84,7 +84,7 @@ class WpImage implements Arrayable, Jsonable
             return null;
         }
 
-        if (! $srcset = WpHelper::wp_get_attachment_image_srcset($this->id(), $size)) {
+        if (! $srcset = WpHelper::wp_get_attachment_image_srcset($this->id(), $size)) { // @phpstan-ignore-line
             return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).')}</style>';
         }
 

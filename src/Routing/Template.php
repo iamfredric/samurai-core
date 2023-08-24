@@ -40,7 +40,7 @@ class Template
             return $this->endpoint;
         }
 
-        $endpoint = is_array($this->endpoint) ? $this->endpoint : explode('@', $this->endpoint);
+        $endpoint = is_array($this->endpoint) ? $this->endpoint : explode('@', $this->endpoint ?: '');
 
         return [$endpoint[0], $endpoint[1] ?? '__invoke'];
     }

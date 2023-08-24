@@ -20,7 +20,7 @@ use Tests\Support\Wordpress\WpHelperFake;
  * @method static \WP_Taxonomy|\WP_Error register_taxonomy(string $taxonomy, array|string $object_type, array|string $args = [])
  * @method static bool register_rest_route(string $route_namespace, string $route, array $args = [], bool $override = false)
  * @method static void|false add_theme_support(string $feature, mixed $args)
- * @method static void add_image_size(string $name, int $width, int $height, bool|array $crop = false)
+ * @method static void add_image_size(string $name, int|null $width, int|null $height, bool|array $crop = false)
  * @method static string|false wp_get_attachment_image_srcset(int $attachment_id, string|int[] $size = 'medium', array $image_meta = null)
  * @method static int|false get_post_thumbnail_id(int|\WP_Post $post_id)
  * @method static string get_the_title(int|\WP_Post $post = 0)

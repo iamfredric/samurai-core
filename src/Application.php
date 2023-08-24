@@ -79,7 +79,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
 
     public function joinPaths(string $basePath, ?string $path = ''): string
     {
-        return $basePath.($path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '');
+        return $basePath.($path != '' ? DIRECTORY_SEPARATOR.ltrim($path ?: '', DIRECTORY_SEPARATOR) : '');
     }
 
     public function bootstrapPath($path = ''): string
@@ -99,7 +99,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
 
     public function langPath($path = ''): string
     {
-        return $this->joinPaths($this->langPath, $path);
+        return $this->joinPaths($this->langPath ?: $this->basePath('resources/lang') , $path);
     }
 
     public function publicPath($path = ''): string

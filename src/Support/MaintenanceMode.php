@@ -31,7 +31,7 @@ class MaintenanceMode implements LaravelMaintenanceMode
 
     public function active(): bool
     {
-        return file_exists(rtrim($this->path, '/') . '/.maintenance');
+        return file_exists(rtrim($this->path ?: '', '/') . '/.maintenance');
     }
 
     /**
