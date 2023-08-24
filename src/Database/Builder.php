@@ -2,6 +2,7 @@
 
 namespace Boil\Database;
 
+use Boil\Exceptions\BuilderCallNotFoundException;
 use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
@@ -25,33 +26,21 @@ class Builder
 
     protected ?MetaBuilder $metaBuilder = null;
 
-    /**
-     * Query arguments
-     *
-     * @var array
-     */
+    /** @var array<string, mixed> */
     protected $arguments = [
         'suppress_filters' => false,
     ];
 
-    /**
-     * Meta query arguments
-     *
-     * @var array
-     */
-    protected $metaArguments = [];
+//    /** @var array<string, mixed> */
+//    protected $metaArguments = [];
 
     /**
-     * @var \Platon\Database\Model|null
+     * @var Model|null
      */
-    protected $model;
+    protected ?Model $model;
 
-    /**
-     * Builder constructor.
-     *
-     * @param  \Platon\Database\Model|null  $model
-     */
-    public function __construct(Model $model = null)
+    /** @param  Model|null  $model */
+    final public function __construct(Model $model = null)
     {
         $this->model = $model;
 
@@ -60,28 +49,18 @@ class Builder
         }
     }
 
-    /**
-     * Fetches the first record from database
-     *
-     * @return \Platon\Database\Model|null
-     */
-    public function first()
+    public function first(): ?Model
     {
         $this->setArgument('posts_per_page', 1);
 
-        if ($posts = get_posts($this->getArguments())) {
+        if ($posts = WpHelper::get_posts($this->getArguments())) {
             return $this->buildItem($posts[0]);
         }
 
         return null;
     }
 
-    /**
-     * @param  int  $id
-     * @param  \Platon\Database\Model|null  $model
-     * @return mixed
-     */
-    public static function find($id, $model = null)
+    public static function find(int $id, ?Model $model = null): ?Model
     {
         $instance = new static($model);
 
@@ -92,44 +71,35 @@ class Builder
         return null;
     }
 
-    /**
-     * Fetches the items from the database based on given queries
-     *
-     * @return Collection
-     */
-    public function get()
+    public function get(): Collection
     {
         $posts = new Collection();
 
-        foreach ((array) get_posts($this->getArguments()) as $post) {
+        foreach ((array) WpHelper::get_posts($this->getArguments()) as $post) {
             $posts->push($this->buildItem($post));
         }
 
         return $posts;
     }
 
-    /**
-     * @param  int|null  $limit
-     * @return \Platon\Database\Paginaton
-     */
-    public function paginate($limit = null)
+    public function paginate(?int $limit = null): Pagination
     {
         $posts = [];
 
         $this->setArgument('posts_per_page', $limit);
-        $this->setArgument('paged', get_query_var('paged') ?: 1);
+        $this->setArgument('paged', WpHelper::get_query_var('paged') ?: 1);
         $query = WpQuery::make($this->getArguments());
 
         foreach ((array) $query->get_posts() as $post) {
             $posts[] = $this->buildItem($post);
         }
 
-        return new Paginaton($posts, $query);
+        return new Pagination($posts, $query);
     }
 
     /**
-     * @param  mixed  $post
-     * @return mixed
+     * @param  mixed $post
+     * @return Model
      */
     protected function buildItem($post)
     {
@@ -143,10 +113,8 @@ class Builder
     }
 
     /**
-     * Fetches all items from database
-     *
      * @param  mixed  $model
-     * @return mixed
+     * @return Collection
      */
     public static function all($model = null)
     {
@@ -160,9 +128,9 @@ class Builder
     /**
      * Getter for arguments
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getArguments()
+    public function getArguments(): array
     {
         $args = $this->arguments;
 
@@ -173,19 +141,13 @@ class Builder
         return $args;
     }
 
-    /**
-     * Setter for argument
-     *
-     * @param  string  $key
-     * @param  mixed  $value
-     * @return void
-     */
-    public function setArgument($key, $value)
+    public function setArgument(string $key, mixed $value): void
     {
         $this->arguments[$key] = $value;
     }
 
-    public function setTaxQuery(array $query)
+    /** @param array<string, mixed> $query */
+    public function setTaxQuery(array $query): void
     {
         if (! isset($this->arguments['tax_query'])) {
             $this->arguments['tax_query'] = [];
@@ -194,22 +156,16 @@ class Builder
         $this->arguments['tax_query'][] = $query;
     }
 
-    public function setMetaArgument($key, $compare = null, $value = null)
-    {
-        if (! $this->metaBuilder) {
-            $this->metaBuilder = new MetaBuilder();
-        }
+//    public function setMetaArgument($key, $compare = null, $value = null)
+//    {
+//        if (! $this->metaBuilder) {
+//            $this->metaBuilder = new MetaBuilder();
+//        }
+//
+//        $this->metaBuilder->setArgument($key, $compare, $value);
+//    }
 
-        $this->metaBuilder->setArgument($key, $compare, $value);
-    }
-
-    /**
-     * @param  string|callable  $key
-     * @param  string|null  $compare
-     * @param  string|null  $value
-     * @return void
-     */
-    protected function scopeWhereMeta($key, $compare = null, $value = null)
+    protected function scopeWhereMeta(string $key, mixed $compare = null, mixed $value = null): void
     {
         if (! $this->metaBuilder) {
             $this->metaBuilder = new MetaBuilder();
@@ -218,7 +174,7 @@ class Builder
         $this->metaBuilder->where($key, $compare, $value);
     }
 
-    protected function scopeOrWhereMeta($key, $compare = null, $value = null)
+    protected function scopeOrWhereMeta(string $key, mixed $compare = null, mixed $value = null): void
     {
         if (! $this->metaBuilder) {
             $this->metaBuilder = new MetaBuilder();
@@ -227,79 +183,45 @@ class Builder
         $this->metaBuilder->orWhere($key, $compare, $value);
     }
 
-    /**
-     * @param  string  $taxonomy
-     * @param  array<string|int>|string  $terms
-     * @param  string  $field
-     */
-    protected function scopeWhereTaxonomyIn($taxonomy, $terms, $field = 'term_id')
+    protected function scopeWhereTaxonomyIn(string $taxonomy, array $terms, string $field = 'term_id'): void
     {
         $this->setTaxQuery(compact('taxonomy', 'terms', 'field'));
     }
 
-    /**
-     * @param  mixed  $value
-     * @return void
-     */
-    protected function scopeWhen($value, callable $callback)
+    protected function scopeWhen(mixed $value, callable $callback): void
     {
         if (! empty($value)) {
             $callback($this, $value);
         }
     }
 
-    /**
-     * @param  string  $direction
-     * @return void
-     */
-    protected function scopeOrderBy($orderBy, $direction = 'asc')
+    protected function scopeOrderBy(string $orderBy, string $direction = 'asc'): void
     {
         $this->setArgument('orderby', $orderBy);
         $this->setArgument('order', strtolower($direction) === 'asc' ? 'ASC' : 'DESC');
     }
 
-    /**
-     * @return void
-     */
-    protected function scopeWhere($key, $value)
+    protected function scopeWhere(string $key, mixed $value): void
     {
         $this->setArgument($key, $value);
     }
 
-    /**
-     * @return void
-     */
-    protected function scopeLimit($limit)
+    protected function scopeLimit(int $limit): void
     {
         $this->setArgument('posts_per_page', $limit);
     }
 
-    /**
-     * @param  string  $orderBy
-     * @return void
-     */
-    protected function scopeLatest($orderBy = 'date')
+    protected function scopeLatest(string $orderBy = 'date'): void
     {
         $this->orderBy($orderBy, 'desc');
     }
 
-    /**
-     * @param  string  $orderBy
-     * @return void
-     */
-    protected function scopeOldest($orderBy = 'date')
+    protected function scopeOldest(string $orderBy = 'date'): void
     {
         $this->orderBy($orderBy, 'asc');
     }
 
-    /**
-     * Resolves what magic method is called
-     *
-     * @param  string  $method
-     * @param  mixed  $args
-     * @return Builder
-     */
-    protected function resolveMethodCall($method, $args)
+    protected function resolveMethodCall(string $method, mixed $args): static
     {
         if (static::hasMacro($method)) {
             static::$macros[$method]($this);
@@ -315,28 +237,19 @@ class Builder
             return $this;
         }
 
-        throw BuilderCallNotFoundException::methodNotFound($method, $args);
+        throw BuilderCallNotFoundException::methodNotFound($method);
     }
 
-    /**
-     * @param  string  $method
-     * @param  mixed  $args
-     * @return Builder
-     */
-    public function __call($method, $args)
+
+    public function __call(string $method, mixed $parameters): static
     {
-        return $this->resolveMethodCall($method, $args);
+        return $this->resolveMethodCall($method, $parameters);
     }
 
-    /**
-     * @param  string  $method
-     * @param  mixed  $args
-     * @return Builder
-     */
-    public static function __callStatic($method, $args)
+    public static function __callStatic(string $method, mixed $parameters): static
     {
         $instance = new static();
 
-        return $instance->__call($method, $args);
+        return $instance->__call($method, $parameters);
     }
 }

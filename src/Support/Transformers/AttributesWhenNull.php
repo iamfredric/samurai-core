@@ -6,20 +6,20 @@ use Illuminate\Support\Str;
 
 class AttributesWhenNull
 {
-    protected $attributes;
-
-    protected $instance;
-
-    public function __construct($attributes, $instance)
-    {
-        $this->attributes = $attributes;
-        $this->instance = $instance;
+    /**
+     * @param mixed[] $attributes
+     * @param object $instance
+     */
+    public function __construct(
+        protected array $attributes,
+        protected $instance
+    ) {
     }
 
     /**
-     * @return mixed
+     * @return mixed[]
      */
-    public function transform()
+    public function transform(): array
     {
         foreach ($this->attributes as $key => $item) {
             if (! $item) {
@@ -34,10 +34,7 @@ class AttributesWhenNull
         return $this->attributes;
     }
 
-    /**
-     * @return string
-     */
-    protected function getMethodNameByKey($key)
+    protected function getMethodNameByKey(string $key): string
     {
         return (string) Str::of($key)
             ->camel()

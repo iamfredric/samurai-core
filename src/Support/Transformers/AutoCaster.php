@@ -4,14 +4,17 @@ namespace Boil\Support\Transformers;
 
 class AutoCaster
 {
-    protected $attributes;
-
-    public function __construct($attributes)
+    /**
+     * @param mixed[] $attributes
+     */
+    public function __construct(protected array $attributes)
     {
-        $this->attributes = $attributes;
     }
 
-    public function transform()
+    /**
+     * @return mixed[]
+     */
+    public function transform(): array
     {
         foreach ($this->attributes as $key => $value) {
             $this->attributes[$key] = (new Transformations($value))

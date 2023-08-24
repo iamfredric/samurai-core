@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 
 class PostTypeServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(
             PostTypeConfigurator::class,
@@ -18,7 +18,7 @@ class PostTypeServiceProvider extends ServiceProvider
         );
     }
 
-    public function boot()
+    public function boot(): void
     {
         $this->app->make(PostTypeConfigurator::class)->boot();
     }

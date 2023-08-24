@@ -7,22 +7,16 @@ use Illuminate\Support\Str;
 class MapKeysToCamel
 {
     /**
-     * @var array
+     * @param array<string, mixed> $attributes
      */
-    protected $attributes;
-
-    /**
-     * MapKeysToCamel constructor.
-     */
-    public function __construct($attributes)
+    public function __construct(protected array $attributes)
     {
-        $this->attributes = $attributes;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
-    public function transform()
+    public function transform(): array
     {
         $attributes = [];
 

@@ -2,16 +2,17 @@
 
 namespace Boil\Routing;
 
-use Boil\Application;
+use Illuminate\Contracts\Foundation\Application;
 use Boil\Database\Model;
 use Boil\Support\Concerns\ConfigPath;
 use Boil\Support\Concerns\ExtractModelArguments;
+use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 class Router
 {
-    protected $currentRoute;
+    protected ?Template $currentRoute = null;
 
     public function __construct(protected Application $app)
     {
@@ -48,7 +49,7 @@ class Router
             'taxonomy_template',
         ];
 
-        add_filter('theme_page_templates', function ($templates) {
+        WpHelper::add_filter('theme_page_templates', function ($templates) {
             foreach ($this->app['router']->getTemplates() as $name => $template) {
                 $templates[$name] = $template->name;
             }
@@ -57,7 +58,7 @@ class Router
         });
 
         foreach ($templateHooks as $hook) {
-            add_filter($hook, function ($template, $type, $templates) {
+            WpHelper::add_filter($hook, function ($template, $type, $templates) {
                 foreach ($templates as $t) {
                     //                    dd($key = get_post_meta(get_the_ID(), '_wp_page_template', true));
                     //                    if ($template != 'search' && $this->routeIsDefined($key = get_post_meta(get_the_ID(), '_wp_page_template', true))) {
@@ -77,7 +78,7 @@ class Router
 
     public function send(): void
     {
-        add_action('template_include', function ($template) {
+        WpHelper::add_action('template_include', function ($template) {
             if ($template === 'search.php') {
                 $this->currentRoute = $this->app['router']->getSearchTemplate();
             }
@@ -89,7 +90,7 @@ class Router
             if ($this->currentRoute->getView()) {
                 $attributes = [];
 
-                if ($postType = get_post()->post_type) {
+                if ($postType = WpHelper::get_post()?->post_type) {
                     $modelName = Str::of($postType)->studly()->singular()->prepend('App\\Models\\')->toString();
 
                     $model = class_exists($modelName) ? $modelName : Model::class;

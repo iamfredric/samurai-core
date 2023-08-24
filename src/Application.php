@@ -51,6 +51,8 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
 
     protected $booted = false;
 
+    protected string $locale = 'en';
+
     public function __construct(protected string $basePath)
     {
         if ($basePath) {
@@ -149,8 +151,15 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return false;
     }
 
-    public function maintenanceMode(): bool
+    /** @return bool */
+    public function maintenanceMode()
     {
+        /**
+         * Get an instance of the maintenance mode manager implementation.
+         *
+         * @return \Illuminate\Contracts\Foundation\MaintenanceMode
+         */
+        // Todo: public function maintenanceMode();
         return $this->isDownForMaintenance();
     }
 
@@ -298,14 +307,15 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         }
     }
 
+    /** @return string */
     public function getLocale()
     {
-        // TODO: Implement getLocale() method.
+        return $this->locale;
     }
 
     public function getNamespace()
     {
-        // TODO: Implement getNamespace() method.
+        return '';
     }
 
     public function hasBeenBootstrapped(): bool
@@ -329,9 +339,13 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         // TODO: Implement loadDeferredProviders() method.
     }
 
+    /**
+     * @param string $locale
+     * @return void
+     */
     public function setLocale($locale)
     {
-        // TODO: Implement setLocale() method.
+        $this->locale = $locale;
     }
 
     public function shouldSkipMiddleware(): bool
@@ -342,6 +356,8 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
     public function terminating($callback)
     {
         $this->terminatingCallbacks[] = $callback;
+
+        return $this;
     }
 
     public function terminate()

@@ -45,15 +45,7 @@ class LoadConfiguration
         mb_internal_encoding('UTF-8');
     }
 
-    /**
-     * Load the configuration items from all of the files.
-     *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @return void
-     *
-     * @throws \Exception
-     */
-    protected function loadConfigurationFiles(Application $app, RepositoryContract $repository)
+    protected function loadConfigurationFiles(Application $app, RepositoryContract $repository): void
     {
         $files = $this->getConfigurationFiles($app);
 
@@ -68,8 +60,6 @@ class LoadConfiguration
 
     /**
      * Get all of the configuration files for the application.
-     *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return array
      */
     protected function getConfigurationFiles(Application $app)

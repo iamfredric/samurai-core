@@ -2,7 +2,7 @@
 
 namespace Boil\Menu;
 
-use Boil\Application;
+use Illuminate\Contracts\Foundation\Application;
 use Boil\Support\Concerns\ConfigPath;
 use Boil\Support\Wordpress\WpHelper;
 
@@ -12,12 +12,12 @@ class MenuConfigurator
     {
     }
 
-    public function register(string $slug, string $label)
+    public function register(string $slug, string $label): void
     {
         WpHelper::register_nav_menu($slug, $label);
     }
 
-    public function render(string $slug, array $args = [])
+    public function render(string $slug, array $args = []): bool|string|null
     {
         return WpHelper::wp_nav_menu(array_merge([
             'theme_location' => $slug,

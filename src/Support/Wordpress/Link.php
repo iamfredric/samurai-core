@@ -5,31 +5,22 @@ namespace Boil\Support\Wordpress;
 class Link
 {
     /**
-     * @var array
+     * @param array<string, mixed> $attributes
      */
-    protected $attributes;
-
-    /**
-     * Link constructor.
-     */
-    public function __construct(array $attributes)
+    public function __construct(protected array $attributes)
     {
-        $this->attributes = $attributes;
     }
 
-    /**
-     * @return bool
-     */
-    public function exists()
+    public function exists(): bool
     {
         return $this->has('url');
     }
 
     /**
-     * @param  string  $class
+     * @param string|array<string, mixed> $class
      * @return string
      */
-    public function render($class = '')
+    public function render(string|array $class = ''): string
     {
         $attributes = [
             'href' => $this->get('url'),
@@ -57,25 +48,14 @@ class Link
         $parsedAttributes = implode(' ', $parsedAttributes);
 
         return "<a {$parsedAttributes}>{$this->get('title')}</a>";
-
-        return '<a href="'.$this->get('url').'" class="'.$class.'">'.$this->get('title').'</a>';
     }
 
-    /**
-     * @param  string  $key
-     * @param  mixed  $default
-     * @return mixed
-     */
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         return $this->has($key) ? $this->attributes[$key] : $default;
     }
 
-    /**
-     * @param  string  $key
-     * @return bool
-     */
-    public function has($key)
+    public function has(string $key): bool
     {
         return isset($this->attributes[$key]);
     }

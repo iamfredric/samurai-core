@@ -10,6 +10,7 @@ use Boil\Support\Transformers\MapKeysToCamel;
 use Boil\Support\Transformers\Transformations;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ReflectionClass;
@@ -17,37 +18,29 @@ use ReflectionMethod;
 
 class Component implements Arrayable, Jsonable
 {
-    /**
-     * @var string
-     */
-    protected $view = '';
+    protected string $view = '';
+
+    protected ?string $prefix;
 
     /**
-     * @var string|null
+     * @var array<string, mixed>
      */
-    protected $prefix;
+    protected array $data = [];
 
     /**
-     * @var array
+     * @var array<string, string>
      */
-    protected $data = [];
-
-    /**
-     * @var array
-     */
-    protected $casts = [];
+    protected array $casts = [];
 
     protected ?string $nextComponent = null;
 
     protected ?string $prevComponent = null;
 
     /**
-     * Component constructor.
-     *
-     * @param  array  $data
-     * @param  string|null  $prefix
+     * @param array<string, mixed> $data
+     * @param string|null $prefix
      */
-    public function __construct($data, $prefix = null)
+    public function __construct(array $data, ?string $prefix = null)
     {
         $this->view = $data['acf_fc_layout'];
 
@@ -69,12 +62,7 @@ class Component implements Arrayable, Jsonable
 
     }
 
-    /**
-     * @return \Jenssegers\Blade\Blade
-     *
-     * @throws \ReflectionException
-     */
-    public function render()
+    public function render(): View
     {
         if ($path = config('features.acf.components_path')) {
             $view = str_replace('{name}', $this->prefix ? "{$this->prefix}.{$this->view}" : $this->view, $path);
@@ -85,7 +73,7 @@ class Component implements Arrayable, Jsonable
         return view($view, $this->attributes());
     }
 
-    public function data($key = null)
+    public function data(string $key = null): mixed
     {
         if ($key) {
             return $this->data[Str::camel($key)] ?? null;
@@ -94,7 +82,10 @@ class Component implements Arrayable, Jsonable
         return $this->data;
     }
 
-    public function attributes()
+    /**
+     * @return array<string, mixed>
+     */
+    public function attributes(): array
     {
         return array_merge($this->data, [
             'nextComponent' => $this->nextComponent,
@@ -103,7 +94,11 @@ class Component implements Arrayable, Jsonable
         ]);
     }
 
-    protected function appendDataAttributes(array $data)
+    /**
+     * @param array<string, mixed> $data
+     * @return array<string, mixed>
+     */
+    protected function appendDataAttributes(array $data): array
     {
         $reflection = new ReflectionClass($this);
 
@@ -118,11 +113,14 @@ class Component implements Arrayable, Jsonable
         return $data;
     }
 
-    public function view()
+    public function view(): string
     {
         return $this->view;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return [
@@ -138,12 +136,12 @@ class Component implements Arrayable, Jsonable
         ];
     }
 
-    public function setPreviousComponent(?string $hash)
+    public function setPreviousComponent(?string $hash): void
     {
         $this->prevComponent = $hash;
     }
 
-    public function setNextComponent(?string $hash)
+    public function setNextComponent(?string $hash): void
     {
         $this->nextComponent = $hash;
     }
@@ -153,7 +151,7 @@ class Component implements Arrayable, Jsonable
         return md5($this->view);
     }
 
-    public function toJson($options = 0)
+    public function toJson($options = 0): bool|string
     {
         return json_encode($this->toArray(), $options);
     }

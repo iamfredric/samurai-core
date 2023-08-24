@@ -9,12 +9,6 @@ use Illuminate\Support\Collection;
 
 class AcfConfigurator
 {
-    /** @var array<AcfConfiguratorOptionsPage|string> */
-    //    protected array $optionsPages = [];
-
-    //    protected array $groups = [];
-
-    // Todo: ConfigPath, optionsPages, groups...
     public function __construct(
         protected ConfigPath $configPath,
         protected array $groups = [],

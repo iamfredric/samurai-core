@@ -5,31 +5,19 @@ namespace Boil\Support\Transformers;
 class Caster
 {
     /**
-     * @var mixed
+     * @param array<int|string, mixed> $values
+     * @param string[] $casts
      */
-    protected $values;
-
-    /**
-     * @var array
-     */
-    protected $casts;
-
-    /**
-     * Caster constructor.
-     *
-     * @param  array  $values
-     * @param  array  $casts
-     */
-    public function __construct($values, $casts)
-    {
-        $this->values = $values;
-        $this->casts = $casts;
+    public function __construct(
+        protected array $values,
+        protected array $casts
+    ) {
     }
 
     /**
-     * @return array|mixed
+     * @return mixed[]
      */
-    public function transform()
+    public function transform(): array
     {
         foreach ($this->casts as $key => $cast) {
             $keys = explode('.', $key);
@@ -42,9 +30,12 @@ class Caster
     }
 
     /**
-     * @return array|array[]|mixed|object|object[]
+     * @param string $key
+     * @param mixed[] $keys
+     * @param string $cast
+     * @return mixed
      */
-    protected function transformItem($key, $keys, $cast)
+    protected function transformItem(string $key, array $keys, string $cast): mixed
     {
         $value = $this->values[$key] ?? null;
         $multiple = false;
@@ -75,9 +66,13 @@ class Caster
     }
 
     /**
-     * @return array|array[]|mixed|object|object[]
+     * @param mixed $value
+     * @param mixed $key
+     * @param mixed[] $keys
+     * @param string $cast
+     * @return mixed
      */
-    protected function cast($value, $key, $keys, $cast, $multiple = false)
+    protected function cast(mixed $value, mixed $key, array $keys, string $cast): mixed
     {
         if ($key === '*' && count($keys) === 0) {
             return array_map(function ($value) use ($cast) {
@@ -87,7 +82,7 @@ class Caster
             $key = array_shift($keys);
 
             return array_map(function ($value) use ($cast, $key, $keys) {
-                return $this->cast($value, $key, $keys, $cast, true);
+                return $this->cast($value, $key, $keys, $cast);
             }, $value);
         }
 

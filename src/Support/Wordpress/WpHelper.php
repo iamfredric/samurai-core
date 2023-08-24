@@ -28,30 +28,49 @@ use Tests\Support\Wordpress\WpHelperFake;
  * @method static bool has_post_thumbnail(int|\WP_Post $post = null)
  * @method static void acf_add_options_page(array $settings)
  * @method static void register_extended_field_group(array $settings)
+ * @method static string get_bloginfo(string $show = '', string $filter = 'raw')
+ * @method static string get_the_post_thumbnail(int|\WP_Post $post = null, string|int[] $size = 'post-thumbnail', string|array $attr = '')
+ * @method static array|null acf_get_attachment(int $attachment_id)
+ * @method static \WP_Post|array|null get_post(int|\WP_Post|null $post = null, string $output = 'OBJECT', string $filter = 'raw')
+ * @method static string|string[]|void paginate_links(string|array $args = '')
+ * @method static mixed get_query_var(string $query_var, mixed $default_value = '')
+ * @method static string|void get_previous_posts_link(string $label = null)
+ * @method static string|void get_next_posts_link(string $label = null)
+ * @method static string|void get_previous_posts_page_link()
+ * @method static string|void get_next_posts_page_link()
+ * @method static string|false get_permalink(int|\WP_Post $post, bool $leavename = false)
+ * @method static \WP_Post[]|int[] get_posts(?array $args = null)
+ * @method static void acf_register_block_type(array $args)
+ * @method static array|false get_fields(int $post_id = false, bool $format_value = true, bool $load_value = true)
  */
 class WpHelper
 {
-    protected static $instance;
+    protected static ?WpHelperFake $instance = null;
 
-    public static function fake(array $fakes = [])
+    /**
+     * @param array<string, callable> $fakes
+     * @return WpHelperFake
+     */
+    public static function fake(array $fakes = []): WpHelperFake
     {
         return static::$instance = new WpHelperFake($fakes);
     }
 
-    public static function callFunction($function, ...$args)
+    public static function callFunction(string $function, mixed ...$args): mixed
     {
         if (static::$instance) {
             return static::$instance->callFunction($function, ...$args);
         }
 
         return $function(...$args);
-
-        //        if (isset(static::$fakes[$function])) {
-        //            return static::$fakes[$function](...$args);
-        //        }
     }
 
-    public static function __callStatic(string $name, array $arguments)
+    /**
+     * @param string $name
+     * @param mixed[] $arguments
+     * @return mixed
+     */
+    public static function __callStatic(string $name, array $arguments): mixed
     {
         return static::callFunction($name, ...$arguments);
     }

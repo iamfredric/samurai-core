@@ -9,63 +9,17 @@ use Illuminate\Support\Collection;
 
 class Image implements Arrayable, Jsonable
 {
-    /**
-     * @var bool
-     */
-    private $hasimage = false;
+    protected Collection $attributes;
 
-    /**
-     * @var int
-     */
-    private $thumbnailId;
-
-    /**
-     * @var string
-     */
-    private $thumbnailTitle;
-
-    /**
-     * @var string
-     */
-    private $thumbnailUrl;
-
-    /**
-     * @var string
-     */
-    private $thumbnailAlt;
-
-    /**
-     * @var string
-     */
-    private $thumbnailDescription;
-
-    /**
-     * @var array
-     */
-    private $thumbnailSizes;
-
-    /**
-     * @var string
-     */
-    private $thumbnailCaption;
-
-    /**
-     * @var array
-     */
-    private $thumbnailDimensions = [];
-
-    protected $attributes = [];
-
-    protected $todoAttributes;
-
+    /** @param array<string, mixed>|null $thumbnail */
     public function __construct(array $thumbnail = null)
     {
-        $this->todoAttributes = new Collection(Arr::dot($thumbnail));
+        $this->attributes = new Collection(Arr::dot($thumbnail));
     }
 
     public function id(): ?int
     {
-        return $this->todoAttributes->get('id');
+        return $this->attributes->get('id');
     }
 
     public function identifier(): string
@@ -75,44 +29,44 @@ class Image implements Arrayable, Jsonable
 
     public function title(): ?string
     {
-        return $this->todoAttributes->get('title');
+        return $this->attributes->get('title');
     }
 
     public function url(string $size = null): ?string
     {
         if (empty($size)) {
-            return $this->todoAttributes->get('url');
+            return $this->attributes->get('url');
         }
 
-        return $this->todoAttributes->get("sizes.{$size}.source-url") ?: $this->todoAttributes->get('url');
+        return $this->attributes->get("sizes.{$size}.source-url") ?: $this->attributes->get('url');
     }
 
-    public function getWidth($size = null): ?int
+    public function getWidth(?string $size = null): ?int
     {
         if (empty($size)) {
-            return $this->todoAttributes->get('width');
+            return $this->attributes->get('width');
         }
 
-        return $this->todoAttributes->get("sizes.{$size}-width") ?: $this->todoAttributes->get('width');
+        return $this->attributes->get("sizes.{$size}-width") ?: $this->attributes->get('width');
     }
 
-    public function getHeight($size = null): ?int
+    public function getHeight(?string $size = null): ?int
     {
         if (empty($size)) {
-            return $this->todoAttributes->get('height');
+            return $this->attributes->get('height');
         }
 
-        return $this->todoAttributes->get("sizes.{$size}-height") ?: $this->todoAttributes->get('height');
+        return $this->attributes->get("sizes.{$size}-height") ?: $this->attributes->get('height');
     }
 
     public function alt(): ?string
     {
-        return $this->todoAttributes->get('alt');
+        return $this->attributes->get('alt');
     }
 
     public function description(): ?string
     {
-        return $this->todoAttributes->get('description');
+        return $this->attributes->get('description');
     }
 
     /**
@@ -145,16 +99,16 @@ class Image implements Arrayable, Jsonable
     {
         $size ??= 'default';
 
-        if (! $this->todoAttributes->has("src-sets.{$size}")) {
-            $this->todoAttributes->put("src-sets.{$size}", WpHelper::wp_get_attachment_image_srcset($this->id(), $size));
+        if (! $this->attributes->has("src-sets.{$size}")) {
+            $this->attributes->put("src-sets.{$size}", WpHelper::wp_get_attachment_image_srcset($this->id(), $size));
         }
 
-        return $this->todoAttributes->get("src-sets.{$size}");
+        return $this->attributes->get("src-sets.{$size}");
     }
 
     public function caption(): ?string
     {
-        return $this->todoAttributes->get('caption');
+        return $this->attributes->get('caption');
     }
 
     protected function generateStyleSheet(string $size = null): string
@@ -196,7 +150,7 @@ class Image implements Arrayable, Jsonable
 
     public function exists(): bool
     {
-        return $this->todoAttributes->has('id');
+        return $this->attributes->has('id');
     }
 
     public function __toString(): string
@@ -206,7 +160,7 @@ class Image implements Arrayable, Jsonable
 
     public function toArray(): array
     {
-        return Arr::undot($this->todoAttributes->toArray());
+        return Arr::undot($this->attributes->toArray());
     }
 
     public function toJson($options = 0): bool|string

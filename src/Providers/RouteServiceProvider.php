@@ -12,7 +12,7 @@ class RouteServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(Routes::class, fn () => new Routes);
-        $this->app->singleton(Router::class, fn () => new Router($this->app));
+        $this->app->singleton(Router::class, fn ($app) => new Router($app));
 
         $this->app->alias(Routes::class, 'router');
 

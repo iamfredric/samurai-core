@@ -10,7 +10,13 @@ use Reflector;
 
 class ExtractModelArguments
 {
-    public static function fromCallable(callable $callable, $arguments = [])
+    /**
+     * @param callable $callable
+     * @param array<string, mixed> $arguments
+     * @return mixed
+     * @throws \ReflectionException
+     */
+    public static function fromCallable(callable $callable, array $arguments = []): mixed
     {
         return static::extractArgumentsFromReflector(
             new ReflectionFunction($callable),
@@ -18,7 +24,13 @@ class ExtractModelArguments
         );
     }
 
-    public static function fromConstructor(string $className, array $arguments = [])
+    /**
+     * @param string $className
+     * @param array<string, mixed> $arguments
+     * @return array<string, mixed>
+     * @throws \ReflectionException
+     */
+    public static function fromConstructor(string $className, array $arguments = []): array
     {
         $reflection = new ReflectionClass($className);
 
@@ -29,7 +41,14 @@ class ExtractModelArguments
         return $arguments;
     }
 
-    public static function fromMethod(object $class, string $method, array $arguments = [])
+    /**
+     * @param object $class
+     * @param string $method
+     * @param array<string, mixed> $arguments
+     * @return array<string, mixed>
+     * @throws \ReflectionException
+     */
+    public static function fromMethod(object $class, string $method, array $arguments = []): array
     {
         return static::extractArgumentsFromReflector(
             new ReflectionMethod($class, $method),
@@ -37,11 +56,20 @@ class ExtractModelArguments
         );
     }
 
-    protected static function extractArgumentsFromReflector(Reflector $reflection, mixed $arguments)
+    /**
+     * @param ReflectionMethod|ReflectionFunction $reflection
+     * @param array<string, mixed> $arguments
+     * @return array<string, mixed>
+     * @throws \ReflectionException
+     */
+    protected static function extractArgumentsFromReflector(ReflectionMethod|ReflectionFunction $reflection, array $arguments): array
     {
         foreach ($reflection->getParameters() as $parameter) {
             if (! $parameter->isOptional()) {
-                if ($parameter->getType()->isBuiltin()) {
+                /** @var null|\ReflectionIntersectionType|\ReflectionNamedType|\ReflectionUnionType $type */
+                $type = $parameter->getType();
+
+                if (method_exists($type, 'getType') && $type->isBuiltin()) {
                     if (isset($arguments[$parameter->getName()])) {
                         continue;
                     }
@@ -49,10 +77,10 @@ class ExtractModelArguments
                     continue;
                 }
 
-                $reflector = new ReflectionClass($parameter->getType()->getName());
+                $reflector = new ReflectionClass($type->getName());
 
-                if ($reflector?->getParentClass()?->getName() === Model::class) {
-                    $arguments[$parameter->getName()] = $reflector->getName()::current();
+                if ($reflector->getParentClass() && $reflector->getParentClass()->getName() === Model::class) {
+                    $arguments[$parameter->getName()] = $reflector->getName()::current(); // @phpstan-ignore-line
                 }
             }
         }

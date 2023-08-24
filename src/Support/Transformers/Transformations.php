@@ -4,14 +4,11 @@ namespace Boil\Support\Transformers;
 
 class Transformations
 {
-    protected $attributes;
-
-    public function __construct($attributes)
+    public function __construct(protected mixed $attributes)
     {
-        $this->attributes = $attributes;
     }
 
-    public function through(string $classname, ...$args)
+    public function through(string $classname, mixed ...$args): static
     {
         $this->attributes = (new $classname($this->attributes, ...$args))
             ->transform();
@@ -19,7 +16,7 @@ class Transformations
         return $this;
     }
 
-    public function output()
+    public function output(): mixed
     {
         return $this->attributes;
     }

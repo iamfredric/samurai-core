@@ -13,22 +13,15 @@ use IteratorAggregate;
 class Components implements Arrayable, Countable, IteratorAggregate, Jsonable
 {
     /**
-     * @var array
+     * @var Component[]
      */
-    protected $components = [];
+    protected array $components = [];
 
     /**
-     * @var string|null
+     * @param array<string, mixed> $components
+     * @param string|null $prefix
      */
-    protected $prefix;
-
-    /**
-     * Components constructor.
-     *
-     * @param  array  $components
-     * @param  string|null  $prefix
-     */
-    public function __construct($components = [], $prefix = null)
+    public function __construct(array $components = [], protected ?string $prefix = null)
     {
         if (! is_null($prefix)) {
             $this->prefix = ucfirst(strtolower($prefix));
@@ -37,27 +30,19 @@ class Components implements Arrayable, Countable, IteratorAggregate, Jsonable
         $this->resolveComponents($components);
     }
 
-    /**
-     * @return array
-     */
-    public function all()
+    /** @return Component[] */
+    public function all(): array
     {
         return $this->components;
     }
 
-    /**
-     * @return bool
-     */
-    public function exists()
+    public function exists(): bool
     {
         return count($this->components) > 0;
     }
 
-    /**
-     * @param  array  $components
-     * @return void
-     */
-    protected function resolveComponents($components)
+    /** @param  array<string, mixed> $components */
+    protected function resolveComponents(array $components): void
     {
         if (! $components) {
             return;
@@ -81,11 +66,7 @@ class Components implements Arrayable, Countable, IteratorAggregate, Jsonable
         }
     }
 
-    /**
-     * @param  string  $name
-     * @return string
-     */
-    protected function resolveClassname($name)
+    protected function resolveClassname(string $name): string
     {
         $name = collect(explode('-', $name))->map(function ($name) {
             return ucfirst($name);
@@ -99,26 +80,29 @@ class Components implements Arrayable, Countable, IteratorAggregate, Jsonable
     }
 
     /**
-     * @param  array  $component
-     * @param  string  $classname
-     * @return \Platon\Components\Component
+     * @param array<string, mixed> $attributes
+     * @param string $classname
+     * @return Component
      */
-    protected function initializeComponent($component, $classname)
+    protected function initializeComponent(array $attributes, string $classname)
     {
         if (class_exists($classname)) {
-            return new $classname($component, $this->prefix);
+            return new $classname($attributes, $this->prefix);
         }
 
-        return new Component($component, $this->prefix);
+        return new Component($attributes, $this->prefix);
     }
 
+    /**
+     * @return array<string, mixed>[]
+     */
     public function toArray(): array
     {
         return (new Collection($this->components))
             ->toArray();
     }
 
-    public function toJson($options = 0)
+    public function toJson($options = 0): bool|string
     {
         return json_encode($this->toArray(), $options);
     }

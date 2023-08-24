@@ -3,149 +3,95 @@
 namespace Boil\Database;
 
 use ArrayIterator;
+use Boil\Support\Wordpress\WpHelper;
 use IteratorAggregate;
 
 class Pagination implements IteratorAggregate
 {
     /**
-     * @var array
-     */
-    public $items;
-
-    /**
-     * @var \WP_Query
-     */
-    protected $query;
-
-    /**
-     * Paginaton constructor.
-     *
-     * @param  array  $items
+     * @param  Model[]  $items
      * @param  \WP_Query  $query
      */
-    public function __construct($items, $query)
+    public function __construct(protected array $items, protected $query)
     {
-        $this->items = $items;
-        $this->query = $query;
     }
 
     /**
-     * @param  array  $args
-     * @return mixed
+     * @param  array<string, mixed>  $args
+     * @return string|string[]|void
      */
-    public function paginate($args = [])
+    public function paginate(array $args = [])
     {
-        return paginate_links(array_merge([
+        return WpHelper::paginate_links(array_merge([
             'total' => $this->query->max_num_pages,
-            'current' => get_query_var('paged') ?: 1,
+            'current' => WpHelper::get_query_var('paged') ?: 1,
         ], $args));
     }
 
-    /**
-     * @param  string  $label
-     * @return mixed
-     */
-    public function prev($label = 'Next')
+    public function prev(string $label = 'Next'): ?string
     {
-        return get_previous_posts_link($label);
+        return WpHelper::get_previous_posts_link($label);
     }
 
-    public function prevUrl()
+    public function prevUrl(): ?string
     {
-        if ($this->currentPage() > 1) {
-            return get_previous_posts_page_link();
-        }
+        return $this->currentPage() > 1 ? WpHelper::get_previous_posts_page_link() : null;
     }
 
-    /**
-     * @param  string  $label
-     * @return mixed
-     */
-    public function next($label = 'Next')
+    public function next(string $label = 'Next'): ?string
     {
-        return get_next_posts_link($label);
+        return WpHelper::get_next_posts_link($label);
     }
 
-    public function nextUrl()
+    public function nextUrl(): ?string
     {
-        if ($this->currentPage() < $this->maxPage()) {
-            return get_next_posts_page_link();
-        }
+        return $this->currentPage() < $this->maxPage()
+            ? WpHelper::get_next_posts_page_link()
+            : null;
     }
 
-    /**
-     * @return int
-     */
-    public function currentPage()
+    public function currentPage(): int
     {
-        return get_query_var('paged') ?: 1;
+        return WpHelper::get_query_var('paged') ?: 1;
     }
 
-    /**
-     * @return int
-     */
-    public function maxPage()
+    public function maxPage(): int
     {
         return $this->query->max_num_pages;
     }
 
     /**
-     * @return array
+     * @return Model[]
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->items;
     }
 
     /**
-     * @return array
+     * @return Model[]
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
 
-    /**
-     * Determines whether a offset exists
-     *
-     * @param  mixed  $offset
-     * @return bool
-     */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->items[$offset]);
     }
 
-    /**
-     * Sets offset to retrieve
-     *
-     * @param  mixed  $offset
-     * @return mixed|null|Model
-     */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): Model
     {
         return $this->items[$offset];
     }
 
-    /**
-     * Offset to set
-     *
-     * @param  mixed  $offset
-     * @param  mixed  $value
-     * @return void
-     */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->items[$offset] = $value;
     }
 
-    /**
-     * Offset to unset
-     *
-     * @param  mixed  $offset
-     * @return void
-     */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->items[$offset]);
     }

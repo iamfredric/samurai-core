@@ -12,7 +12,7 @@ class MenuServiceProvider extends ServiceProvider
         $this->app->singleton(\Boil\Menu\MenuConfigurator::class, fn () => new \Boil\Menu\MenuConfigurator($this->app));
     }
 
-    public function boot()
+    public function boot(): void
     {
         $this->app->make(MenuConfigurator::class)->boot();
     }

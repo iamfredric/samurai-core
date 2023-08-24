@@ -31,7 +31,7 @@ class Vite implements Htmlable
     /**
      * The configured entry points.
      *
-     * @var array
+     * @var string[]
      */
     protected $entryPoints = [];
 
@@ -42,12 +42,7 @@ class Vite implements Htmlable
      */
     protected $hotFile;
 
-    /**
-     * The path to the build directory.
-     *
-     * @var string
-     */
-    protected $buildDirectory = 'build';
+    protected string $buildDirectory = 'build';
 
     /**
      * The name of the manifest file.
@@ -59,44 +54,44 @@ class Vite implements Htmlable
     /**
      * The script tag attributes resolvers.
      *
-     * @var array
+     * @var array<int, callable>
      */
-    protected $scriptTagAttributesResolvers = [];
+    protected array $scriptTagAttributesResolvers = [];
 
     /**
      * The style tag attributes resolvers.
      *
-     * @var array
+     * @var array<int, callable>
      */
-    protected $styleTagAttributesResolvers = [];
+    protected array $styleTagAttributesResolvers = [];
 
     /**
      * The preload tag attributes resolvers.
      *
-     * @var array
+     * @var array<int, callable>
      */
-    protected $preloadTagAttributesResolvers = [];
+    protected array $preloadTagAttributesResolvers = [];
 
     /**
      * The preloaded assets.
      *
-     * @var array
+     * @var array<string, mixed>
      */
-    protected $preloadedAssets = [];
+    protected array $preloadedAssets = [];
 
     /**
      * The cached manifest files.
      *
-     * @var array
+     * @var array<string, string>
      */
-    protected static $manifests = [];
+    protected static array $manifests = [];
 
     /**
      * Get the preloaded assets.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function preloadedAssets()
+    public function preloadedAssets(): array
     {
         return $this->preloadedAssets;
     }
@@ -106,7 +101,7 @@ class Vite implements Htmlable
      *
      * @return string|null
      */
-    public function cspNonce()
+    public function cspNonce(): ?string
     {
         return $this->nonce;
     }
@@ -138,7 +133,7 @@ class Vite implements Htmlable
     /**
      * Set the Vite entry points.
      *
-     * @param  array  $entryPoints
+     * @param  string[] $entryPoints
      * @return $this
      */
     public function withEntryPoints($entryPoints)
@@ -200,10 +195,10 @@ class Vite implements Htmlable
     /**
      * Use the given callback to resolve attributes for script tags.
      *
-     * @param  (callable(string, string, ?array, ?array): array)|array  $attributes
+     * @param  (callable(string, string, ?array, ?array): array)|callable[]  $attributes
      * @return $this
      */
-    public function useScriptTagAttributes($attributes)
+    public function useScriptTagAttributes(mixed $attributes)
     {
         if (! is_callable($attributes)) {
             $attributes = fn () => $attributes;
@@ -217,7 +212,7 @@ class Vite implements Htmlable
     /**
      * Use the given callback to resolve attributes for style tags.
      *
-     * @param  (callable(string, string, ?array, ?array): array)|array  $attributes
+     * @param  (callable(string, string, ?array, ?array): array)|callable[]  $attributes
      * @return $this
      */
     public function useStyleTagAttributes($attributes)
@@ -234,7 +229,7 @@ class Vite implements Htmlable
     /**
      * Use the given callback to resolve attributes for preload tags.
      *
-     * @param  (callable(string, string, ?array, ?array): (array|false))|array|false  $attributes
+     * @param  (callable(string, string, ?array, ?array): (array|false))|callable[]|false  $attributes
      * @return $this
      */
     public function usePreloadTagAttributes($attributes)
@@ -665,7 +660,7 @@ class Vite implements Htmlable
      */
     protected function assetPath($path, $secure = null)
     {
-        return asset($path, $secure);
+        return asset($path);
     }
 
     /**

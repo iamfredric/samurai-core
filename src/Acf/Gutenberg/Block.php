@@ -8,6 +8,7 @@ use Boil\Support\Transformers\AutoCaster;
 use Boil\Support\Transformers\Caster;
 use Boil\Support\Transformers\MapKeysToCamel;
 use Boil\Support\Transformers\Transformations;
+use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -25,7 +26,7 @@ abstract class Block
             return;
         }
 
-        $this->data = get_fields($data['id']) ?: [];
+        $this->data = WpHelper::get_fields($data['id']) ?: [];
 
         echo view(
             str_replace(

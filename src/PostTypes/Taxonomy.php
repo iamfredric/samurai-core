@@ -131,7 +131,11 @@ class Taxonomy
         return $this;
     }
 
-    public function toArray()
+    /**
+     * @return array<string, mixed>
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public function toArray(): array
     {
         return [
             'labels' => [

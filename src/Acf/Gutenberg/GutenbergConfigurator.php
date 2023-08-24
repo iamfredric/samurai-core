@@ -2,7 +2,8 @@
 
 namespace Boil\Acf\Gutenberg;
 
-use Boil\Application;
+use Boil\Support\Wordpress\WpHelper;
+use Illuminate\Contracts\Foundation\Application;
 use Boil\Support\Concerns\ConfigPath;
 
 class GutenbergConfigurator
@@ -40,7 +41,7 @@ class GutenbergConfigurator
                 'render_callback' => [$concrete, 'render'],
             ]);
 
-            acf_register_block_type($array);
+            WpHelper::acf_register_block_type($array);
         }
     }
 }

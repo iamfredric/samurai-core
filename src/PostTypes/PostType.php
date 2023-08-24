@@ -4,6 +4,27 @@ namespace Boil\PostTypes;
 
 class PostType
 {
+    /**
+     * @param string $id
+     * @param string $singular
+     * @param string $plural
+     * @param string|null $slug
+     * @param bool $public
+     * @param int $position
+     * @param string $icon
+     * @param bool $showUi
+     * @param bool $showInMenu
+     * @param bool $showInAdminBar
+     * @param bool $exportable
+     * @param bool $deleteWithUser
+     * @param bool $hierarchical
+     * @param bool $hasArchives
+     * @param bool|string $queryVar
+     * @param string $capabilityType
+     * @param bool $showInRest
+     * @param string[] $supports
+     * @param Taxonomy[] $taxonomies
+     */
     public function __construct(
         public string $id,
         protected string $singular = '',

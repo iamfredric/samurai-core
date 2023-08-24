@@ -14,6 +14,7 @@ use Illuminate\Contracts\Http\Kernel as KernelContract;
 
 class Kernel implements KernelContract
 {
+    /** @var class-string[] */
     protected array $bootstrappers = [
         LoadEnvironmentVariables::class,
         LoadConfiguration::class,

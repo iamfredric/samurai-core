@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 
 class ImageServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(
             ImageConfigurator::class,
@@ -18,7 +18,7 @@ class ImageServiceProvider extends ServiceProvider
         );
     }
 
-    public function boot()
+    public function boot(): void
     {
         $this->app->make(ImageConfigurator::class)->boot();
     }

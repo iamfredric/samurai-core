@@ -8,8 +8,17 @@ use Illuminate\Http\Response;
 
 class Template
 {
+    /**
+     * @var string|string[]|Closure|null
+     */
     protected string|array|Closure|null $endpoint;
 
+    /**
+     * @param string $name
+     * @param string|string[]|Closure|callable|null $endpoint
+     * @param array<string, mixed> $options
+     * @param string|null $view
+     */
     public function __construct(
         public readonly string $name,
         string|array|callable|null $endpoint,
@@ -22,6 +31,9 @@ class Template
         }
     }
 
+    /**
+     * @return string[]|string|Closure
+     */
     public function getCallable(): array|string|Closure
     {
         if ($this->endpoint instanceof Closure) {
@@ -33,12 +45,12 @@ class Template
         return [$endpoint[0], $endpoint[1] ?? '__invoke'];
     }
 
-    public function call(Application $app)
+    public function call(Application $app): Response
     {
         if (is_callable($this->endpoint)) {
             $response = $app->call($this->endpoint);
         } elseif (is_string($this->endpoint)) {
-            if (str_contains('@')) {
+            if (str_contains($this->endpoint, '@')) {
                 [$callable, $method] = explode('@', $this->endpoint);
             } else {
                 $callable = $this->endpoint;

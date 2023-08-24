@@ -66,12 +66,12 @@ class WpImage implements Arrayable, Jsonable
 
     /**
      * @param  string  $size
-     * @param  array  $attr
+     * @param  array<string, mixed> $attributes
      * @return string
      */
-    public function render($size = null, $attr = [])
+    public function render($size = null, $attributes = [])
     {
-        return get_the_post_thumbnail($this->postId, $size, $attr);
+        return WpHelper::get_the_post_thumbnail($this->postId, $size, $attributes);
     }
 
     /**
@@ -80,7 +80,7 @@ class WpImage implements Arrayable, Jsonable
      */
     public function style($size = null)
     {
-        if (! $srcset = wp_get_attachment_image_srcset($this->id(), $size)) {
+        if (! $srcset = WpHelper::wp_get_attachment_image_srcset($this->id(), $size)) {
             return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).')}</style>';
         }
 
@@ -98,23 +98,21 @@ class WpImage implements Arrayable, Jsonable
         return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).")}{$css}</style>";
     }
 
-    /**
-     * @param  string|null  $size
-     * @return string
-     */
-    public function styles($size = null)
+    public function styles(string $size = null): ?string
     {
         if ($style = $this->style($size)) {
-            add_action('wp_head', function () use ($style) {
+            WpHelper::add_action('wp_head', function () use ($style) {
                 echo $style;
             });
 
-            add_action('admin_footer', function () use ($style) {
+            WpHelper::add_action('admin_footer', function () use ($style) {
                 echo $style;
             });
 
             return "id={$this->identifier()}";
         }
+
+        return null;
     }
 
     /**
@@ -125,9 +123,12 @@ class WpImage implements Arrayable, Jsonable
         return WpHelper::has_post_thumbnail($this->postId);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
-        return acf_get_attachment($this->id()) ?: [];
+        return WpHelper::acf_get_attachment($this->id()) ?: [];
     }
 
     public function toJson($options = 0): string

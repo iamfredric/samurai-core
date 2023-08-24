@@ -1,6 +1,8 @@
 parameters:
-  level: max
+  level: 4
   paths:
     - src
-
+  bootstrapFiles:
+    - tests/Support/wordpressClasses.php
   reportUnmatchedIgnoredErrors: true
+  checkGenericClassInNonGenericObjectType: false

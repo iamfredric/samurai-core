@@ -4,36 +4,57 @@ namespace Boil\Routing;
 
 class Routes
 {
+    /** @var array<string, Template> */
     protected array $routes = [];
 
+    /** @var array<string, Template> */
     protected array $templates = [];
 
+    /** @var array<string, Template> */
     protected array $views = [];
 
-    public function view(string $name, string $view, array $options = [])
+    /**
+     * @param string $name
+     * @param string $view
+     * @param array<string, mixed> $options
+     * @return Template
+     */
+    public function view(string $name, string $view, array $options = []): Template
     {
         return $this->views[$name] = new Template($name, null, $options, $view);
     }
 
+    /**
+     * @param string $name
+     * @param string|string[]|callable $callback
+     * @return Template
+     */
     public function register(string $name, string|array|callable $callback): Template
     {
         return $this->routes[$name] = new Template($name, $callback);
     }
 
-    public function template($key, $name, $endpoint, $options = [])
+    /**
+     * @param string $key
+     * @param string $name
+     * @param string|string[]|callable $callback
+     * @param $options
+     * @return Template
+     */
+    public function template(string $key, string $name, string|array|callable $callback, $options = []): Template
     {
-        return $this->templates[$key] = new Template($name, $endpoint, $options);
+        return $this->templates[$key] = new Template($name, $callback, $options);
     }
 
     /**
-     * @return array<Template>
+     * @return Template[]
      */
     public function getTemplates(): array
     {
         return $this->templates;
     }
 
-    public function isRegistered(string $template)
+    public function isRegistered(string $template): bool|Template
     {
         if (isset($this->templates[$template])) {
             return $this->templates[$template];
@@ -60,17 +81,12 @@ class Routes
         return false;
     }
 
-    //    public function getCurrentRoute()
-    //    {
-    //        return 'A current route has emerged!';
-    //    }
-
-    public function resolve(string $route)
+    public function resolve(string $route): Template
     {
         return $this->templates[$route] ?? $this->routes[$route];
     }
 
-    public function getSearchTemplate()
+    public function getSearchTemplate(): ?Template
     {
         return $this->routes['search'] ?? null;
     }

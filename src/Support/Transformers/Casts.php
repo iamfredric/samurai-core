@@ -4,23 +4,13 @@ namespace Boil\Support\Transformers;
 
 class Casts
 {
-    /**
-     * @var mixed
-     */
-    protected $value;
-
-    /**
-     * @var null
-     */
-    protected $cast;
-
-    public function __construct($value, $cast = null)
-    {
-        $this->value = $value;
-        $this->cast = $cast;
+    public function __construct(
+        protected mixed $value,
+        protected ?string $cast = null
+    ) {
     }
 
-    public function transform()
+    public function transform(): mixed
     {
         if ($this->cast === 'stdClass' || $this->cast === 'object') {
             return (object) $this->value;

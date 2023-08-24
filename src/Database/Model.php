@@ -17,7 +17,7 @@ use ReflectionClass;
  * @property int $order
  * @property int $author
  * @property Carbon $date
- * @property $date_gmt
+ * @property string $date_gmt
  * @property string $content
  * @property string $title
  * @property string $excerpt
@@ -25,7 +25,7 @@ use ReflectionClass;
  * @property string $password
  * @property string $name
  * @property Carbon $modified
- * @property $modified_gmt
+ * @property string $modified_gmt
  * @property string $content_filtered
  * @property int|null $parent
  * @property string $type
@@ -48,124 +48,66 @@ use ReflectionClass;
  */
 class Model implements Arrayable, Jsonable, ArrayAccess
 {
-    /**
-     * Specified post type
-     * If this is not set Modest resolve name via class name
-     *
-     * @var null|string
-     */
-    protected $type = null;
+    protected ?string $type = null;
 
-    /**
-     * Keys that should cast to Carbon\Carbon instances
-     *
-     * @var array
-     */
-    protected $dates = [
+    /** @var string[] */
+    protected array $dates = [
         'date', 'modified',
     ];
 
-    /**
-     * @var array
-     */
-    protected $casts = [];
+    /** @var string[] */
+    protected array $casts = [];
 
-    /**
-     * @var array
-     */
-    private $hasCasted = [];
+    /** @var string[] */
+    protected array $hasCasted = [];
 
-    /**
-     * Keys that should remain hidden
-     *
-     * @var array
-     */
-    protected $hidden = [];
+    /** @var string[] */
+    protected array $hidden = [];
 
-    /**
-     * Excerpt length in characters
-     *
-     * @var int
-     */
-    protected $excerptLength = 120;
+    protected int $excerptLength = 120;
 
-    /**
-     * Attributes
-     *
-     * @var \Illuminate\Support\Collection
-     */
-    protected $attributes;
+    /** @var Collection */
+    protected Collection $attributes;
 
-    /**
-     * Model constructor.
-     *
-     * @param  \WP_Post|null  $post
-     */
-    public function __construct($post = null)
+    /** @var Term[] */
+    protected array $terms = [];
+
+    /** @param  \WP_Post|null  $post */
+    final public function __construct($post = null)
     {
         if ($post) {
             $this->setAttributes($post);
         }
     }
 
-    /**
-     * Create a new instance
-     *
-     * @param  \WP_Post  $post
-     * @return static
-     */
-    public static function make($post)
+    /** @param  \WP_Post  $post */
+    public static function make($post): static
     {
         return new static($post);
     }
 
-    /**
-     * Create a new instance with current queried post
-     *
-     * @return static
-     */
-    public static function current()
+    public static function current(): static
     {
         return static::make(WpHelper::callFunction('get_post'));
     }
 
-    /**
-     * Create a new instance with given post id
-     *
-     * @param  int  $id
-     * @return \Boil\Database\Model
-     */
-    public static function find($id)
+    public static function find(int $id): ?static
     {
         return Builder::find($id, new static());
     }
 
-    /**
-     * Paginated results
-     *
-     * @param  int  $limit
-     * @return \Boil\Database\Paginaton
-     */
-    public static function paginate($limit = null)
+    public static function paginate(?int $limit = null): Pagination
     {
         return (new Builder(new static()))->paginate($limit);
     }
 
-    /**
-     * @return mixed
-     */
-    public static function all()
+    public static function all(): Collection
     {
         return Builder::all(new static());
     }
 
-    /**
-     * Creates a new post in database
-     *
-     *
-     * @return \Boil\Database\Model
-     */
-    public static function create(array $params)
+    /** @param array<string, mixed> $params */
+    public static function create(array $params): static
     {
         $instance = new static();
 
@@ -176,13 +118,8 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return static::find($id);
     }
 
-    /**
-     * Updates given post in database
-     *
-     *
-     * @return \Boil\Database\Model
-     */
-    public function update(array $args)
+    /** @param array<string, mixed> $args */
+    public function update(array $args): static
     {
         $params = [];
 
@@ -199,29 +136,17 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return $this;
     }
 
-    /**
-     * Saves current instances in database
-     *
-     * @return void
-     */
-    public function save()
+    public function save(): void
     {
         WpHelper::callFunction('wp_update_post', $this->toWordpressArray());
     }
 
-    /**
-     * Getter for attributes
-     *
-     * @param  string  $key
-     * @return mixed
-     */
-    public function get($key)
+    public function get(string $key): mixed
     {
         if (in_array($key, $this->hasCasted)) {
             return $this->attributes->get($key);
         }
 
-        // If attribute is defined as hidden null is returned
         if ($this->attributeShouldBeHidden($key)) {
             return null;
         }
@@ -240,14 +165,9 @@ class Model implements Arrayable, Jsonable, ArrayAccess
             }
         }
 
-        // Filter value through the date casting method,
-        // it only casts to dates if defined
-
-        // Check if has been casted before
         $value = $this->castToDates($key, $value);
         $value = $this->cast($key, $value);
 
-        // If attribute getter is defined, the value gets filtered via this method
         if (method_exists($this, $method = $this->getAttributeMethodName($key))) {
             $value = $this->$method($value);
         }
@@ -263,25 +183,13 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return $this->get('id');
     }
 
-    /**
-     * Excerpt attribute getter
-     * The length is set by the excerptLength param
-     *
-     * @param  string  $excerpt
-     * @return string
-     */
-    public function getExcerptAttribute($excerpt)
+    public function getExcerptAttribute(string $excerpt): ?string
     {
         return (string) Str::of(strip_tags($excerpt ?: $this->get('content')))
             ->limit($this->excerptLength);
     }
 
-    /**
-     * @param  string  $key
-     * @param  null  $value
-     * @return mixed
-     */
-    protected function getAttribute($key, $value = null)
+    protected function getAttribute(string $key, mixed $value = null): mixed
     {
         if (! $this->attributes->has($key) && $value) {
             $this->attributes->put($key, $value);
@@ -290,36 +198,19 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return $this->attributes->get($key);
     }
 
-    /**
-     * Url attribute getter
-     *
-     * @param  string|null  $url
-     * @return string
-     */
-    public function getUrlAttribute($url = null)
+    public function getUrlAttribute(?string $url = null): ?string
     {
-        return $this->getAttribute('url', get_permalink($this->get('id')));
+        return $this->getAttribute('url', WpHelper::get_permalink($this->get('id'))) ?: null;
     }
 
-    /**
-     * Translates key name to attribute getter name
-     *
-     * @param  string  $key
-     * @return string
-     */
-    protected function getAttributeMethodName($key)
+    protected function getAttributeMethodName(string $key): string
     {
         $key = Str::camel($key);
 
         return "get{$key}Attribute";
     }
 
-    /**
-     * @return string
-     *
-     * @throws \ReflectionException
-     */
-    public function getType()
+    public function getType(): ?string
     {
         if ($this->type) {
             return $this->type;
@@ -330,14 +221,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return Str::camel($reflection->getShortName());
     }
 
-    /**
-     * Casts defined key values to carbon instances
-     *
-     * @param  string  $key
-     * @param  string  $value
-     * @return Carbon|string
-     */
-    protected function castToDates($key, $value)
+    protected function castToDates(string $key, mixed $value): mixed
     {
         if (! in_array($key, $this->dates)) {
             return $value;
@@ -346,12 +230,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return Carbon::parse($value);
     }
 
-    /**
-     * @param  string  $key
-     * @param  mixed  $value
-     * @return mixed
-     */
-    protected function cast($key, $value)
+    protected function cast(string $key, mixed $value): mixed
     {
         if (isset($this->casts[$key])) {
             $this->hasCasted[] = $key;
@@ -371,14 +250,13 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return $value;
     }
 
-    /**
-     * Setter for attributes
-     *
-     * @param  mixed  $attributes
-     * @return void
-     */
-    public function setAttributes($attributes)
+    /** @param  \WP_Post|null  $attributes */
+    public function setAttributes($attributes): void
     {
+        if ($attributes instanceof \WP_Post) {
+            $attributes = $attributes->to_array();
+        }
+
         $collection = [];
 
         foreach ($attributes as $key => $value) {
@@ -394,13 +272,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         $this->attributes = new Collection($collection);
     }
 
-    /**
-     * Checks if given attribute key should be hidden
-     *
-     * @param  string  $key
-     * @return bool
-     */
-    protected function attributeShouldBeHidden($key)
+    protected function attributeShouldBeHidden(string $key): bool
     {
         if (in_array($key, $this->hidden)) {
             return true;
@@ -409,24 +281,12 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return false;
     }
 
-    /**
-     * Translates attribute keys from Wordpress to Modest
-     *
-     * @param  string  $key
-     * @return string
-     */
-    protected function translateAttributeKey($key)
+    protected function translateAttributeKey(string $key): string
     {
         return (string) Str::of($key)->lower()->replace(['post_', 'menu_'], '');
     }
 
-    /**
-     * Translates attribute keys from Modest to Wordpress
-     *
-     * @param  string  $key
-     * @return string
-     */
-    public function translateAttributeKeyToWordpress($key)
+    public function translateAttributeKeyToWordpress(string $key): string
     {
         if ($key == 'id') {
             return Str::upper($key);
@@ -443,22 +303,14 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return "post_{$key}";
     }
 
-    /**
-     * Casts all attributes to an array
-     *
-     * @return array
-     */
-    public function toArray()
+    /** @return array<string, mixed> */
+    public function toArray(): array
     {
         return $this->attributes->except($this->hidden)->toArray();
     }
 
-    /**
-     * Casts alla attributes to an Wordpress array
-     *
-     * @return array
-     */
-    public function toWordpressArray()
+    /** @return array<string, mixed> */
+    public function toWordpressArray(): array
     {
         $items = [];
 
@@ -471,75 +323,43 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return $items;
     }
 
-    /**
-     * @param  int  $options
-     * @return string
-     */
-    public function toJson($options = 0)
+    public function toJson(mixed $options = 0): string
     {
-        return $this->attributes->except($this->hidden)->toJson();
+        return $this->attributes->except($this->hidden)->toJson($options);
     }
 
-    /**
-     * Determines whether an offset exists
-     */
     public function offsetExists(mixed $offset): bool
     {
         return ! is_null($this->get($offset));
     }
 
-    /**
-     * Sets offset to retrieve
-     *
-     *
-     * @return mixed|null|Model
-     */
     public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
     }
 
-    /**
-     * Offset to set
-     */
     public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->attributes[$offset] = $value;
     }
 
-    /**
-     * Offset to unset
-     */
     public function offsetUnset(mixed $offset): void
     {
         unset($this->attributes[$offset]);
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     *
-     * @return array
-     */
-    public function jsonSerialize()
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
 
-    /**
-     * @param  string  $method
-     * @param  mixed  $value
-     * @return mixed
-     */
-    public function __set($method, $value)
+    public function __set(string $method, mixed $value): void
     {
-        return $this->attributes[$method] = $value;
+        $this->attributes[$method] = $value;
     }
 
-    /**
-     * @param  string  $variable
-     * @return mixed
-     */
-    public function __get($variable)
+    public function __get(string $variable): mixed
     {
         if ($variable == 'attributes') {
             return $this->attributes;
@@ -553,12 +373,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return new Builder(new static());
     }
 
-    /**
-     * @param  string  $method
-     * @param  mixed  $args
-     * @return \Boil\Database\Builder
-     */
-    public static function __callStatic($method, $args)
+    public static function __callStatic(string $method, mixed $args): Builder
     {
         $instance = new static();
 
@@ -570,6 +385,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return isset($this->terms[$key]);
     }
 
+    /** @return Term|null */
     protected function term(string $key)
     {
         if (! $this->attributes->has("terms.{$key}")) {

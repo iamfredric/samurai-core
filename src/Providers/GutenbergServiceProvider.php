@@ -6,15 +6,15 @@ use Illuminate\Support\ServiceProvider;
 
 class GutenbergServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(
             \Boil\Acf\Gutenberg\GutenbergConfigurator::class,
-            fn () => new \Boil\Acf\Gutenberg\GutenbergConfigurator($this->app)
+            fn ($app) => new \Boil\Acf\Gutenberg\GutenbergConfigurator($app)
         );
     }
 
-    public function boot()
+    public function boot(): void
     {
         $this->app->make(\Boil\Acf\Gutenberg\GutenbergConfigurator::class)->boot();
     }

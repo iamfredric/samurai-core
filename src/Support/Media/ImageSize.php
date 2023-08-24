@@ -50,8 +50,8 @@ class ImageSize
         if (preg_match('/^([0-9]+)x([0-9]+)$/', $this->name)) {
             [$width, $height] = explode('x', $this->name);
 
-            $this->width = $width;
-            $this->height = $height;
+            $this->width = (int) $width;
+            $this->height = (int) $height;
         }
     }
 }

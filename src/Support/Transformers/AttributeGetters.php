@@ -7,22 +7,19 @@ use Illuminate\Support\Str;
 class AttributeGetters
 {
     /**
-     * @var array
+     * @param mixed[] $attributes
+     * @param object $instance
      */
-    protected $attributes;
-
-    /**
-     * @var object
-     */
-    protected $instance;
-
-    public function __construct($attributes, $instance)
-    {
-        $this->attributes = $attributes;
-        $this->instance = $instance;
+    public function __construct(
+        protected array $attributes,
+        protected $instance
+    ) {
     }
 
-    public function transform()
+    /**
+     * @return mixed[]
+     */
+    public function transform(): array
     {
         foreach ($this->attributes as $key => $item) {
             $methodName = $this->translateKeyToMethodName($key);
@@ -35,10 +32,7 @@ class AttributeGetters
         return $this->attributes;
     }
 
-    /**
-     * @return string
-     */
-    protected function translateKeyToMethodName($key)
+    protected function translateKeyToMethodName(string $key): string
     {
         return (string) Str::of($key)
             ->camel()

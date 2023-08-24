@@ -11,6 +11,9 @@ use Illuminate\Http\Response;
 
 class ApiRouter
 {
+    /**
+     * @var ApiRoute[]
+     */
     protected array $routes = [];
 
     public function __construct(
@@ -19,17 +22,17 @@ class ApiRouter
     ) {
     }
 
-    public function get($uri, $endpoint): ApiRoute
+    public function get(string $uri, string|array|\Closure $endpoint): ApiRoute
     {
         return $this->routes[] = new ApiRoute('get', $uri, $endpoint, $this->namespace);
     }
 
-    public function post($uri, $endpoint): ApiRoute
+    public function post(string $uri, string|array|\Closure $endpoint): ApiRoute
     {
         return $this->routes[] = new ApiRoute('post', $uri, $endpoint, $this->namespace);
     }
 
-    public function delete($uri, $endpoint): ApiRoute
+    public function delete(string $uri, string|array|\Closure $endpoint): ApiRoute
     {
         return $this->routes[] = new ApiRoute('delete', $uri, $endpoint, $this->namespace);
     }
@@ -74,47 +77,47 @@ class ApiRouter
         });
     }
 
-    protected function routeResponse(ApiRoute $route, $request)
-    {
-        // Todo: Extract those arguments
-        if (is_callable($route->callback)) {
-            return call_user_func($route->callback);
-        }
-
-        $class = $this->app->call($route->getClassName());
-
-        $method = new \ReflectionMethod($class, $route->getMethodName());
-
-        $params = $route->getUriParams();
-
-        $dependencies = [];
-
-        foreach ($method->getParameters() as $parameter) {
-            $type = (string) $parameter->getType();
-            if ($type === Request::class) {
-                // Todo...
-                $dependencies[] = new Request($request);
-            } elseif ($type === 'WP_REST_Request') {
-                $dependencies[] = $request;
-            } elseif (in_array($parameter->getName(), $params)) {
-                $dependencies[] = $request->get_param($parameter->getName());
-            } elseif ($parameter->allowsNull()) {
-                $dependencies[] = null;
-            } elseif ($type) {
-                $dependencies[] = $this->app->make($parameter->getClass()->name);
-            } else {
-                $dependencies[] = null;
-            }
-        }
-
-        $response = $method->invokeArgs(
-            $class, $dependencies
-        );
-
-        if ($response instanceof JsonResponse) {
-            $response = new JsonResponse($response);
-        }
-
-        return $response;
-    }
+//    protected function routeResponse(ApiRoute $route, $request)
+//    {
+//        // Todo: Extract those arguments
+//        if (is_callable($route->callback)) {
+//            return call_user_func($route->callback);
+//        }
+//
+//        $class = $this->app->call($route->getClassName());
+//
+//        $method = new \ReflectionMethod($class, $route->getMethodName());
+//
+//        $params = $route->getUriParams();
+//
+//        $dependencies = [];
+//
+//        foreach ($method->getParameters() as $parameter) {
+//            $type = (string) $parameter->getType();
+//            if ($type === Request::class) {
+//                // Todo...
+//                $dependencies[] = new Request($request);
+//            } elseif ($type === 'WP_REST_Request') {
+//                $dependencies[] = $request;
+//            } elseif (in_array($parameter->getName(), $params)) {
+//                $dependencies[] = $request->get_param($parameter->getName());
+//            } elseif ($parameter->allowsNull()) {
+//                $dependencies[] = null;
+//            } elseif ($type) {
+//                $dependencies[] = $this->app->make($parameter->getClass()->name);
+//            } else {
+//                $dependencies[] = null;
+//            }
+//        }
+//
+//        $response = $method->invokeArgs(
+//            $class, $dependencies
+//        );
+//
+//        if ($response instanceof JsonResponse) {
+//            $response = new JsonResponse($response);
+//        }
+//
+//        return $response;
+//    }
 }

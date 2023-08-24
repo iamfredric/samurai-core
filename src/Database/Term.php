@@ -15,9 +15,9 @@ class Term
     protected array $dates = [];
 
     /**
-     * @param  \WP_Term  $attributes
+     * @param \WP_Term|array|null  $attributes
      */
-    public function __construct($attributes = null)
+    final public function __construct($attributes = null)
     {
         $this->attributes = new Collection($attributes);
     }

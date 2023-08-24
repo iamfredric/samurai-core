@@ -6,17 +6,22 @@ use Illuminate\Support\Collection;
 
 class Translator
 {
+    /**
+     * @var array<string, array<string, string>>
+     */
     protected array $translations = [];
 
     protected string $currentLocale = 'en';
 
+    /**
+     * @var array<string, array<string>>
+     */
     protected array $translationFiles = [];
 
+    /**
+     * @var array<string, array<string>>
+     */
     protected array $loadedFiles = [];
-
-    public function __construct()
-    {
-    }
 
     public function queueFile(string $file): void
     {
@@ -62,11 +67,21 @@ class Translator
         $this->currentLocale = $this->normalizeLocale($locale);
     }
 
+    /**
+     * @param string $string
+     * @param array<string, string> $attributes
+     * @return string
+     */
     public function get(string $string, array $attributes = []): string
     {
         return $this->translate($string, $attributes);
     }
 
+    /**
+     * @param string $string
+     * @param array<string, string> $attributes
+     * @return string
+     */
     public function translate(string $string, array $attributes = []): string
     {
         $this->load();
@@ -105,6 +120,11 @@ class Translator
         }
     }
 
+    /**
+     * @param string $string
+     * @param array<string, string> $attributes
+     * @return string
+     */
     public function __invoke(string $string, array $attributes = []): string
     {
         return $this->translate($string, $attributes);
