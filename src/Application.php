@@ -2,54 +2,46 @@
 
 namespace Boil;
 
+use Boil\Support\MaintenanceMode;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class Application extends Container implements \Illuminate\Contracts\Foundation\Application
 {
     protected ?string $bootstrapPath = null;
 
-    protected $appPath;
+    protected string $appPath;
 
-    protected $langPath;
+    protected ?string $langPath = null;
 
-    protected $configPath;
+    protected ?string $configPath = null;
 
-    protected $publicPath;
+    protected ?string $publicPath = null;
 
-    protected $storagePath;
+    protected ?string $storagePath = null;
 
-    protected $databasePath;
+    protected ?string $databasePath = null;
 
+    /** @var callable[] */
     protected $bootingCallbacks = [];
 
+    /** @var callable[] */
     protected $bootedCallbacks = [];
 
-    /**
-     * The array of terminating callbacks.
-     *
-     * @var callable[]
-     */
+    /** @var callable[] */
     protected $terminatingCallbacks = [];
 
-    /**
-     * All the registered service providers.
-     *
-     * @var \Illuminate\Support\ServiceProvider[]
-     */
+    /** @var ServiceProvider[] */
     protected $serviceProviders = [];
 
-    /**
-     * The names of the loaded service providers.
-     *
-     * @var array
-     */
+    /** @var array<class-string, bool> */
     protected $loadedProviders = [];
 
-    protected $booted = false;
+    protected bool $booted = false;
 
     protected string $locale = 'en';
 
@@ -85,7 +77,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return $this->joinPaths($this->basePath, $path);
     }
 
-    public function joinPaths($basePath, $path = ''): string
+    public function joinPaths(string $basePath, string $path = ''): string
     {
         return $basePath.($path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '');
     }
@@ -125,9 +117,15 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return $this->joinPaths($this->storagePath ?: $this->basePath('storage'), $path);
     }
 
-    public function environment(...$environments): string
+    /** @param string|string[] $environments */
+    public function environment(...$environments): string|bool
     {
-        // return WP_DEBUG ? 'dev' : 'production';
+        if (count($environments) > 0) {
+            $patterns = is_array($environments[0]) ? $environments[0] : $environments;
+
+            return Str::is($patterns, $this['env']);
+        }
+        // Todo: return WP_DEBUG ? 'dev' : 'production';
 
         return $this['env'];
     }
@@ -151,16 +149,10 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return false;
     }
 
-    /** @return bool */
+    /** @return MaintenanceMode */
     public function maintenanceMode()
     {
-        /**
-         * Get an instance of the maintenance mode manager implementation.
-         *
-         * @return \Illuminate\Contracts\Foundation\MaintenanceMode
-         */
-        // Todo: public function maintenanceMode();
-        return $this->isDownForMaintenance();
+        return new MaintenanceMode();
     }
 
     public function isDownForMaintenance(): bool
@@ -170,8 +162,11 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
 
     public function registerConfiguredProviders(): void
     {
-        Collection::make($this->make('config')->get('app.providers'))
-            ->each(fn (string $provider) => $this->register($provider));
+        /** @var string[] $providers */
+        $providers = $this->make('config')->get('app.providers') ?: [];
+
+        Collection::make($providers)
+            ->each(fn ($provider) => $this->register($provider));
     }
 
     public function register($provider, $force = false)
@@ -218,11 +213,21 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return $provider;
     }
 
+    /**
+     * @param \Illuminate\Support\ServiceProvider|string $provider
+     * @return \Illuminate\Support\ServiceProvider|null
+     */
     protected function getProvider($provider)
     {
         return array_values($this->getProviders($provider))[0] ?? null;
     }
 
+    /**
+     * Get the registered service provider instances if any exist.
+     *
+     * @param  \Illuminate\Support\ServiceProvider|string  $provider
+     * @return \Illuminate\Support\ServiceProvider[]
+     */
     public function getProviders($provider): array
     {
         $name = is_string($provider) ? $provider : get_class($provider);
@@ -232,6 +237,11 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         });
     }
 
+    /**
+     * @param string $provider
+     * @param string|null $service
+     * @return void
+     */
     public function registerDeferredProvider($provider, $service = null): void
     {
         // Once the provider that provides the deferred service has been registered we
@@ -250,6 +260,10 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         }
     }
 
+    /**
+     * @param  string  $provider
+     * @return \Illuminate\Support\ServiceProvider
+     */
     public function resolveProvider($provider)
     {
         return new $provider($this);
@@ -275,6 +289,10 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         $this->fireAppCallbacks($this->bootedCallbacks);
     }
 
+    /**
+     * @param callable[] $callbacks
+     * @return void
+     */
     protected function fireAppCallbacks(array &$callbacks): void
     {
         $index = 0;
@@ -286,6 +304,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         }
     }
 
+    /** @return void */
     public function booting($callback)
     {
         $this->bootingCallbacks[] = $callback;
@@ -300,6 +319,11 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         }
     }
 
+    /**
+     * @param string[] $bootstrappers
+     * @return void
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
     public function bootstrapWith(array $bootstrappers): void
     {
         foreach ($bootstrappers as $bootstrapper) {
@@ -324,11 +348,14 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return false;
     }
 
+    /** @return string */
     public function getCachedConfigPath()
     {
+        // Todo...
         return $this->basePath('bootstrap/cache/config.php');
     }
 
+    /** @return callable */
     public function detectEnvironment(callable $callback)
     {
         return $this['env'] = $callback();
@@ -416,6 +443,10 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         $this->instance('path.bootstrap', $this->bootstrapPath());
     }
 
+    /**
+     * @param string $path
+     * @return string
+     */
     public function path($path = '')
     {
         $appPath = $this->appPath ?: $this->basePath.DIRECTORY_SEPARATOR.'app';
@@ -423,6 +454,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return $appPath.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
+    /** @return void */
     protected function registerBaseBindings()
     {
         static::setInstance($this);
@@ -432,6 +464,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         $this->instance(Container::class, $this);
     }
 
+    /** @return void */
     protected function registerBaseServiceProviders()
     {
         // $this->register(new EventServiceProvider($this));
@@ -439,6 +472,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         // $this->register(new RoutingServiceProvider($this));
     }
 
+    /** @return void */
     public function registerCoreContainerAliases()
     {
         foreach ([

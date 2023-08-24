@@ -195,7 +195,7 @@ class Vite implements Htmlable
     /**
      * Use the given callback to resolve attributes for script tags.
      *
-     * @param  (callable(string, string, ?array, ?array): array)|callable[]  $attributes
+     * @param  callable|callable[]  $attributes
      * @return $this
      */
     public function useScriptTagAttributes(mixed $attributes)
@@ -212,7 +212,7 @@ class Vite implements Htmlable
     /**
      * Use the given callback to resolve attributes for style tags.
      *
-     * @param  (callable(string, string, ?array, ?array): array)|callable[]  $attributes
+     * @param  callable|callable[]  $attributes
      * @return $this
      */
     public function useStyleTagAttributes($attributes)
@@ -229,7 +229,7 @@ class Vite implements Htmlable
     /**
      * Use the given callback to resolve attributes for preload tags.
      *
-     * @param  (callable(string, string, ?array, ?array): (array|false))|callable[]|false  $attributes
+     * @param  callable|callable[]|false  $attributes
      * @return $this
      */
     public function usePreloadTagAttributes($attributes)
@@ -348,8 +348,8 @@ class Vite implements Htmlable
      *
      * @param  string  $src
      * @param  string  $url
-     * @param  array|null  $chunk
-     * @param  array|null  $manifest
+     * @param  array<string, mixed>|null  $chunk
+     * @param  array<string, mixed>|null  $manifest
      * @return string
      */
     protected function makeTagForChunk($src, $url, $chunk, $manifest)
@@ -381,8 +381,8 @@ class Vite implements Htmlable
      *
      * @param  string  $src
      * @param  string  $url
-     * @param  array  $chunk
-     * @param  array  $manifest
+     * @param  string[]  $chunk
+     * @param  string[]  $manifest
      * @return string
      */
     protected function makePreloadTagForChunk($src, $url, $chunk, $manifest)
@@ -405,9 +405,9 @@ class Vite implements Htmlable
      *
      * @param  string  $src
      * @param  string  $url
-     * @param  array|null  $chunk
-     * @param  array|null  $manifest
-     * @return array
+     * @param  string[]|null  $chunk
+     * @param  string[]|null  $manifest
+     * @return array<string, mixed>
      */
     protected function resolveScriptTagAttributes($src, $url, $chunk, $manifest)
     {
@@ -427,9 +427,9 @@ class Vite implements Htmlable
      *
      * @param  string  $src
      * @param  string  $url
-     * @param  array|null  $chunk
-     * @param  array|null  $manifest
-     * @return array
+     * @param  array<string, mixed>|null  $chunk
+     * @param  array<string, mixed>|null  $manifest
+     * @return array<string, mixed>
      */
     protected function resolveStylesheetTagAttributes($src, $url, $chunk, $manifest)
     {
@@ -449,9 +449,9 @@ class Vite implements Htmlable
      *
      * @param  string  $src
      * @param  string  $url
-     * @param  array  $chunk
-     * @param  array  $manifest
-     * @return array|false
+     * @param  array<string, mixed>  $chunk
+     * @param  array<string, mixed>  $manifest
+     * @return array<string, mixed>|false
      */
     protected function resolvePreloadTagAttributes($src, $url, $chunk, $manifest)
     {
@@ -530,7 +530,7 @@ class Vite implements Htmlable
      * Generate a script tag with attributes for the given URL.
      *
      * @param  string  $url
-     * @param  array  $attributes
+     * @param  array<string, mixed>  $attributes
      * @return string
      */
     protected function makeScriptTagWithAttributes($url, $attributes)
@@ -548,7 +548,7 @@ class Vite implements Htmlable
      * Generate a link tag with attributes for the given URL.
      *
      * @param  string  $url
-     * @param  array  $attributes
+     * @param  mixed[]  $attributes
      * @return string
      */
     protected function makeStylesheetTagWithAttributes($url, $attributes)
@@ -576,8 +576,8 @@ class Vite implements Htmlable
     /**
      * Parse the attributes into key="value" strings.
      *
-     * @param  array  $attributes
-     * @return array
+     * @param  array<string, mixed>  $attributes
+     * @return mixed[]
      */
     protected function parseAttributes($attributes)
     {
@@ -624,6 +624,7 @@ class Vite implements Htmlable
     /**
      * Get the path to a given asset when running in HMR mode.
      *
+     * @param string $asset
      * @return string
      */
     protected function hotAsset($asset)
@@ -667,7 +668,7 @@ class Vite implements Htmlable
      * Get the the manifest file for the given build directory.
      *
      * @param  string  $buildDirectory
-     * @return array
+     * @return array<string, mixed[]>
      *
      * @throws \Exception
      */
@@ -721,9 +722,9 @@ class Vite implements Htmlable
     /**
      * Get the chunk for the given entry point / asset.
      *
-     * @param  array  $manifest
+     * @param  array<string, mixed[]> $manifest
      * @param  string  $file
-     * @return array
+     * @return mixed[]
      *
      * @throws \Exception
      */

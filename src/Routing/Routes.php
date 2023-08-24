@@ -38,10 +38,10 @@ class Routes
      * @param string $key
      * @param string $name
      * @param string|string[]|callable $callback
-     * @param $options
+     * @param array<string, mixed> $options
      * @return Template
      */
-    public function template(string $key, string $name, string|array|callable $callback, $options = []): Template
+    public function template(string $key, string $name, string|array|callable $callback, array $options = []): Template
     {
         return $this->templates[$key] = new Template($name, $callback, $options);
     }

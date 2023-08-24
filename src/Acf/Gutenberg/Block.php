@@ -14,9 +14,17 @@ use Illuminate\Support\Str;
 
 abstract class Block
 {
+    /** @var array<string, mixed> */
     protected array $data = [];
 
-    public function render($data, $content = '', $preview = false)
+    /**
+     * @param array<string, mixed> $data
+     * @param string $content
+     * @param bool $preview
+     * @return void
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public function render($data, $content = '', bool $preview = false): void
     {
         $previewImage = $data['data']['__preview_image'] ?? null;
 
@@ -53,7 +61,8 @@ abstract class Block
         return Str::kebab($item);
     }
 
-    protected function transform(?array $data)
+    /** @param array<string, mixed> $data */
+    protected function transform(?array $data): mixed
     {
         $items = [];
 
@@ -72,9 +81,8 @@ abstract class Block
             ->output();
     }
 
-    public function data(string $key = null, $default = null)
+    public function data(string $key = null, mixed $default = null): mixed
     {
-
         if ($key) {
             $data = Arr::dot($this->data);
 
@@ -84,6 +92,9 @@ abstract class Block
         return $this->data;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return [
@@ -120,11 +131,15 @@ abstract class Block
         return null;
     }
 
+    /** @return string[] */
     public function keyWords(): array
     {
         return [];
     }
 
+    /**
+     * @return array<string, mixed>[]|null
+     */
     protected function getExample(): ?array
     {
         if ($previewImage = $this->getPreviewImageUrl()) {

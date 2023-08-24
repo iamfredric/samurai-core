@@ -17,6 +17,11 @@ class MenuConfigurator
         WpHelper::register_nav_menu($slug, $label);
     }
 
+    /**
+     * @param string $slug
+     * @param array<string, mixed> $args
+     * @return bool|string|null
+     */
     public function render(string $slug, array $args = []): bool|string|null
     {
         return WpHelper::wp_nav_menu(array_merge([

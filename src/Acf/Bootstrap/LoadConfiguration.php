@@ -58,10 +58,7 @@ class LoadConfiguration
         }
     }
 
-    /**
-     * Get all of the configuration files for the application.
-     * @return array
-     */
+    /** @return array<string, string> */
     protected function getConfigurationFiles(Application $app)
     {
         $files = [];

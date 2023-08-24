@@ -183,6 +183,12 @@ class Builder
         $this->metaBuilder->orWhere($key, $compare, $value);
     }
 
+    /**
+     * @param string $taxonomy
+     * @param int[] $terms
+     * @param string $field
+     * @return void
+     */
     protected function scopeWhereTaxonomyIn(string $taxonomy, array $terms, string $field = 'term_id'): void
     {
         $this->setTaxQuery(compact('taxonomy', 'terms', 'field'));

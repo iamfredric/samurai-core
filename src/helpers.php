@@ -37,7 +37,7 @@ if (! function_exists('app')) {
      *
      * @param string|null $abstract
      * @param array<string,mixed> $parameters
-     * @return mixed|Application
+     * @return mixed (as $abstract is null ? Application : mixed)
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
@@ -92,7 +92,7 @@ if (! function_exists('asset')) {
 if (! function_exists('config')) {
     /**
      * @param  string  $key
-     * @param  null  $default
+     * @param  mixed  $default
      * @return mixed|null
      */
     function config($key, $default = null)
@@ -141,10 +141,10 @@ if (! function_exists('view')) {
     /**
      * @param string|null $name
      * @param array<string, mixed> $args
-     * @return \Illuminate\Contracts\View\View|\Illuminate\View\Factory
+     * @return mixed (as $name is null ? \Illuminate\View\Factory : \Illuminate\Contracts\View\View)
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    function view(string $name = null, array $args = []): \Illuminate\Contracts\View\View|\Illuminate\View\Factory
+    function view(string $name = null, array $args = [])
     {
         $blade = \Boil\Application::getInstance()->make('view');
 

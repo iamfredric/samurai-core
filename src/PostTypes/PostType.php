@@ -177,6 +177,10 @@ class PostType
         return in_array('thumbnail', $this->supports);
     }
 
+    /**
+     * @return array<string, mixed>
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
     public function toArray(): array
     {
         return [

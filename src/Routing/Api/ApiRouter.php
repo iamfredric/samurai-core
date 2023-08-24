@@ -22,16 +22,31 @@ class ApiRouter
     ) {
     }
 
+    /**
+     * @param string $uri
+     * @param string|string[]|\Closure $endpoint
+     * @return ApiRoute
+     */
     public function get(string $uri, string|array|\Closure $endpoint): ApiRoute
     {
         return $this->routes[] = new ApiRoute('get', $uri, $endpoint, $this->namespace);
     }
 
+    /**
+     * @param string $uri
+     * @param string|string[]|\Closure $endpoint
+     * @return ApiRoute
+     */
     public function post(string $uri, string|array|\Closure $endpoint): ApiRoute
     {
         return $this->routes[] = new ApiRoute('post', $uri, $endpoint, $this->namespace);
     }
 
+    /**
+     * @param string $uri
+     * @param string|string[]|\Closure $endpoint
+     * @return ApiRoute
+     */
     public function delete(string $uri, string|array|\Closure $endpoint): ApiRoute
     {
         return $this->routes[] = new ApiRoute('delete', $uri, $endpoint, $this->namespace);

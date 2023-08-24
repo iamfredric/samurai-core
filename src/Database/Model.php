@@ -237,8 +237,10 @@ class Model implements Arrayable, Jsonable, ArrayAccess
 
             return new $this->casts[$key]($value);
         } elseif (isset($this->casts["{$key}.*"])) {
+            /** @var class-string $castable */
+            $castable = $this->casts["{$key}.*"];
             return (new Collection($value))
-                ->mapInto($this->casts["{$key}.*"]);
+                ->mapInto($castable);
         }
 
         foreach (array_keys($this->casts) as $k) {

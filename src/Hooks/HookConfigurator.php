@@ -13,6 +13,13 @@ class HookConfigurator
     ) {
     }
 
+    /**
+     * @param string $name
+     * @param callable|string|string[] $callable
+     * @param int $priority
+     * @param int $acceptedArgs
+     * @return void
+     */
     public function action(string $name, callable|string|array $callable, int $priority = 10, int $acceptedArgs = 1): void
     {
         WpHelper::add_action(
@@ -22,6 +29,13 @@ class HookConfigurator
         );
     }
 
+    /**
+     * @param string $name
+     * @param callable|string|string[] $callable
+     * @param int $priority
+     * @param int $acceptedArgs
+     * @return void
+     */
     public function filter(string $name, callable|string|array $callable, int $priority = 10, int $acceptedArgs = 1): void
     {
         WpHelper::add_filter(
@@ -38,6 +52,12 @@ class HookConfigurator
         $config->include();
     }
 
+    /**
+     * @param callable|string[]|string $callable
+     * @param mixed[] $args
+     * @return mixed
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
     protected function resolveCallable(callable|array|string $callable, array $args = [])
     {
         if (is_callable($callable)) {

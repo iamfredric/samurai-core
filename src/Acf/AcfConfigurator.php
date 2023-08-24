@@ -9,6 +9,11 @@ use Illuminate\Support\Collection;
 
 class AcfConfigurator
 {
+    /**
+     * @param ConfigPath $configPath
+     * @param string[] $groups
+     * @param string[]|AcfConfiguratorOptionsPage[] $optionsPages
+     */
     public function __construct(
         protected ConfigPath $configPath,
         protected array $groups = [],
@@ -76,6 +81,7 @@ class AcfConfigurator
         return $this;
     }
 
+    /** @param string[] $groups */
     public function addGroups(array $groups): static
     {
         $this->groups = array_merge($this->groups, $groups);

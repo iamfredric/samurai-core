@@ -4,11 +4,13 @@ namespace Boil\Acf;
 
 abstract class Group
 {
+    /** @return array<string, mixed> */
     public function toArray(): array
     {
         return $this->config();
     }
 
+    /** @return array<string, mixed> */
     public function config(): array
     {
         return [
@@ -25,8 +27,10 @@ abstract class Group
 
     abstract public function key(): string;
 
+    /** @return string[] */
     abstract public function fields(): array;
 
+    /** @return array<string, mixed>[] */
     abstract public function location(): array;
 
     public function style(): string

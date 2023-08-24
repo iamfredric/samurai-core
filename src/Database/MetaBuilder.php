@@ -9,11 +9,12 @@ class MetaBuilder
      */
     protected array $groups = [];
 
+    /** @var array<string, mixed> */
     protected array $arguments = [];
 
     protected string $relation = 'AND';
 
-    public function where($key, $compare = null, $value = null): MetaBuilder
+    public function where(string $key, mixed $compare = null, mixed $value = null): MetaBuilder
     {
         if (is_callable($key)) {
             return $this->buildGroup($key);
@@ -22,7 +23,7 @@ class MetaBuilder
         return $this->setArgument($key, $compare, $value);
     }
 
-    public function whereNotNull($key): MetaBuilder
+    public function whereNotNull(string $key): MetaBuilder
     {
         $this->arguments[] = [
             'key' => $key,
@@ -33,13 +34,16 @@ class MetaBuilder
         return $this;
     }
 
-    public function orWhere(...$args): MetaBuilder
+    public function orWhere(mixed ...$args): MetaBuilder
     {
         $this->relation = 'OR';
 
         return $this->where(...$args);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         $arguments = $this->arguments;

@@ -35,6 +35,7 @@ class Kernel implements KernelContract
         }
     }
 
+    /** @return class-string[] */
     protected function bootstrappers(): array
     {
         return $this->bootstrappers;
