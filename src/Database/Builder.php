@@ -31,7 +31,7 @@ class Builder
      * @var array
      */
     protected $arguments = [
-        'suppress_filters' => false
+        'suppress_filters' => false,
     ];
 
     /**
@@ -49,7 +49,7 @@ class Builder
     /**
      * Builder constructor.
      *
-     * @param \Platon\Database\Model|null $model
+     * @param  \Platon\Database\Model|null  $model
      */
     public function __construct(Model $model = null)
     {
@@ -77,9 +77,8 @@ class Builder
     }
 
     /**
-     * @param int $id
-     * @param \Platon\Database\Model|null $model
-     *
+     * @param  int  $id
+     * @param  \Platon\Database\Model|null  $model
      * @return mixed
      */
     public static function find($id, $model = null)
@@ -110,8 +109,7 @@ class Builder
     }
 
     /**
-     * @param int|null $limit
-     *
+     * @param  int|null  $limit
      * @return \Platon\Database\Paginaton
      */
     public function paginate($limit = null)
@@ -130,8 +128,7 @@ class Builder
     }
 
     /**
-     * @param mixed $post
-     *
+     * @param  mixed  $post
      * @return mixed
      */
     protected function buildItem($post)
@@ -148,8 +145,7 @@ class Builder
     /**
      * Fetches all items from database
      *
-     * @param mixed $model
-     *
+     * @param  mixed  $model
      * @return mixed
      */
     public static function all($model = null)
@@ -180,9 +176,8 @@ class Builder
     /**
      * Setter for argument
      *
-     * @param string $key
-     * @param mixed $value
-     *
+     * @param  string  $key
+     * @param  mixed  $value
      * @return void
      */
     public function setArgument($key, $value)
@@ -209,10 +204,9 @@ class Builder
     }
 
     /**
-     * @param string|callable $key
-     * @param string|null $compare
-     * @param string|null $value
-     *
+     * @param  string|callable  $key
+     * @param  string|null  $compare
+     * @param  string|null  $value
      * @return void
      */
     protected function scopeWhereMeta($key, $compare = null, $value = null)
@@ -234,9 +228,9 @@ class Builder
     }
 
     /**
-     * @param string $taxonomy
-     * @param array<string|int>|string $terms
-     * @param string $field
+     * @param  string  $taxonomy
+     * @param  array<string|int>|string  $terms
+     * @param  string  $field
      */
     protected function scopeWhereTaxonomyIn($taxonomy, $terms, $field = 'term_id')
     {
@@ -244,9 +238,7 @@ class Builder
     }
 
     /**
-     * @param mixed $value
-     * @param callable $callback
-     *
+     * @param  mixed  $value
      * @return void
      */
     protected function scopeWhen($value, callable $callback)
@@ -257,9 +249,7 @@ class Builder
     }
 
     /**
-     * @param $orderBy
-     * @param string $direction
-     *
+     * @param  string  $direction
      * @return void
      */
     protected function scopeOrderBy($orderBy, $direction = 'asc')
@@ -277,8 +267,6 @@ class Builder
     }
 
     /**
-     * @param $limit
-     *
      * @return void
      */
     protected function scopeLimit($limit)
@@ -287,8 +275,7 @@ class Builder
     }
 
     /**
-     * @param string $orderBy
-     *
+     * @param  string  $orderBy
      * @return void
      */
     protected function scopeLatest($orderBy = 'date')
@@ -297,8 +284,7 @@ class Builder
     }
 
     /**
-     * @param string $orderBy
-     *
+     * @param  string  $orderBy
      * @return void
      */
     protected function scopeOldest($orderBy = 'date')
@@ -309,9 +295,8 @@ class Builder
     /**
      * Resolves what magic method is called
      *
-     * @param string $method
-     * @param mixed $args
-     *
+     * @param  string  $method
+     * @param  mixed  $args
      * @return Builder
      */
     protected function resolveMethodCall($method, $args)
@@ -320,11 +305,11 @@ class Builder
             static::$macros[$method]($this);
 
             return $this;
-        } elseif (method_exists($this, $name = 'scope'. ucfirst($method))) {
+        } elseif (method_exists($this, $name = 'scope'.ucfirst($method))) {
             $this->{$name}(...$args);
 
             return $this;
-        }  elseif ($this->model instanceOf Model && method_exists($this->model, 'scope' . ucfirst($method))) {
+        } elseif ($this->model instanceof Model && method_exists($this->model, 'scope'.ucfirst($method))) {
             $this->model->{$name}($this, ...$args);
 
             return $this;
@@ -334,9 +319,8 @@ class Builder
     }
 
     /**
-     * @param string $method
-     * @param mixed $args
-     *
+     * @param  string  $method
+     * @param  mixed  $args
      * @return Builder
      */
     public function __call($method, $args)
@@ -345,9 +329,8 @@ class Builder
     }
 
     /**
-     * @param string $method
-     * @param mixed $args
-     *
+     * @param  string  $method
+     * @param  mixed  $args
      * @return Builder
      */
     public static function __callStatic($method, $args)

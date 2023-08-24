@@ -36,8 +36,6 @@ class AttributeGetters
     }
 
     /**
-     * @param $key
-     *
      * @return string
      */
     protected function translateKeyToMethodName($key)

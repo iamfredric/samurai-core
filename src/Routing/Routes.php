@@ -60,10 +60,10 @@ class Routes
         return false;
     }
 
-//    public function getCurrentRoute()
-//    {
-//        return 'A current route has emerged!';
-//    }
+    //    public function getCurrentRoute()
+    //    {
+    //        return 'A current route has emerged!';
+    //    }
 
     public function resolve(string $route)
     {

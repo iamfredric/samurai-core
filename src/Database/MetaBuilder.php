@@ -27,7 +27,7 @@ class MetaBuilder
         $this->arguments[] = [
             'key' => $key,
             'compare' => '!=',
-            'value' => ''
+            'value' => '',
         ];
 
         return $this;
@@ -64,12 +64,12 @@ class MetaBuilder
         return $this;
     }
 
-    public function setArgument(string $key, ?string $compare, ?string $value = null): MetaBuilder
+    public function setArgument(string $key, ?string $compare, string $value = null): MetaBuilder
     {
         $this->arguments[] = [
             'key' => $key,
             'compare' => is_null($value) ? '=' : $compare,
-            'value' => is_null($value) ? $compare : $value
+            'value' => is_null($value) ? $compare : $value,
         ];
 
         return $this;

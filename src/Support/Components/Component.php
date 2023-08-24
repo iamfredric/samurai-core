@@ -2,16 +2,16 @@
 
 namespace Boil\Support\Components;
 
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
 use Boil\Support\Transformers\AttributeGetters;
 use Boil\Support\Transformers\AttributesWhenNull;
 use Boil\Support\Transformers\AutoCaster;
 use Boil\Support\Transformers\Caster;
 use Boil\Support\Transformers\MapKeysToCamel;
 use Boil\Support\Transformers\Transformations;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -44,8 +44,8 @@ class Component implements Arrayable, Jsonable
     /**
      * Component constructor.
      *
-     * @param array $data
-     * @param string|null $prefix
+     * @param  array  $data
+     * @param  string|null  $prefix
      */
     public function __construct($data, $prefix = null)
     {

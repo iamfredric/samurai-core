@@ -4,14 +4,13 @@ namespace Tests\Unit\Support\Components\ComponentsTest;
 
 use Boil\Support\Components\Component;
 use Boil\Support\Components\Components;
-use Illuminate\Support\Collection;
 
 it('determines if components exists')
     ->expect(new Components([]))->exists()->toBeFalse();
 
 it('retrieves all components', function () {
     $components = new Components([[
-        'acf_fc_layout' => 'test-component'
+        'acf_fc_layout' => 'test-component',
     ]]);
 
     expect($components->exists())->toBeTrue();

@@ -13,8 +13,6 @@ class MapKeysToCamel
 
     /**
      * MapKeysToCamel constructor.
-     *
-     * @param $attributes
      */
     public function __construct($attributes)
     {

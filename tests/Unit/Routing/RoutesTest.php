@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Routing\RoutesTest;
 
-use Boil\Routing\Router;
 use Boil\Routing\Routes;
 use Illuminate\Http\Response;
 

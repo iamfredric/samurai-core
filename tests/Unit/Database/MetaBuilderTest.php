@@ -45,6 +45,6 @@ it('builds meta queries', function () {
                 'compare' => '!=',
                 'value' => '',
             ],
-            'relation' => 'AND'
+            'relation' => 'AND',
         ]);
 });

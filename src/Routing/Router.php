@@ -48,7 +48,7 @@ class Router
             'taxonomy_template',
         ];
 
-        add_filter('theme_page_templates', function($templates) {
+        add_filter('theme_page_templates', function ($templates) {
             foreach ($this->app['router']->getTemplates() as $name => $template) {
                 $templates[$name] = $template->name;
             }
@@ -59,11 +59,11 @@ class Router
         foreach ($templateHooks as $hook) {
             add_filter($hook, function ($template, $type, $templates) {
                 foreach ($templates as $t) {
-//                    dd($key = get_post_meta(get_the_ID(), '_wp_page_template', true));
-//                    if ($template != 'search' && $this->routeIsDefined($key = get_post_meta(get_the_ID(), '_wp_page_template', true))) {
-//                        return $this->routeResponse($this->templates[$key]);
-//                    }
-                    if  ($x = $this->app['router']->isRegistered($t)) {
+                    //                    dd($key = get_post_meta(get_the_ID(), '_wp_page_template', true));
+                    //                    if ($template != 'search' && $this->routeIsDefined($key = get_post_meta(get_the_ID(), '_wp_page_template', true))) {
+                    //                        return $this->routeResponse($this->templates[$key]);
+                    //                    }
+                    if ($x = $this->app['router']->isRegistered($t)) {
                         $this->currentRoute = $x;
 
                         return $t;

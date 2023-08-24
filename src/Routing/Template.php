@@ -18,7 +18,7 @@ class Template
     ) {
         $this->endpoint = is_callable($endpoint) ? Closure::fromCallable($endpoint) : $endpoint;
         if ($view) {
-            $this->endpoint = (fn() => view($view));
+            $this->endpoint = (fn () => view($view));
         }
     }
 
@@ -37,7 +37,7 @@ class Template
     {
         if (is_callable($this->endpoint)) {
             $response = $app->call($this->endpoint);
-        } else if (is_string($this->endpoint)) {
+        } elseif (is_string($this->endpoint)) {
             if (str_contains('@')) {
                 [$callable, $method] = explode('@', $this->endpoint);
             } else {
@@ -48,7 +48,6 @@ class Template
         } else {
             $response = $app->call([$app->make($this->endpoint[0]), $this->endpoint[1]]);
         }
-
 
         if (! $response instanceof \Illuminate\Http\Response) {
             $response = new Response($response, 200);

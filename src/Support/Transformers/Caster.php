@@ -17,8 +17,8 @@ class Caster
     /**
      * Caster constructor.
      *
-     * @param array $values
-     * @param array $casts
+     * @param  array  $values
+     * @param  array  $casts
      */
     public function __construct($values, $casts)
     {
@@ -42,10 +42,6 @@ class Caster
     }
 
     /**
-     * @param $key
-     * @param $keys
-     * @param $cast
-     *
      * @return array|array[]|mixed|object|object[]
      */
     protected function transformItem($key, $keys, $cast)
@@ -57,6 +53,7 @@ class Caster
             while ($index = array_shift($keys)) {
                 if ($index === '*' && count($keys) > 0) {
                     $multiple = true;
+
                     continue;
                 }
 
@@ -78,11 +75,6 @@ class Caster
     }
 
     /**
-     * @param $value
-     * @param $key
-     * @param $keys
-     * @param $cast
-     *
      * @return array|array[]|mixed|object|object[]
      */
     protected function cast($value, $key, $keys, $cast, $multiple = false)
@@ -93,10 +85,11 @@ class Caster
             }, $value ?: []);
         } elseif ($key === '*' && count($keys) > 0) {
             $key = array_shift($keys);
+
             return array_map(function ($value) use ($cast, $key, $keys) {
                 return $this->cast($value, $key, $keys, $cast, true);
             }, $value);
-        };
+        }
 
         return (new Casts($value, $cast))->transform();
     }

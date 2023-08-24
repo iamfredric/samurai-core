@@ -5,22 +5,22 @@ namespace Tests\Unit\PostTypes\PostTypeTest;
 use Boil\PostTypes\PostType;
 
 it('can be a post type', function () {
-   $postType = new PostType('test-post-type');
+    $postType = new PostType('test-post-type');
 
-   $postType->supports('title', 'editor', 'thumbnail')
-       ->singular('Me singular name')
-       ->plural('Me plural name')
-       ->isPrivate()
-       ->position(123)
-       ->icon('dashicons-admin-post')
-       ->isExportable()
-       ->deleteWithUser()
-       ->hierarchical()
-       ->capability('edit_posts')
-       ->hasArchives()
-       ->hasIndexPage()
-       ->slug('test-post-type')
-       ->useGutenberg();
+    $postType->supports('title', 'editor', 'thumbnail')
+        ->singular('Me singular name')
+        ->plural('Me plural name')
+        ->isPrivate()
+        ->position(123)
+        ->icon('dashicons-admin-post')
+        ->isExportable()
+        ->deleteWithUser()
+        ->hierarchical()
+        ->capability('edit_posts')
+        ->hasArchives()
+        ->hasIndexPage()
+        ->slug('test-post-type')
+        ->useGutenberg();
 
     expect($postType->isMediaSupported())->toBeTrue();
 
@@ -44,7 +44,7 @@ it('can be a post type', function () {
             'thumbnail',
         ],
         'rewrite' => [
-            'slug' => 'test-post-type'
+            'slug' => 'test-post-type',
         ],
         'labels' => [
             'name' => 'Me plural name',
@@ -63,6 +63,6 @@ it('can be a post type', function () {
             'parent_item' => 'Parent me singular name',
             'parent_item_colon' => 'Parent: me singular name',
             'archive_title' => 'Archive: Me plural name',
-        ]
+        ],
     ]);
 });

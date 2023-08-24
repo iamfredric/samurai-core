@@ -37,6 +37,7 @@ use ReflectionClass;
  * @property string $guid
  * @property int $comment_count
  * @property string $filter
+ *
  * @method static \Boil\Database\Builder where($key, $value)
  * @method static \Boil\Database\Builder whereMeta($key, $compare, $value = null)
  * @method static \Boil\Database\Builder whereTaxonomyIn($taxonomy, $terms, $field = 'term_id')
@@ -61,7 +62,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
      * @var array
      */
     protected $dates = [
-        'date', 'modified'
+        'date', 'modified',
     ];
 
     /**
@@ -84,7 +85,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Excerpt length in characters
      *
-     * @var integer
+     * @var int
      */
     protected $excerptLength = 120;
 
@@ -98,7 +99,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Model constructor.
      *
-     * @param \WP_Post|null $post
+     * @param  \WP_Post|null  $post
      */
     public function __construct($post = null)
     {
@@ -110,8 +111,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Create a new instance
      *
-     * @param  \WP_Post $post
-     *
+     * @param  \WP_Post  $post
      * @return static
      */
     public static function make($post)
@@ -132,8 +132,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Create a new instance with given post id
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Boil\Database\Model
      */
     public static function find($id)
@@ -144,8 +143,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Paginated results
      *
-     * @param int $limit
-     *
+     * @param  int  $limit
      * @return \Boil\Database\Paginaton
      */
     public static function paginate($limit = null)
@@ -164,7 +162,6 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Creates a new post in database
      *
-     * @param  array  $params
      *
      * @return \Boil\Database\Model
      */
@@ -182,7 +179,6 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Updates given post in database
      *
-     * @param array $args
      *
      * @return \Boil\Database\Model
      */
@@ -216,8 +212,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Getter for attributes
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return mixed
      */
     public function get($key)
@@ -272,8 +267,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
      * Excerpt attribute getter
      * The length is set by the excerptLength param
      *
-     * @param string $excerpt
-     *
+     * @param  string  $excerpt
      * @return string
      */
     public function getExcerptAttribute($excerpt)
@@ -283,9 +277,8 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     }
 
     /**
-     * @param string $key
-     * @param null $value
-     *
+     * @param  string  $key
+     * @param  null  $value
      * @return mixed
      */
     protected function getAttribute($key, $value = null)
@@ -300,8 +293,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Url attribute getter
      *
-     * @param string|null $url
-     *
+     * @param  string|null  $url
      * @return string
      */
     public function getUrlAttribute($url = null)
@@ -312,8 +304,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Translates key name to attribute getter name
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return string
      */
     protected function getAttributeMethodName($key)
@@ -342,9 +333,8 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Casts defined key values to carbon instances
      *
-     * @param string $key
-     * @param string $value
-     *
+     * @param  string  $key
+     * @param  string  $value
      * @return Carbon|string
      */
     protected function castToDates($key, $value)
@@ -357,15 +347,15 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     }
 
     /**
-     * @param string $key
-     * @param mixed $value
-     *
+     * @param  string  $key
+     * @param  mixed  $value
      * @return mixed
      */
     protected function cast($key, $value)
     {
         if (isset($this->casts[$key])) {
             $this->hasCasted[] = $key;
+
             return new $this->casts[$key]($value);
         } elseif (isset($this->casts["{$key}.*"])) {
             return (new Collection($value))
@@ -384,8 +374,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Setter for attributes
      *
-     * @param mixed $attributes
-     *
+     * @param  mixed  $attributes
      * @return void
      */
     public function setAttributes($attributes)
@@ -395,7 +384,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         foreach ($attributes as $key => $value) {
             $key = $this->translateAttributeKey($key);
 
-            if (preg_match("/_gmt/", $key)) {
+            if (preg_match('/_gmt/', $key)) {
                 continue;
             }
 
@@ -408,8 +397,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Checks if given attribute key should be hidden
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return bool
      */
     protected function attributeShouldBeHidden($key)
@@ -424,8 +412,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Translates attribute keys from Wordpress to Modest
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return string
      */
     protected function translateAttributeKey($key)
@@ -436,8 +423,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Translates attribute keys from Modest to Wordpress
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return string
      */
     public function translateAttributeKeyToWordpress($key)
@@ -481,12 +467,12 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         }
 
         ksort($items);
+
         return $items;
     }
 
     /**
-     * @param int $options
-     *
+     * @param  int  $options
      * @return string
      */
     public function toJson($options = 0)
@@ -496,10 +482,6 @@ class Model implements Arrayable, Jsonable, ArrayAccess
 
     /**
      * Determines whether an offset exists
-     *
-     * @param mixed $offset
-     *
-     * @return bool
      */
     public function offsetExists(mixed $offset): bool
     {
@@ -509,7 +491,6 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     /**
      * Sets offset to retrieve
      *
-     * @param mixed $offset
      *
      * @return mixed|null|Model
      */
@@ -520,11 +501,6 @@ class Model implements Arrayable, Jsonable, ArrayAccess
 
     /**
      * Offset to set
-     *
-     * @param mixed $offset
-     * @param mixed $value
-     *
-     * @return void
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
@@ -533,8 +509,6 @@ class Model implements Arrayable, Jsonable, ArrayAccess
 
     /**
      * Offset to unset
-     *
-     * @param mixed $offset
      */
     public function offsetUnset(mixed $offset): void
     {
@@ -552,9 +526,8 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     }
 
     /**
-     * @param string $method
-     * @param mixed $value
-     *
+     * @param  string  $method
+     * @param  mixed  $value
      * @return mixed
      */
     public function __set($method, $value)
@@ -563,8 +536,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     }
 
     /**
-     * @param string $variable
-     *
+     * @param  string  $variable
      * @return mixed
      */
     public function __get($variable)
@@ -576,18 +548,14 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return $this->get($variable);
     }
 
-    /**
-     * @return Builder
-     */
     public static function query(): Builder
     {
-        return (new Builder(new static()));
+        return new Builder(new static());
     }
 
     /**
-     * @param string $method
-     * @param mixed $args
-     *
+     * @param  string  $method
+     * @param  mixed  $args
      * @return \Boil\Database\Builder
      */
     public static function __callStatic($method, $args)

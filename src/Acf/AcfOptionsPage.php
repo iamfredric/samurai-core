@@ -5,6 +5,7 @@ namespace Boil\Acf;
 abstract class AcfOptionsPage
 {
     abstract public function id(): string;
+
     abstract public function title(): string;
 
     public function menuTitle(): ?string

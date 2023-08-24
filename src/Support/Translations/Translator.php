@@ -88,7 +88,7 @@ class Translator
 
     protected function normalizeLocale(string $locale): string
     {
-        [$locale] = preg_split("/-|_/", $locale);
+        [$locale] = preg_split('/-|_/', $locale);
 
         return $locale;
     }

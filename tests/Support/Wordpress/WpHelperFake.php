@@ -12,7 +12,7 @@ class WpHelperFake
     {
     }
 
-    public function assertCalled($function, ?callable $callable = null)
+    public function assertCalled($function, callable $callable = null)
     {
         Assert::assertTrue(isset($this->called[$function]));
 
@@ -23,7 +23,7 @@ class WpHelperFake
 
                 if ($callable(...$call['args'])) {
                     $result = true;
-                };
+                }
             }
 
             Assert::assertTrue($result, 'The callable did not return true for any of the calls');

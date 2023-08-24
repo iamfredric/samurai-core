@@ -3,10 +3,9 @@
 namespace Tests\Unit\PostTypes\TaxonomyTest;
 
 use Boil\PostTypes\Taxonomy;
-use Boil\Support\Wordpress\WpHelper;
 
 it('can be a taxonomy', function () {
-   $taxonomy = new Taxonomy('test-taxonomy');
+    $taxonomy = new Taxonomy('test-taxonomy');
 
     $taxonomy->plural('Test taxonomies')
         ->singular('Test taxonomy')
@@ -49,7 +48,7 @@ it('can be a taxonomy', function () {
         'show_tagcloud' => true,
         'show_in_rest' => true,
         'rewrite' => [
-            'slug' => 'test-slug'
+            'slug' => 'test-slug',
         ],
     ]);
 });

@@ -22,7 +22,7 @@ class MenuConfigurator
         return WpHelper::wp_nav_menu(array_merge([
             'theme_location' => $slug,
             'container' => null,
-            'items_wrap' => '%3$s'
+            'items_wrap' => '%3$s',
         ], $args));
     }
 

@@ -14,10 +14,10 @@ it('transforms an array to an image if it has the correct keys', function () {
     expect($transformer->transform())->toBeInstanceOf(\Boil\Support\Wordpress\Image::class);
 
     $transformer = new TransformToImage([
-        'hello' => 'mate'
+        'hello' => 'mate',
     ]);
 
     expect($transformer->transform())->toBe([
-        'hello' => 'mate'
+        'hello' => 'mate',
     ]);
 });

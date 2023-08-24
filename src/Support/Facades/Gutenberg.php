@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static GutenbergConfigurator block(string $className)
+ *
  * @see \Boil\Acf\Gutenberg\GutenbergConfigurator
  */
 class Gutenberg extends Facade

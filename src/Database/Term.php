@@ -15,7 +15,7 @@ class Term
     protected array $dates = [];
 
     /**
-     * @param \WP_Term $attributes
+     * @param  \WP_Term  $attributes
      */
     public function __construct($attributes = null)
     {
@@ -28,7 +28,7 @@ class Term
 
         return (new Collection(
             WpHelper::get_terms(array_merge($args, [
-                'taxonomy' => $instance->type()
+                'taxonomy' => $instance->type(),
             ]))
         ))->mapInto(static::class);
     }
@@ -97,7 +97,7 @@ class Term
     {
         return [
             'id' => 'term_id',
-            'title' => 'name'
+            'title' => 'name',
         ][$key] ?? $key;
     }
 

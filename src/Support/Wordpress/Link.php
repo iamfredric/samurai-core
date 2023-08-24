@@ -11,8 +11,6 @@ class Link
 
     /**
      * Link constructor.
-     *
-     * @param array $attributes
      */
     public function __construct(array $attributes)
     {
@@ -28,8 +26,7 @@ class Link
     }
 
     /**
-     * @param string $class
-     *
+     * @param  string  $class
      * @return string
      */
     public function render($class = '')
@@ -54,18 +51,19 @@ class Link
         $parsedAttributes = [];
 
         foreach ($attributes as $key => $value) {
-            $parsedAttributes[] = $key . '="' . $value . '"';
+            $parsedAttributes[] = $key.'="'.$value.'"';
         }
 
         $parsedAttributes = implode(' ', $parsedAttributes);
+
         return "<a {$parsedAttributes}>{$this->get('title')}</a>";
-        return '<a href="' . $this->get('url') . '" class="' . $class . '">' . $this->get('title') . '</a>';
+
+        return '<a href="'.$this->get('url').'" class="'.$class.'">'.$this->get('title').'</a>';
     }
 
     /**
-     * @param string $key
-     * @param mixed $default
-     *
+     * @param  string  $key
+     * @param  mixed  $default
      * @return mixed
      */
     public function get($key, $default = null)
@@ -74,8 +72,7 @@ class Link
     }
 
     /**
-     * @param string $key
-     *
+     * @param  string  $key
      * @return bool
      */
     public function has($key)

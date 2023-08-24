@@ -2,8 +2,6 @@
 
 namespace Boil\PostTypes;
 
-use Boil\Support\Wordpress\WpHelper;
-
 class PostType
 {
     public function __construct(
@@ -35,7 +33,7 @@ class PostType
             'custom-fields',
             'revisions',
             'page-attributes',
-            'post-formats'
+            'post-formats',
         ],
         public array $taxonomies = [],
     ) {
@@ -48,7 +46,7 @@ class PostType
         return $this;
     }
 
-    public function supports(string...$supports): static
+    public function supports(string ...$supports): static
     {
         $this->supports = $supports;
 
@@ -176,7 +174,7 @@ class PostType
             'show_in_rest' => $this->showInRest,
             'supports' => $this->supports,
             'rewrite' => [
-                'slug' => $this->slug ?? $this->id
+                'slug' => $this->slug ?? $this->id,
             ],
 
             'labels' => [

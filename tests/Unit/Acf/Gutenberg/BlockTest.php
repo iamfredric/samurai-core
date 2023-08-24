@@ -86,8 +86,8 @@ class ExampleBlock extends Block
         'field' => 'value',
         'other_field' => 'other_value',
         'nested' => [
-            'things' => 'stuff'
-        ]
+            'things' => 'stuff',
+        ],
     ];
 
     public function title(): string

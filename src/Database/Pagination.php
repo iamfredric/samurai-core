@@ -20,8 +20,8 @@ class Pagination implements IteratorAggregate
     /**
      * Paginaton constructor.
      *
-     * @param array $items
-     * @param \WP_Query $query
+     * @param  array  $items
+     * @param  \WP_Query  $query
      */
     public function __construct($items, $query)
     {
@@ -30,21 +30,19 @@ class Pagination implements IteratorAggregate
     }
 
     /**
-     * @param array $args
-     *
+     * @param  array  $args
      * @return mixed
      */
     public function paginate($args = [])
     {
         return paginate_links(array_merge([
-            'total'              => $this->query->max_num_pages,
-            'current'            => get_query_var('paged') ?: 1
+            'total' => $this->query->max_num_pages,
+            'current' => get_query_var('paged') ?: 1,
         ], $args));
     }
 
     /**
-     * @param string $label
-     *
+     * @param  string  $label
      * @return mixed
      */
     public function prev($label = 'Next')
@@ -60,8 +58,7 @@ class Pagination implements IteratorAggregate
     }
 
     /**
-     * @param string $label
-     *
+     * @param  string  $label
      * @return mixed
      */
     public function next($label = 'Next')
@@ -111,8 +108,7 @@ class Pagination implements IteratorAggregate
     /**
      * Determines whether a offset exists
      *
-     * @param mixed $offset
-     *
+     * @param  mixed  $offset
      * @return bool
      */
     public function offsetExists($offset)
@@ -123,8 +119,7 @@ class Pagination implements IteratorAggregate
     /**
      * Sets offset to retrieve
      *
-     * @param mixed $offset
-     *
+     * @param  mixed  $offset
      * @return mixed|null|Model
      */
     public function offsetGet($offset)
@@ -135,9 +130,8 @@ class Pagination implements IteratorAggregate
     /**
      * Offset to set
      *
-     * @param mixed $offset
-     * @param mixed $value
-     *
+     * @param  mixed  $offset
+     * @param  mixed  $value
      * @return void
      */
     public function offsetSet($offset, $value)
@@ -148,8 +142,7 @@ class Pagination implements IteratorAggregate
     /**
      * Offset to unset
      *
-     * @param mixed $offset
-     *
+     * @param  mixed  $offset
      * @return void
      */
     public function offsetUnset($offset)
@@ -157,9 +150,6 @@ class Pagination implements IteratorAggregate
         unset($this->items[$offset]);
     }
 
-    /**
-     * @return ArrayIterator
-     */
     public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->items);

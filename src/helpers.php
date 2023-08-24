@@ -3,7 +3,7 @@
 if (! function_exists('start_app')) {
     function start_app(string $dir): void
     {
-        if  (! defined('APP_START')) {
+        if (! defined('APP_START')) {
             define('APP_START', microtime(true));
         }
 
@@ -27,7 +27,8 @@ if (! function_exists('start_app')) {
 }
 
 if (! function_exists('app')) {
-    function app(?string $abstract = null) {
+    function app(string $abstract = null)
+    {
         if ($abstract) {
             return \Boil\Application::getInstance()->make($abstract);
         }
@@ -47,8 +48,7 @@ if (! function_exists('theme_url')) {
     /**
      * Basic helper for getting the theme url
      *
-     * @param string $url optional
-     *
+     * @param  string  $url optional
      * @return string
      */
     function theme_url($url = '')
@@ -61,8 +61,7 @@ if (! function_exists('theme_url')) {
 
 if (! function_exists('asset')) {
     /**
-     * @param string $file
-     *
+     * @param  string  $file
      * @return string
      */
     function asset($file)
@@ -78,9 +77,8 @@ if (! function_exists('asset')) {
 
 if (! function_exists('config')) {
     /**
-     * @param string $key
-     * @param null $default
-     *
+     * @param  string  $key
+     * @param  null  $default
      * @return mixed|null
      */
     function config($key, $default = null)
@@ -93,14 +91,13 @@ if (! function_exists('config')) {
 
 if (! function_exists('theme_path')) {
     /**
-     * @param string $path
-     *
+     * @param  string  $path
      * @return string
      */
     function theme_path($path = '')
     {
         if (function_exists('get_stylesheet_directory')) {
-            return rtrim(get_stylesheet_directory(), '/') . '/' . trim($path, '/');
+            return rtrim(get_stylesheet_directory(), '/').'/'.trim($path, '/');
         }
 
         return $path;
@@ -111,8 +108,7 @@ if (! function_exists('uploads_path')) {
     /**
      * Basic helper for getting absoulte uploads path
      *
-     * @param string $path
-     *
+     * @param  string  $path
      * @return string
      */
     function uploads_path($path = '')
@@ -120,7 +116,7 @@ if (! function_exists('uploads_path')) {
         if (function_exists('wp_upload_dir')) {
             $directory = wp_upload_dir();
 
-            return rtrim($directory['basedir'], '/') . '/' . trim($path, '/');
+            return rtrim($directory['basedir'], '/').'/'.trim($path, '/');
         }
 
         return $path;
@@ -128,7 +124,8 @@ if (! function_exists('uploads_path')) {
 }
 
 if (! function_exists('view')) {
-    function view($name = null, $args = []) {
+    function view($name = null, $args = [])
+    {
         $blade = \Boil\Application::getInstance()->make('view');
 
         if ($name) {
@@ -140,8 +137,7 @@ if (! function_exists('view')) {
 }
 if (! function_exists('mix')) {
     /**
-     * @param string $originalFilename
-     *
+     * @param  string  $originalFilename
      * @return string
      */
     function mix($originalFilename)
@@ -156,7 +152,6 @@ if (! function_exists('mix')) {
 
         $manifest = json_decode(file_get_contents($manifestFile));
 
-
         return isset($manifest->{$filename})
             ? assets($manifest->{$filename})
             : assets($originalFilename);
@@ -165,8 +160,7 @@ if (! function_exists('mix')) {
 
 if (! function_exists('assets')) {
     /**
-     * @param string $file
-     *
+     * @param  string  $file
      * @return string
      */
     function assets($file)
@@ -184,8 +178,7 @@ if (! function_exists('theme_url')) {
     /**
      * Basic helper for getting the theme url
      *
-     * @param string $url optional
-     *
+     * @param  string  $url optional
      * @return string
      */
     function theme_url($url = '')
@@ -203,103 +196,104 @@ if (! function_exists('translate')) {
     }
 }
 
-function acf_get_attachment( $attachment ) {
+function acf_get_attachment($attachment)
+{
 
     // Allow filter to short-circuit load attachment logic.
     // Alternatively, this filter may be used to switch blogs for multisite media functionality.
-    $response = apply_filters( 'acf/pre_load_attachment', null, $attachment );
-    if ( $response !== null ) {
+    $response = apply_filters('acf/pre_load_attachment', null, $attachment);
+    if ($response !== null) {
         return $response;
     }
 
     // Get the attachment post object.
-    $attachment = get_post( $attachment );
-    if ( ! $attachment ) {
+    $attachment = get_post($attachment);
+    if (! $attachment) {
         return false;
     }
-    if ( $attachment->post_type !== 'attachment' ) {
+    if ($attachment->post_type !== 'attachment') {
         return false;
     }
 
     // Load various attachment details.
-    $meta          = wp_get_attachment_metadata( $attachment->ID );
-    $attached_file = get_attached_file( $attachment->ID );
-    if ( strpos( $attachment->post_mime_type, '/' ) !== false ) {
-        list( $type, $subtype ) = explode( '/', $attachment->post_mime_type );
+    $meta = wp_get_attachment_metadata($attachment->ID);
+    $attached_file = get_attached_file($attachment->ID);
+    if (strpos($attachment->post_mime_type, '/') !== false) {
+        [$type, $subtype] = explode('/', $attachment->post_mime_type);
     } else {
-        list( $type, $subtype ) = array( $attachment->post_mime_type, '' );
+        [$type, $subtype] = [$attachment->post_mime_type, ''];
     }
 
     // Generate response.
-    $response = array(
-        'ID'          => $attachment->ID,
-        'id'          => $attachment->ID,
-        'title'       => $attachment->post_title,
-        'filename'    => wp_basename( $attached_file ),
-        'filesize'    => 0,
-        'url'         => wp_get_attachment_url( $attachment->ID ),
-        'link'        => get_attachment_link( $attachment->ID ),
-        'alt'         => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
-        'author'      => $attachment->post_author,
+    $response = [
+        'ID' => $attachment->ID,
+        'id' => $attachment->ID,
+        'title' => $attachment->post_title,
+        'filename' => wp_basename($attached_file),
+        'filesize' => 0,
+        'url' => wp_get_attachment_url($attachment->ID),
+        'link' => get_attachment_link($attachment->ID),
+        'alt' => get_post_meta($attachment->ID, '_wp_attachment_image_alt', true),
+        'author' => $attachment->post_author,
         'description' => $attachment->post_content,
-        'caption'     => $attachment->post_excerpt,
-        'name'        => $attachment->post_name,
-        'status'      => $attachment->post_status,
+        'caption' => $attachment->post_excerpt,
+        'name' => $attachment->post_name,
+        'status' => $attachment->post_status,
         'uploaded_to' => $attachment->post_parent,
-        'date'        => $attachment->post_date_gmt,
-        'modified'    => $attachment->post_modified_gmt,
-        'menu_order'  => $attachment->menu_order,
-        'mime_type'   => $attachment->post_mime_type,
-        'type'        => $type,
-        'subtype'     => $subtype,
-        'icon'        => wp_mime_type_icon( $attachment->ID ),
-    );
+        'date' => $attachment->post_date_gmt,
+        'modified' => $attachment->post_modified_gmt,
+        'menu_order' => $attachment->menu_order,
+        'mime_type' => $attachment->post_mime_type,
+        'type' => $type,
+        'subtype' => $subtype,
+        'icon' => wp_mime_type_icon($attachment->ID),
+    ];
 
     // Append filesize data.
-    if ( isset( $meta['filesize'] ) ) {
+    if (isset($meta['filesize'])) {
         $response['filesize'] = $meta['filesize'];
-    } elseif ( file_exists( $attached_file ) ) {
-        $response['filesize'] = filesize( $attached_file );
+    } elseif (file_exists($attached_file)) {
+        $response['filesize'] = filesize($attached_file);
     }
 
     // Restrict the loading of image "sizes".
     $sizes_id = 0;
 
     // Type specific logic.
-    switch ( $type ) {
+    switch ($type) {
         case 'image':
             $sizes_id = $attachment->ID;
-            $src      = wp_get_attachment_image_src( $attachment->ID, 'full' );
-            if ( $src ) {
-                $response['url']    = $src[0];
-                $response['width']  = $src[1];
+            $src = wp_get_attachment_image_src($attachment->ID, 'full');
+            if ($src) {
+                $response['url'] = $src[0];
+                $response['width'] = $src[1];
                 $response['height'] = $src[2];
             }
             break;
         case 'video':
-            $response['width']  = acf_maybe_get( $meta, 'width', 0 );
-            $response['height'] = acf_maybe_get( $meta, 'height', 0 );
-            if ( $featured_id = get_post_thumbnail_id( $attachment->ID ) ) {
+            $response['width'] = acf_maybe_get($meta, 'width', 0);
+            $response['height'] = acf_maybe_get($meta, 'height', 0);
+            if ($featured_id = get_post_thumbnail_id($attachment->ID)) {
                 $sizes_id = $featured_id;
             }
             break;
         case 'audio':
-            if ( $featured_id = get_post_thumbnail_id( $attachment->ID ) ) {
+            if ($featured_id = get_post_thumbnail_id($attachment->ID)) {
                 $sizes_id = $featured_id;
             }
             break;
     }
 
     // Load array of image sizes.
-    if ( $sizes_id ) {
-        $sizes      = get_intermediate_image_sizes();
-        $sizes_data = array();
-        foreach ( $sizes as $size ) {
-            $src = wp_get_attachment_image_src( $sizes_id, $size );
-            if ( $src ) {
-                $sizes_data[ $size ]             = $src[0];
-                $sizes_data[ $size . '-width' ]  = $src[1];
-                $sizes_data[ $size . '-height' ] = $src[2];
+    if ($sizes_id) {
+        $sizes = get_intermediate_image_sizes();
+        $sizes_data = [];
+        foreach ($sizes as $size) {
+            $src = wp_get_attachment_image_src($sizes_id, $size);
+            if ($src) {
+                $sizes_data[$size] = $src[0];
+                $sizes_data[$size.'-width'] = $src[1];
+                $sizes_data[$size.'-height'] = $src[2];
             }
         }
         $response['sizes'] = $sizes_data;
@@ -309,11 +303,12 @@ function acf_get_attachment( $attachment ) {
      * Filters the attachment $response after it has been loaded.
      *
      * @date    16/06/2020
+     *
      * @since   5.9.0
      *
-     * @param   array $response Array of loaded attachment data.
-     * @param   WP_Post $attachment Attachment object.
-     * @param   array|false $meta Array of attachment meta data, or false if there is none.
+     * @param  array  $response Array of loaded attachment data.
+     * @param  WP_Post  $attachment Attachment object.
+     * @param  array|false  $meta Array of attachment meta data, or false if there is none.
      */
-    return apply_filters( 'acf/load_attachment', $response, $attachment, $meta );
+    return apply_filters('acf/load_attachment', $response, $attachment, $meta);
 }

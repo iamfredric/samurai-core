@@ -29,7 +29,7 @@ it('can be a component', function () {
         'view' => 'test-component',
         'data' => [
             'test' => 'wow',
-        ]
+        ],
     ]);
 
     expect($component->hash())->toBe(md5('test-component'));

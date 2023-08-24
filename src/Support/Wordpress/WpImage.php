@@ -20,7 +20,7 @@ class WpImage implements Arrayable, Jsonable
     /**
      * WpImage constructor.
      *
-     * @param int $postId
+     * @param  int  $postId
      */
     public function __construct($postId)
     {
@@ -56,8 +56,7 @@ class WpImage implements Arrayable, Jsonable
     }
 
     /**
-     * @param string|null $size
-     *
+     * @param  string|null  $size
      * @return string
      */
     public function url($size = null)
@@ -66,9 +65,8 @@ class WpImage implements Arrayable, Jsonable
     }
 
     /**
-     * @param string $size
-     * @param array $attr
-     *
+     * @param  string  $size
+     * @param  array  $attr
      * @return string
      */
     public function render($size = null, $attr = [])
@@ -77,14 +75,13 @@ class WpImage implements Arrayable, Jsonable
     }
 
     /**
-     * @param string|null $size
-     *
+     * @param  string|null  $size
      * @return string|null
      */
     public function style($size = null)
     {
         if (! $srcset = wp_get_attachment_image_srcset($this->id(), $size)) {
-            return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).")}</style>";
+            return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).')}</style>';
         }
 
         $css = collect(explode(', ', $srcset))->map(function ($item) {
@@ -92,7 +89,7 @@ class WpImage implements Arrayable, Jsonable
 
             return (object) [
                 'url' => $url,
-                'width' => (int) str_replace("w", "", $width)
+                'width' => (int) str_replace('w', '', $width),
             ];
         })->sortByDesc('width')->map(function ($item) {
             return "@media only screen and (max-width: {$item->width}px) { #{$this->identifier()} {background-image: url({$item->url})} }";
@@ -102,18 +99,17 @@ class WpImage implements Arrayable, Jsonable
     }
 
     /**
-     * @param string|null $size
-     *
+     * @param  string|null  $size
      * @return string
      */
     public function styles($size = null)
     {
         if ($style = $this->style($size)) {
-            add_action('wp_head', function () use($style) {
+            add_action('wp_head', function () use ($style) {
                 echo $style;
             });
 
-            add_action('admin_footer', function () use($style) {
+            add_action('admin_footer', function () use ($style) {
                 echo $style;
             });
 
@@ -122,7 +118,7 @@ class WpImage implements Arrayable, Jsonable
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function exists()
     {

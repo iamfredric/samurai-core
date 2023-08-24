@@ -49,7 +49,6 @@ class LoadConfiguration
      * Load the configuration items from all of the files.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  \Illuminate\Contracts\Config\Repository  $repository
      * @return void
      *
      * @throws \Exception
@@ -93,7 +92,6 @@ class LoadConfiguration
     /**
      * Get the configuration file nesting path.
      *
-     * @param  \SplFileInfo  $file
      * @param  string  $configPath
      * @return string
      */

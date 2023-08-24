@@ -6,8 +6,8 @@ use Illuminate\Support\Str;
 
 class AttributesWhenNull
 {
-
     protected $attributes;
+
     protected $instance;
 
     public function __construct($attributes, $instance)
@@ -35,8 +35,6 @@ class AttributesWhenNull
     }
 
     /**
-     * @param $key
-     *
      * @return string
      */
     protected function getMethodNameByKey($key)

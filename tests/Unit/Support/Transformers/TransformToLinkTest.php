@@ -14,10 +14,10 @@ it('transforms an array to a link if it has the correct keys', function () {
     expect($transformer->transform())->toBeInstanceOf(\Boil\Support\Wordpress\Link::class);
 
     $transformer = new TransformToLink([
-        'hello' => 'mate'
+        'hello' => 'mate',
     ]);
 
     expect($transformer->transform())->toBe([
-        'hello' => 'mate'
+        'hello' => 'mate',
     ]);
 });

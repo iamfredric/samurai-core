@@ -25,8 +25,8 @@ class Components implements Arrayable, Countable, IteratorAggregate, Jsonable
     /**
      * Components constructor.
      *
-     * @param array $components
-     * @param string|null $prefix
+     * @param  array  $components
+     * @param  string|null  $prefix
      */
     public function __construct($components = [], $prefix = null)
     {
@@ -54,8 +54,7 @@ class Components implements Arrayable, Countable, IteratorAggregate, Jsonable
     }
 
     /**
-     * @param array $components
-     *
+     * @param  array  $components
      * @return void
      */
     protected function resolveComponents($components)
@@ -83,8 +82,7 @@ class Components implements Arrayable, Countable, IteratorAggregate, Jsonable
     }
 
     /**
-     * @param string $name
-     *
+     * @param  string  $name
      * @return string
      */
     protected function resolveClassname($name)
@@ -101,9 +99,8 @@ class Components implements Arrayable, Countable, IteratorAggregate, Jsonable
     }
 
     /**
-     * @param array $component
-     * @param string $classname
-     *
+     * @param  array  $component
+     * @param  string  $classname
      * @return \Platon\Components\Component
      */
     protected function initializeComponent($component, $classname)

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Illuminate\View\Factory
+ *
  * @method static \Illuminate\Contracts\View\View make(string $view, array $data = [], array $mergeData = [])
  * @method static string renderWhen(bool $condition, string $view, array $data = [], array $mergeData = [])
  * @method static string renderUnless(bool $condition, string $view, array $data = [], array $mergeData = [])

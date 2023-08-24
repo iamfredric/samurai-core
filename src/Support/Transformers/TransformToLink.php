@@ -14,7 +14,7 @@ class TransformToLink
     /**
      * TransformToLink constructor.
      *
-     * @param mixed $value
+     * @param  mixed  $value
      */
     public function __construct($value)
     {

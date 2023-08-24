@@ -2,7 +2,6 @@
 
 namespace Boil\Acf;
 
-use Boil\Application;
 use Boil\Support\Concerns\ConfigPath;
 use Boil\Support\Facades\View;
 use Boil\Support\Wordpress\WpHelper;
@@ -11,9 +10,9 @@ use Illuminate\Support\Collection;
 class AcfConfigurator
 {
     /** @var array<AcfConfiguratorOptionsPage|string> */
-//    protected array $optionsPages = [];
+    //    protected array $optionsPages = [];
 
-//    protected array $groups = [];
+    //    protected array $groups = [];
 
     // Todo: ConfigPath, optionsPages, groups...
     public function __construct(
@@ -21,40 +20,40 @@ class AcfConfigurator
         protected array $groups = [],
         protected array $optionsPages = [],
     ) {
-//        $this->groups = $this->app['config']->get('features.acf.groups', []);
-//        $this->optionsPages = (new Collection($this->app['config']->get('features.acf.options_pages', [])))
-//            ->map(fn (string $className) => new $className)
-//            ->map(fn (AcfOptionsPage $option) => new AcfConfiguratorOptionsPage(
-//                $option->id(),
-//                $option->title(),
-//                $option->menuTitle(),
-//                $option->parentSlug(),
-//                $option->position(),
-//                $option->capability(),
-//                $option->iconUrl(),
-//                $option->redirect(),
-//                $option->autoload(),
-//                $option->updateButtonLabel(),
-//                $option->updateMessage(),
-//                $option->slug(),
-//                $option->share(),
-//            ))
-//            ->toArray();
+        //        $this->groups = $this->app['config']->get('features.acf.groups', []);
+        //        $this->optionsPages = (new Collection($this->app['config']->get('features.acf.options_pages', [])))
+        //            ->map(fn (string $className) => new $className)
+        //            ->map(fn (AcfOptionsPage $option) => new AcfConfiguratorOptionsPage(
+        //                $option->id(),
+        //                $option->title(),
+        //                $option->menuTitle(),
+        //                $option->parentSlug(),
+        //                $option->position(),
+        //                $option->capability(),
+        //                $option->iconUrl(),
+        //                $option->redirect(),
+        //                $option->autoload(),
+        //                $option->updateButtonLabel(),
+        //                $option->updateMessage(),
+        //                $option->slug(),
+        //                $option->share(),
+        //            ))
+        //            ->toArray();
     }
 
     public function addOptionsPage(
         string $id,
         string $title,
-        ?string $menuTitle = null,
-        ?string $parentSlug = null,
-        ?int $position = null,
+        string $menuTitle = null,
+        string $parentSlug = null,
+        int $position = null,
         string $capability = 'edit_posts',
         string $iconUrl = '',
         bool $redirect = false,
         bool $autoload = false,
-        ?string $updateButtonLabel = null,
-        ?string $updateMessage = null,
-        ?string $slug = null,
+        string $updateButtonLabel = null,
+        string $updateMessage = null,
+        string $slug = null,
     ): AcfConfiguratorOptionsPage {
         $optionsPage = new AcfConfiguratorOptionsPage(
             $id,

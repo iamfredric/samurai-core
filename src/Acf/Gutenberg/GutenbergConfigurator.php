@@ -37,7 +37,7 @@ class GutenbergConfigurator
             $concrete = $this->app->make($block);
 
             $array = array_merge($concrete->toArray(), [
-                'render_callback' => [$concrete, 'render']
+                'render_callback' => [$concrete, 'render'],
             ]);
 
             acf_register_block_type($array);

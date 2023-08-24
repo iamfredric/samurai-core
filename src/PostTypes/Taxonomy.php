@@ -2,8 +2,6 @@
 
 namespace Boil\PostTypes;
 
-use Boil\Support\Wordpress\WpHelper;
-
 class Taxonomy
 {
     public function __construct(
@@ -136,34 +134,34 @@ class Taxonomy
     public function toArray()
     {
         return [
-            'labels'        => [
-                'name'                  => $this->plural,
-                'singular_name'         => $this->singular,
-                'search_items'          => translate("Search :attributes", ['attributes' => $this->plural]),
-                'popular_items'         => translate("Popular :attributes", ['attributes' => $this->plural]),
-                'all_items'             => translate("All :attributes", ['attributes' => $this->plural]),
-                'parent_item'           => translate("Parent :attribute", ['attribute' => $this->singular]),
-                'parent_item_colon'     => translate("Parent: :attribute", ['attribute' => $this->singular]),
-                'edit_item'             => translate("Edit :attribute", ['attribute' => $this->singular]),
-                'view_item'             => translate("View :attribute", ['attribute' => $this->singular]),
-                'update_item'           => translate("Update :attribute", ['attribute' => $this->singular]),
-                'add_new_item'          => translate("Add :attribute", ['attribute' => $this->singular]),
-                'new_item_name'         => translate("New :attribute name", ['attribute' => $this->singular]),
-                'add_or_remove_items'   => translate("Add or remove :attribute", ['attribute' => $this->singular]),
-                'choose_from_most_used' => translate("Choose from most used :attribute", ['attribute' => $this->plural]),
-                'not_found'             => translate("No :attributes found", ['attribute' => $this->singular]),
-                'no_terms'              => translate("No :attribute", ['attribute' => $this->plural]),
+            'labels' => [
+                'name' => $this->plural,
+                'singular_name' => $this->singular,
+                'search_items' => translate('Search :attributes', ['attributes' => $this->plural]),
+                'popular_items' => translate('Popular :attributes', ['attributes' => $this->plural]),
+                'all_items' => translate('All :attributes', ['attributes' => $this->plural]),
+                'parent_item' => translate('Parent :attribute', ['attribute' => $this->singular]),
+                'parent_item_colon' => translate('Parent: :attribute', ['attribute' => $this->singular]),
+                'edit_item' => translate('Edit :attribute', ['attribute' => $this->singular]),
+                'view_item' => translate('View :attribute', ['attribute' => $this->singular]),
+                'update_item' => translate('Update :attribute', ['attribute' => $this->singular]),
+                'add_new_item' => translate('Add :attribute', ['attribute' => $this->singular]),
+                'new_item_name' => translate('New :attribute name', ['attribute' => $this->singular]),
+                'add_or_remove_items' => translate('Add or remove :attribute', ['attribute' => $this->singular]),
+                'choose_from_most_used' => translate('Choose from most used :attribute', ['attribute' => $this->plural]),
+                'not_found' => translate('No :attributes found', ['attribute' => $this->singular]),
+                'no_terms' => translate('No :attribute', ['attribute' => $this->plural]),
             ],
-            'query_var'     => $this->queryVar,
-            'description'   => $this->description,
-            'public'        => $this->public,
-            'hierarchical'  => $this->hierarchical,
-            'show_ui'       => $this->showUi,
+            'query_var' => $this->queryVar,
+            'description' => $this->description,
+            'public' => $this->public,
+            'hierarchical' => $this->hierarchical,
+            'show_ui' => $this->showUi,
             'show_tagcloud' => $this->showTagCloud,
             'show_in_rest' => $this->showInRest,
             'rewrite' => [
-                'slug' => $this->slug ?: $this->id
-            ]
+                'slug' => $this->slug ?: $this->id,
+            ],
         ];
     }
 }

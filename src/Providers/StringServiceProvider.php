@@ -15,11 +15,11 @@ class StringServiceProvider extends ServiceProvider
             $number = preg_replace('/[^+0-9]+/', '', $number);
 
             if (substr($number, 0, 2) == '00') {
-                $number = '+' . substr($number, 2);
+                $number = '+'.substr($number, 2);
             }
 
             if (substr($number, 0, 1) != '+') {
-                $number = "+{$countryCode}" . substr($number, 1);
+                $number = "+{$countryCode}".substr($number, 1);
             }
 
             return $number;

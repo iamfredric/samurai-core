@@ -3,13 +3,10 @@
 namespace Tests\Support\Unit\Acf;
 
 use Boil\Acf\AcfConfigurator;
-use Boil\Acf\AcfConfiguratorOptionsPage;
 use Boil\Acf\AcfOptionsPage;
 use Boil\Acf\Group;
-use Boil\Application;
 use Boil\Support\Concerns\ConfigPath;
 use Boil\Support\Wordpress\WpHelper;
-use Illuminate\Support\Collection;
 
 test('add options page', function () {
     $config = new AcfConfigurator(new ConfigPath([]));
@@ -37,18 +34,18 @@ it('can add option pages via config', function () {
         ->and($optionsPages[0])
         ->toBeString()
         ->and($optionsPages[1]->toArray())->toBe([
-            "page_title" => "Me Options Page",
-            "menu_title" => "Me Options Page",
-            "menu_slug" => "me-options-page",
-            "capability" => "edit_posts",
-            "position" => null,
-            "parent_slug" => null,
-            "icon_url" => "",
-            "redirect" => false,
-            "post_id" => "me-options-page",
-            "autoload" => false,
-            "update_button" => null,
-            "updated_message" => null,
+            'page_title' => 'Me Options Page',
+            'menu_title' => 'Me Options Page',
+            'menu_slug' => 'me-options-page',
+            'capability' => 'edit_posts',
+            'position' => null,
+            'parent_slug' => null,
+            'icon_url' => '',
+            'redirect' => false,
+            'post_id' => 'me-options-page',
+            'autoload' => false,
+            'update_button' => null,
+            'updated_message' => null,
         ]);
 });
 
@@ -68,9 +65,9 @@ test('can register all configurations', function () {
     ]);
 
     $config = new AcfConfigurator(new ConfigPath([]), [
-        ExampleGroupTwo::class
+        ExampleGroupTwo::class,
     ], [
-        TestOptionPage::class
+        TestOptionPage::class,
     ]);
 
     $config->addGroup(ExampleGroup::class);
@@ -144,4 +141,3 @@ class ExampleGroupTwo extends Group
         return [];
     }
 }
-

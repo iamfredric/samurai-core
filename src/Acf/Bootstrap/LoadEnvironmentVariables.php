@@ -8,9 +8,9 @@ class LoadEnvironmentVariables
 {
     public function bootstrap(Application $app): void
     {
-//        if ($app->configurationIsCached()) {
-//            return;
-//        }
+        //        if ($app->configurationIsCached()) {
+        //            return;
+        //        }
 
     }
 }

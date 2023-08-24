@@ -19,7 +19,7 @@ it('translates a string', function () {
 it('loads json file and php file of translations by given path', function () {
     $translator = new Translator();
 
-    $translator->loadFromPath(dirname(__DIR__, 3) . '/boilerplate/lang');
+    $translator->loadFromPath(dirname(__DIR__, 3).'/boilerplate/lang');
 
     $translator->setLocale('sv');
 

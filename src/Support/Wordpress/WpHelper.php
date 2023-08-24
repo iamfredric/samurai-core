@@ -46,9 +46,9 @@ class WpHelper
 
         return $function(...$args);
 
-//        if (isset(static::$fakes[$function])) {
-//            return static::$fakes[$function](...$args);
-//        }
+        //        if (isset(static::$fakes[$function])) {
+        //            return static::$fakes[$function](...$args);
+        //        }
     }
 
     public static function __callStatic(string $name, array $arguments)

@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 class Image implements Arrayable, Jsonable
 {
     /**
-     * @var boolean
+     * @var bool
      */
     private $hasimage = false;
 
@@ -58,7 +58,7 @@ class Image implements Arrayable, Jsonable
 
     protected $todoAttributes;
 
-    public function __construct(?array $thumbnail = null)
+    public function __construct(array $thumbnail = null)
     {
         $this->todoAttributes = new Collection(Arr::dot($thumbnail));
     }
@@ -78,7 +78,7 @@ class Image implements Arrayable, Jsonable
         return $this->todoAttributes->get('title');
     }
 
-    public function url(?string $size = null): ?string
+    public function url(string $size = null): ?string
     {
         if (empty($size)) {
             return $this->todoAttributes->get('url');
@@ -116,11 +116,9 @@ class Image implements Arrayable, Jsonable
     }
 
     /**
-     * @param string|null $size
-     * @param array<string, string> $attributes
-     * @return string
+     * @param  array<string, string>  $attributes
      */
-    public function render(?string $size = null, $attributes = []): string
+    public function render(string $size = null, $attributes = []): string
     {
         if ($srcset = $this->getSrcSet($size)) {
             $attributes['srcset'] = $srcset;
@@ -134,7 +132,7 @@ class Image implements Arrayable, Jsonable
             'loading' => 'lazy',
             'alt' => $this->alt(),
             'title' => $this->title(),
-            'decoding' => 'async'
+            'decoding' => 'async',
         ]))
             ->merge($attributes)
             ->map(fn ($value, $attribute) => "{$attribute}=\"{$value}\"")
@@ -143,7 +141,7 @@ class Image implements Arrayable, Jsonable
         return "<img {$attributes}>";
     }
 
-    public function getSrcSet(?string $size = null): ?string
+    public function getSrcSet(string $size = null): ?string
     {
         $size ??= 'default';
 
@@ -159,10 +157,10 @@ class Image implements Arrayable, Jsonable
         return $this->todoAttributes->get('caption');
     }
 
-    protected function generateStyleSheet(?string $size = null): string
+    protected function generateStyleSheet(string $size = null): string
     {
         if (! $srcset = WpHelper::wp_get_attachment_image_srcset($this->id(), $size)) {
-            return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).")}</style>";
+            return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).')}</style>';
         }
 
         $css = collect(explode(', ', $srcset))->map(function ($item) {
@@ -170,7 +168,7 @@ class Image implements Arrayable, Jsonable
 
             return (object) [
                 'url' => $url,
-                'width' => (int) str_replace("w", "", $width)
+                'width' => (int) str_replace('w', '', $width),
             ];
         })->sortByDesc('width')->map(function ($item) {
             return "@media only screen and (max-width: {$item->width}px) { #{$this->identifier()} {background-image: url({$item->url})} }";
@@ -179,14 +177,14 @@ class Image implements Arrayable, Jsonable
         return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).")}{$css}</style>";
     }
 
-    public function styles(?string $size = null): ?string
+    public function styles(string $size = null): ?string
     {
         if ($style = $this->generateStyleSheet($size)) {
-            WpHelper::add_action('wp_head', function () use($style) {
+            WpHelper::add_action('wp_head', function () use ($style) {
                 echo $style;
             });
 
-            WpHelper::add_action('admin_footer', function () use($style) {
+            WpHelper::add_action('admin_footer', function () use ($style) {
                 echo $style;
             });
 

@@ -13,7 +13,7 @@ class RegisterFacades
 
         Facade::setFacadeApplication($app);
 
-        foreach($app->make('config')->get('app.aliases', []) as $key => $value) {
+        foreach ($app->make('config')->get('app.aliases', []) as $key => $value) {
             class_alias($value, $key);
         }
     }

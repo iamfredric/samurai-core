@@ -2,14 +2,14 @@
 
 namespace Boil\Acf\Gutenberg;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Boil\Support\Transformers\AttributeGetters;
 use Boil\Support\Transformers\AttributesWhenNull;
 use Boil\Support\Transformers\AutoCaster;
 use Boil\Support\Transformers\Caster;
 use Boil\Support\Transformers\MapKeysToCamel;
 use Boil\Support\Transformers\Transformations;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 abstract class Block
 {
@@ -21,6 +21,7 @@ abstract class Block
 
         if ($preview && $previewImage) {
             echo "<img src=\"{$previewImage}\" >";
+
             return;
         }
 
@@ -56,7 +57,7 @@ abstract class Block
         $items = [];
 
         foreach ($data as $key => $value) {
-            if (!str_starts_with($key, '_')) {
+            if (! str_starts_with($key, '_')) {
                 $items[$key] = $value;
             }
         }
@@ -70,7 +71,7 @@ abstract class Block
             ->output();
     }
 
-    public function data(?string $key = null, $default = null)
+    public function data(string $key = null, $default = null)
     {
 
         if ($key) {
@@ -145,10 +146,10 @@ abstract class Block
             return null;
         }
 
-        $path = implode('/', [theme_path($dir), $this->name() . '.jpg']);
+        $path = implode('/', [theme_path($dir), $this->name().'.jpg']);
 
         return file_exists($path)
-            ? implode('/', [theme_url($dir), $this->name() . '.jpg'])
+            ? implode('/', [theme_url($dir), $this->name().'.jpg'])
             : null;
     }
 

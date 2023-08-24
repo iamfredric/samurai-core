@@ -22,7 +22,7 @@ class AcfConfiguratorOptionsPage
         protected ?string $updateButtonLabel = null,
         protected ?string $updateMessage = null,
         protected ?string $slug = null,
-        ?Closure $share = null
+        Closure $share = null
     ) {
         if ($share) {
             $this->share($share);
@@ -47,7 +47,7 @@ class AcfConfiguratorOptionsPage
         ];
     }
 
-    public function share(?callable $callback = null): static
+    public function share(callable $callback = null): static
     {
         $this->autoload = true;
 

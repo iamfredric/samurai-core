@@ -72,7 +72,7 @@ it('can fetch terms for a given model', function () {
 
 it('can determine if a term is active', function () {
     WpHelper::fake([
-        'is_category' => fn () => true
+        'is_category' => fn () => true,
     ]);
 
     $term = new Term(['id' => 1]);
@@ -82,14 +82,13 @@ it('can determine if a term is active', function () {
 
 it('can get the url attribute', function () {
     WpHelper::fake([
-        'get_term_link' => fn ($id) => 'http://example.com/' . $id
+        'get_term_link' => fn ($id) => 'http://example.com/'.$id,
     ]);
 
     $term = new Term(['term_id' => 1]);
 
     expect($term->url)->toBe('http://example.com/1');
 });
-
 
 it('can get the type', function () {
     $term = new Term();

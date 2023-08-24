@@ -40,7 +40,7 @@ class ExtractModelArguments
     protected static function extractArgumentsFromReflector(Reflector $reflection, mixed $arguments)
     {
         foreach ($reflection->getParameters() as $parameter) {
-            if (!$parameter->isOptional()) {
+            if (! $parameter->isOptional()) {
                 if ($parameter->getType()->isBuiltin()) {
                     if (isset($arguments[$parameter->getName()])) {
                         continue;

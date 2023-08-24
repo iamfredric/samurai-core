@@ -17,7 +17,7 @@ class ImageConfigurator
     {
     }
 
-    public function support(string...$types): static
+    public function support(string ...$types): static
     {
         $this->types = array_unique([...$this->types, ...$types]);
 
@@ -26,8 +26,8 @@ class ImageConfigurator
 
     public function register(
         string $name,
-        ?int $width = null,
-        ?int $height = null,
+        int $width = null,
+        int $height = null,
         bool $crop = true
     ): ImageSize {
         return $this->imageSizes[] = new ImageSize($name, $width, $height, $crop);

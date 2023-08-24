@@ -20,7 +20,7 @@ class Kernel implements KernelContract
         HandleExceptions::class,
         RegisterFacades::class,
         RegisterProviders::class,
-        BootProviders::class
+        BootProviders::class,
     ];
 
     public function __construct(protected Application $app)

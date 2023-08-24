@@ -41,7 +41,7 @@ it('can register a post route', function () {
 it('can register a delete route', function () {
     $helper = WpHelper::fake([
         'add_action' => fn ($action, $callback) => $action === 'rest_api_init' && $callback(),
-        'register_rest_route' => fn () => null
+        'register_rest_route' => fn () => null,
     ]);
 
     $router = new ApiRouter($this->app, 'test');

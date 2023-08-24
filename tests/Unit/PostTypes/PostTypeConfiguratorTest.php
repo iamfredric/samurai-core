@@ -24,7 +24,6 @@ it('can register post types', function () {
         ->toBeInstanceOf(PostType::class)
         ->toHaveProperty('id', 'other-post-type');
 
-
     $otherPostType->taxonomy($taxonomy = $configurator->taxonomy('test-taxonomy'))->supports('images');
 
     expect($taxonomy)->toBeInstanceOf(\Boil\PostTypes\Taxonomy::class);
