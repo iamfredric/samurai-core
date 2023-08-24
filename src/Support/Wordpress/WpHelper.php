@@ -62,7 +62,11 @@ class WpHelper
             return static::$instance->callFunction($function, ...$args);
         }
 
-        return $function(...$args);
+        if (function_exists($function)) {
+            return $function(...$args);
+        }
+
+        return null;
     }
 
     /**

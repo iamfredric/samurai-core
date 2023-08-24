@@ -14,7 +14,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
 {
     protected ?string $bootstrapPath = null;
 
-    protected string $appPath;
+    protected ?string $appPath = null;
 
     protected ?string $langPath = null;
 
@@ -77,14 +77,14 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return $this->joinPaths($this->basePath, $path);
     }
 
-    public function joinPaths(string $basePath, string $path = ''): string
+    public function joinPaths(string $basePath, ?string $path = ''): string
     {
         return $basePath.($path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '');
     }
 
     public function bootstrapPath($path = ''): string
     {
-        return $this->joinPaths($this->bootstrapPath, $path);
+        return $this->joinPaths($this->bootstrapPath ?: $this->basePath('bootstrap'), $path);
     }
 
     public function configPath($path = ''): string
@@ -152,7 +152,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
     /** @return MaintenanceMode */
     public function maintenanceMode()
     {
-        return new MaintenanceMode();
+        return new MaintenanceMode($this->baseInstallationPath());
     }
 
     public function isDownForMaintenance(): bool

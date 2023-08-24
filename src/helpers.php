@@ -171,7 +171,7 @@ if (! function_exists('mix')) {
             return assets($originalFilename);
         }
 
-        $manifest = json_decode(file_get_contents($manifestFile));
+        $manifest = json_decode(file_get_contents($manifestFile) ?: '');
 
         return isset($manifest->{$filename})
             ? assets($manifest->{$filename})

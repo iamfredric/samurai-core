@@ -13,7 +13,7 @@ class WpImage implements Arrayable, Jsonable
     protected $postId;
 
     /**
-     * @var int
+     * @var int|false
      */
     protected $thumbnailId;
 
@@ -28,7 +28,7 @@ class WpImage implements Arrayable, Jsonable
     }
 
     /**
-     * @return int
+     * @return int|false
      */
     public function id()
     {
@@ -52,16 +52,16 @@ class WpImage implements Arrayable, Jsonable
      */
     public function title()
     {
-        return WpHelper::get_the_title($this->id());
+        return $this->id() ? WpHelper::get_the_title($this->id()) : '';
     }
 
     /**
      * @param  string|null  $size
-     * @return string
+     * @return string|false
      */
     public function url($size = null)
     {
-        return WpHelper::wp_get_attachment_image_url($this->id(), $size);
+        return $this->id() ? WpHelper::wp_get_attachment_image_url($this->id(), $size): false;
     }
 
     /**
@@ -80,6 +80,10 @@ class WpImage implements Arrayable, Jsonable
      */
     public function style($size = null)
     {
+        if (! $this->id()) {
+            return null;
+        }
+
         if (! $srcset = WpHelper::wp_get_attachment_image_srcset($this->id(), $size)) {
             return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).')}</style>';
         }
@@ -128,10 +132,10 @@ class WpImage implements Arrayable, Jsonable
      */
     public function toArray(): array
     {
-        return WpHelper::acf_get_attachment($this->id()) ?: [];
+        return $this->id() ? WpHelper::acf_get_attachment($this->id()) ?: [] : [];
     }
 
-    public function toJson($options = 0): string
+    public function toJson($options = 0): string|false
     {
         return json_encode($this->toArray(), $options);
     }

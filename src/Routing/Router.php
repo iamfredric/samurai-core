@@ -20,7 +20,7 @@ class Router
 
     public function capture(): void
     {
-        $configPaths = new ConfigPath($this->app['config']->get('features.web.routes'));
+        $configPaths = new ConfigPath($this->app->make('config')->get('features.web.routes'));
 
         if (! $configPaths->exists()) {
             return;

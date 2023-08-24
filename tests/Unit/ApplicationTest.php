@@ -107,11 +107,11 @@ it('detects maintenance mode', function () {
 
     file_put_contents($app->baseInstallationPath('.maintenance'), '');
 
-    expect($app->maintenanceMode())->toBeTrue();
+    expect($app->maintenanceMode()->active())->toBeTrue();
 
     if (file_exists($app->baseInstallationPath('.maintenance'))) {
         unlink($app->baseInstallationPath('.maintenance'));
     }
 
-    expect($app->maintenanceMode())->toBeFalse();
+    expect($app->maintenanceMode()->active())->toBeFalse();
 });

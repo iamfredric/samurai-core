@@ -87,7 +87,9 @@ class Components implements Arrayable, Countable, IteratorAggregate, Jsonable
     protected function initializeComponent(array $attributes, string $classname)
     {
         if (class_exists($classname)) {
-            return new $classname($attributes, $this->prefix);
+            if (is_subclass_of($class = new $classname($attributes, $this->prefix), Component::class)) {
+                return $class;
+            }
         }
 
         return new Component($attributes, $this->prefix);

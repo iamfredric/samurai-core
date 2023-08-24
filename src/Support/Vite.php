@@ -629,7 +629,7 @@ class Vite implements Htmlable
      */
     protected function hotAsset($asset)
     {
-        return rtrim(file_get_contents($this->hotFile())).'/'.$asset;
+        return rtrim(file_get_contents($this->hotFile()) ?: '').'/'.$asset;
     }
 
     /**
@@ -681,7 +681,7 @@ class Vite implements Htmlable
                 throw new Exception("Vite manifest not found at: {$path}");
             }
 
-            static::$manifests[$path] = json_decode(file_get_contents($path), true);
+            static::$manifests[$path] = json_decode(file_get_contents($path) ?: '[]', true);
         }
 
         return static::$manifests[$path];

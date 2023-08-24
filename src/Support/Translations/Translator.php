@@ -39,7 +39,7 @@ class Translator
         if (str_ends_with($file, '.json')) {
             $this->translations[$locale] = array_merge(
                 $this->translations[$locale] ?? [],
-                json_decode(file_get_contents($file), true)
+                json_decode(file_get_contents($file) ?: '', true)
             );
 
             return;
@@ -52,7 +52,7 @@ class Translator
 
     public function loadFromPath(string $path): void
     {
-        (new Collection(scandir($path)))
+        (new Collection(scandir($path) ?: []))
             ->filter(fn ($file) => str_ends_with($file, '.php') || str_ends_with($file, '.json'))
             ->each(fn ($file) => $this->queueFile(implode(DIRECTORY_SEPARATOR, [$path, $file])));
     }
@@ -103,7 +103,11 @@ class Translator
 
     protected function normalizeLocale(string $locale): string
     {
-        [$locale] = preg_split('/-|_/', $locale);
+        [$locale] = preg_split('/-|_/', $locale) ?: [null];
+
+        if (empty($locale)) {
+            throw new \InvalidArgumentException("Could not determine locale");
+        }
 
         return $locale;
     }

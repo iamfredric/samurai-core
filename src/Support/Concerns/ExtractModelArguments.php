@@ -11,12 +11,11 @@ use Reflector;
 class ExtractModelArguments
 {
     /**
-     * @param callable $callable
      * @param array<string, mixed> $arguments
      * @return mixed
      * @throws \ReflectionException
      */
-    public static function fromCallable(callable $callable, array $arguments = []): mixed
+    public static function fromCallable(\Closure|string $callable, array $arguments = []): mixed
     {
         return static::extractArgumentsFromReflector(
             new ReflectionFunction($callable),
@@ -25,7 +24,7 @@ class ExtractModelArguments
     }
 
     /**
-     * @param string $className
+     * @param class-string $className
      * @param array<string, mixed> $arguments
      * @return array<string, mixed>
      * @throws \ReflectionException
@@ -68,12 +67,18 @@ class ExtractModelArguments
             if (! $parameter->isOptional()) {
                 /** @var null|\ReflectionIntersectionType|\ReflectionNamedType|\ReflectionUnionType $type */
                 $type = $parameter->getType();
+                $isBuiltIn = method_exists($type, 'getType') && $type->isBuiltin();
 
-                if (method_exists($type, 'getType') && $type->isBuiltin()) {
-                    if (isset($arguments[$parameter->getName()])) {
-                        continue;
-                    }
+                $name = method_exists($parameter, 'getName') ? $parameter->getName() : null;
+                if ($isBuiltIn) {
+                    continue;
+                }
 
+                if(empty($name)) {
+                    continue;
+                }
+
+                if (isset($arguments[$name])) {
                     continue;
                 }
 

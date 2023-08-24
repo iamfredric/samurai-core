@@ -8,10 +8,17 @@ class Transformations
     {
     }
 
+    /** @param class-string $classname */
     public function through(string $classname, mixed ...$args): static
     {
-        $this->attributes = (new $classname($this->attributes, ...$args))
-            ->transform();
+        $resolvedClass = new $classname($this->attributes, ...$args);
+
+        if (! method_exists($resolvedClass, 'transform')) {
+            // Todo: Throw exception
+            return $this;
+        }
+
+        $this->attributes = $resolvedClass->transform();
 
         return $this;
     }
