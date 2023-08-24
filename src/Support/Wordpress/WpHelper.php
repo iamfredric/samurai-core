@@ -26,6 +26,8 @@ use Tests\Support\Wordpress\WpHelperFake;
  * @method static string get_the_title(int|\WP_Post $post = 0)
  * @method static string|false wp_get_attachment_image_url(int $attachment_id, string|array $size = 'thumbnail', bool $icon = false)
  * @method static bool has_post_thumbnail(int|\WP_Post $post = null)
+ * @method static void acf_add_options_page(array $settings)
+ * @method static void register_extended_field_group(array $settings)
  */
 class WpHelper
 {

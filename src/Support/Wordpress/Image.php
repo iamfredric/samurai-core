@@ -4,6 +4,8 @@ namespace Boil\Support\Wordpress;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class Image implements Arrayable, Jsonable
 {
@@ -54,125 +56,78 @@ class Image implements Arrayable, Jsonable
 
     protected $attributes = [];
 
-    /**
-     * @param array $thumbnail
-     */
-    public function __construct($thumbnail = null)
+    protected $todoAttributes;
+
+    public function __construct(?array $thumbnail = null)
     {
-        if (! $thumbnail) {
-            return;
+        $this->todoAttributes = new Collection(Arr::dot($thumbnail));
+    }
+
+    public function id(): ?int
+    {
+        return $this->todoAttributes->get('id');
+    }
+
+    public function identifier(): string
+    {
+        return "media-item-{$this->id()}";
+    }
+
+    public function title(): ?string
+    {
+        return $this->todoAttributes->get('title');
+    }
+
+    public function url(?string $size = null): ?string
+    {
+        if (empty($size)) {
+            return $this->todoAttributes->get('url');
         }
 
-        $this->attributes = $thumbnail;
-        $this->hasimage = true;
-        $this->thumbnailId = $thumbnail['id'];
-        $this->thumbnailTitle = $thumbnail['title'];
-        $this->thumbnailUrl = $thumbnail['url'];
-        $this->thumbnailAlt = $thumbnail['alt'];
-        $this->thumbnailDescription = $thumbnail['description'];
-        $this->thumbnailCaption = $thumbnail['caption'];
-        $this->thumbnailSizes = $thumbnail['sizes'];
-        $this->makeSizes($thumbnail);
+        return $this->todoAttributes->get("sizes.{$size}.source-url") ?: $this->todoAttributes->get('url');
     }
 
-    /**
-     * @return int
-     */
-    public function id()
+    public function getWidth($size = null): ?int
     {
-        return $this->thumbnailId;
-    }
-
-    /**
-     * @return string
-     */
-    public function identifier()
-    {
-        return "media-item-{$this->thumbnailId}";
-    }
-
-    /**
-     * @return string
-     */
-    public function title()
-    {
-        return $this->thumbnailTitle;
-    }
-
-    /**
-     * @param  string $size optional
-     *
-     * @return string
-     */
-    public function url($size = null)
-    {
-        if (! $size) {
-            return $this->thumbnailUrl;
+        if (empty($size)) {
+            return $this->todoAttributes->get('width');
         }
 
-        return $this->getSizes($size)['source-url'] ?? $this->thumbnailUrl;
+        return $this->todoAttributes->get("sizes.{$size}-width") ?: $this->todoAttributes->get('width');
     }
 
-    public function getWidth($size = null)
+    public function getHeight($size = null): ?int
     {
-        if (! $size) {
-            return $this->width();
+        if (empty($size)) {
+            return $this->todoAttributes->get('height');
         }
 
-        return $this->thumbnailSizes["{$size}-width"] ?? $this->width();
+        return $this->todoAttributes->get("sizes.{$size}-height") ?: $this->todoAttributes->get('height');
     }
 
-    public function getHeight($size = null)
+    public function alt(): ?string
     {
-        if (! $size) {
-            return $this->height();
-        }
+        return $this->todoAttributes->get('alt');
+    }
 
-        return $this->thumbnailSizes["{$size}-height"] ?? $this->height();
+    public function description(): ?string
+    {
+        return $this->todoAttributes->get('description');
     }
 
     /**
+     * @param string|null $size
+     * @param array<string, string> $attributes
      * @return string
      */
-    public function alt()
+    public function render(?string $size = null, $attributes = []): string
     {
-        return $this->thumbnailAlt;
-    }
-
-    /**
-     * @param bool $nl2br
-     *
-     * @return string
-     */
-    public function description($nl2br = false)
-    {
-        return $nl2br ? nl2br(rtrim($this->thumbnailDescription)) : $this->thumbnailDescription;
-    }
-
-    /**
-     * @param string $size
-     *
-     * @return mixed
-     */
-    public function getSizes($size)
-    {
-        return isset($this->thumbnailSizes[$size]) ? $this->thumbnailSizes[$size] : $this->thumbnailSizes['large'];
-    }
-
-    /**
-     * @param null $size
-     * @param array $attributes
-     *
-     * @return string
-     */
-    public function render($size = null, $attributes = [])
-    {
-        if ($srcset = $this->srcSet($size)) {
+        if ($srcset = $this->getSrcSet($size)) {
             $attributes['srcset'] = $srcset;
             $attributes['sizes'] = '100vw';
         }
 
-        $attributes = collect([
+        $attributes = (new Collection([
             'width' => $this->getWidth($size),
             'height' => $this->getHeight($size),
             'src' => $this->url($size),
@@ -180,52 +135,33 @@ class Image implements Arrayable, Jsonable
             'alt' => $this->alt(),
             'title' => $this->title(),
             'decoding' => 'async'
-        ])->merge($attributes)
+        ]))
+            ->merge($attributes)
             ->map(fn ($value, $attribute) => "{$attribute}=\"{$value}\"")
             ->implode(' ');
 
         return "<img {$attributes}>";
     }
 
-    /**
-     * @param string $size
-     */
-    public function srcset($size = null)
+    public function getSrcSet(?string $size = null): ?string
     {
-        return WpHelper::wp_get_attachment_image_srcset($this->id(), $size);
+        $size ??= 'default';
+
+        if (! $this->todoAttributes->has("src-sets.{$size}")) {
+            $this->todoAttributes->put("src-sets.{$size}", WpHelper::wp_get_attachment_image_srcset($this->id(), $size));
+        }
+
+        return $this->todoAttributes->get("src-sets.{$size}");
     }
 
-    /**
-     * @return string
-     */
-    public function caption()
+    public function caption(): ?string
     {
-        return $this->thumbnailCaption;
+        return $this->todoAttributes->get('caption');
     }
 
-    /**
-     * @return int
-     */
-    public function width()
+    protected function generateStyleSheet(?string $size = null): string
     {
-        return $this->thumbnailDimensions['default']['width'];
-    }
-
-    /**
-     * @return int
-     */
-    public function height()
-    {
-        return $this->thumbnailDimensions['default']['height'];
-    }
-
-    /**
-     * @param null|string $size
-     *
-     * @return string
-     */
-    public function style($size = null) {
-        if (! $srcset = wp_get_attachment_image_srcset($this->id(), $size)) {
+        if (! $srcset = WpHelper::wp_get_attachment_image_srcset($this->id(), $size)) {
             return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).")}</style>";
         }
 
@@ -243,83 +179,39 @@ class Image implements Arrayable, Jsonable
         return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).")}{$css}</style>";
     }
 
-    /**
-     * @param string|null $size
-     *
-     * @return string
-     */
-    public function styles($size = null)
+    public function styles(?string $size = null): ?string
     {
-        if ($style = $this->style($size)) {
-            add_action('wp_head', function () use($style) {
+        if ($style = $this->generateStyleSheet($size)) {
+            WpHelper::add_action('wp_head', function () use($style) {
                 echo $style;
             });
 
-            add_action('admin_footer', function () use($style) {
+            WpHelper::add_action('admin_footer', function () use($style) {
                 echo $style;
             });
 
             return "id={$this->identifier()}";
         }
+
+        return null;
     }
 
-    /**
-     * @return boolean
-     *
-     * @return bool
-     */
-    public function exists()
+    public function exists(): bool
     {
-        return $this->hasimage;
+        return $this->todoAttributes->has('id');
     }
 
-    /**
-     * @param array $attr
-     *
-     * @return string|null
-     */
-    private function makeAttr($attr = [])
+    public function __toString(): string
     {
-        $attributes = null;
-
-        if (! count($attr)) {
-            return null;
-        }
-
-        foreach ($attr as $attribute => $content) {
-            $attributes .= " {$attribute}=\"{$content}\"";
-        }
-
-        return $attributes;
+        return $this->url() ?: '';
     }
 
-    /**
-     * @param array $thumbnail
-     *
-     * @return void
-     */
-    private function makeSizes($thumbnail)
+    public function toArray(): array
     {
-        $this->thumbnailDimensions['default'] = [
-            'width' => $thumbnail['width'],
-            'height' => $thumbnail['height']
-        ];
+        return Arr::undot($this->todoAttributes->toArray());
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->url();
-    }
-
-    public function toArray()
-    {
-        return $this->attributes ?: [];
-    }
-
-    public function toJson($options = 0)
+    public function toJson($options = 0): bool|string
     {
         return json_encode($this->toArray());
     }

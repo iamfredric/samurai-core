@@ -13,7 +13,8 @@ it('can be an image', function () {
             }
 
             return false;
-        }
+        },
+        'add_action' => fn () => true
     ]);
 
     $image = new Image([
@@ -79,4 +80,9 @@ it('can be an image', function () {
         ->and($image->render())->toBe('<img width="1080" height="720" src="https://example.com/test-image.jpg" loading="lazy" alt="A test image" title="Test image" decoding="async">')
         ->and($image->render('test-size'))
         ->toBe('<img width="200" height="100" src="https://example.com/test-image-100x100.jpg" loading="lazy" alt="A test image" title="Test image" decoding="async" srcset="https://example.com/test-image-100x100.jpg 100w, https://example.com/test-image-200x200.jpg 200w" sizes="100vw">');
+
+
+    expect($image->styles())->toBe('id=media-item-999');
+
+    $helper->assertCalled('add_action', fn ($action) => $action === 'wp_head');
 });

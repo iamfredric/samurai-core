@@ -5,36 +5,41 @@ namespace Boil\Acf;
 use Boil\Application;
 use Boil\Support\Concerns\ConfigPath;
 use Boil\Support\Facades\View;
+use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Support\Collection;
 
 class AcfConfigurator
 {
-    /** @var array<AcfConfiguratorOptionsPage> */
-    protected array $optionsPages = [];
+    /** @var array<AcfConfiguratorOptionsPage|string> */
+//    protected array $optionsPages = [];
 
-    protected array $groups = [];
+//    protected array $groups = [];
 
-    public function __construct(protected Application $app)
-    {
-        $this->groups = $this->app['config']->get('features.acf.groups', []);
-        $this->optionsPages = (new Collection($this->app['config']->get('features.acf.options_pages', [])))
-            ->map(fn (string $className) => new $className)
-            ->map(fn (AcfOptionsPage $option) => new AcfConfiguratorOptionsPage(
-                $option->id(),
-                $option->title(),
-                $option->menuTitle(),
-                $option->parentSlug(),
-                $option->position(),
-                $option->capability(),
-                $option->iconUrl(),
-                $option->redirect(),
-                $option->autoload(),
-                $option->updateButtonLabel(),
-                $option->updateMessage(),
-                $option->slug(),
-                $option->share(),
-            ))
-            ->toArray();
+    // Todo: ConfigPath, optionsPages, groups...
+    public function __construct(
+        protected ConfigPath $configPath,
+        protected array $groups = [],
+        protected array $optionsPages = [],
+    ) {
+//        $this->groups = $this->app['config']->get('features.acf.groups', []);
+//        $this->optionsPages = (new Collection($this->app['config']->get('features.acf.options_pages', [])))
+//            ->map(fn (string $className) => new $className)
+//            ->map(fn (AcfOptionsPage $option) => new AcfConfiguratorOptionsPage(
+//                $option->id(),
+//                $option->title(),
+//                $option->menuTitle(),
+//                $option->parentSlug(),
+//                $option->position(),
+//                $option->capability(),
+//                $option->iconUrl(),
+//                $option->redirect(),
+//                $option->autoload(),
+//                $option->updateButtonLabel(),
+//                $option->updateMessage(),
+//                $option->slug(),
+//                $option->share(),
+//            ))
+//            ->toArray();
     }
 
     public function addOptionsPage(
@@ -85,25 +90,27 @@ class AcfConfigurator
         return $this;
     }
 
-    public function boot()
+    public function boot(): void
     {
-        $config = new ConfigPath($this->app['config']->get('features.acf.routes'));
+        $this->configPath->include();
 
-        $config->include();
+        $this->optionsPages = (new Collection($this->optionsPages))
+            ->map(fn (string|AcfConfiguratorOptionsPage $optionsPage) => is_string($optionsPage) ? $this->initializeOptionsPageFromString($optionsPage) : $optionsPage)
+            ->toArray();
 
-        add_action('acf/init', function () {
+        WpHelper::add_action('acf/init', function () {
             foreach ($this->optionsPages as $optionsPage) {
-                acf_add_options_page($optionsPage->toArray());
+                WpHelper::acf_add_options_page($optionsPage->toArray());
             }
 
             foreach ($this->groups as $group) {
-                register_extended_field_group((new $group())->toArray());
+                WpHelper::register_extended_field_group((new $group())->toArray());
             }
         });
 
         foreach ($this->optionsPages as $optionsPage) {
             if ($optionsPage->share) {
-                $value = get_fields($optionsPage->id);
+                $value = WpHelper::get_fields($optionsPage->id);
                 $sharer = $optionsPage->share;
 
                 if (is_callable($optionsPage->share)) {
@@ -113,5 +120,26 @@ class AcfConfigurator
                 View::share($optionsPage->id, $value);
             }
         }
+    }
+
+    protected function initializeOptionsPageFromString(string $optionsPage): AcfConfiguratorOptionsPage
+    {
+        $option = new $optionsPage();
+
+        return new AcfConfiguratorOptionsPage(
+            $option->id(),
+            $option->title(),
+            $option->menuTitle(),
+            $option->parentSlug(),
+            $option->position(),
+            $option->capability(),
+            $option->iconUrl(),
+            $option->redirect(),
+            $option->autoload(),
+            $option->updateButtonLabel(),
+            $option->updateMessage(),
+            $option->slug(),
+            $option->share(),
+        );
     }
 }

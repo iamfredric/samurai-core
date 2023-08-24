@@ -2,8 +2,10 @@
 
 namespace Tests;
 
+use Boil\Acf\Bootstrap\RegisterFacades;
 use Boil\Providers\TranslationServiceProvider;
 use Illuminate\Config\Repository;
+use Illuminate\Support\Collection;
 use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
@@ -21,22 +23,11 @@ abstract class TestCase extends BaseTestCase
 
         $this->app->instance('config', $config = new Repository($this->config()));
 
+        (new Collection([
+            RegisterFacades::class
+        ]))->each(fn($bootstrapper) => $this->app->make($bootstrapper)->bootstrap($this->app));
+
         $this->app->registerConfiguredProviders();
-        // $this->app->registerConfiguredProviders();
-//        $app->singleton(
-//            \Illuminate\Contracts\Http\Kernel::class,
-//            \Boil\Http\Kernel::class
-//        );
-
-//        $kernel = $app->make(\Illuminate\Contracts\Http\Kernel::class);
-
-//        $response = $kernel->handle(
-//            $request = \Illuminate\Http\Request::capture()
-//        );
-//
-//        $response->send();
-//
-//        $kernel->terminate($request, $response);
     }
 
     protected function config(): array

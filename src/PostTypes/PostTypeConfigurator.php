@@ -42,7 +42,7 @@ class PostTypeConfigurator
                 WpHelper::register_taxonomy($taxonomy->id, $postType->id, $taxonomy->toArray());
             }
 
-            if ($postType->isMediaSupported) {
+            if ($postType->isMediaSupported()) {
                 Image::support($postType->id);
             }
         }
