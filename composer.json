@@ -29,6 +29,7 @@
         "mockery/mockery": "^1.6",
         "pestphp/pest": "^2.13",
         "php-mock/php-mock-phpunit": "^2.7",
+        "phpstan/phpstan": "^1.10",
         "spatie/invade": "^2.0"
     },
     "config": {
