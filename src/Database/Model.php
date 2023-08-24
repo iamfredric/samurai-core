@@ -91,7 +91,11 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return static::make(WpHelper::callFunction('get_post'));
     }
 
-    public static function find(int $id): ?static
+    /**
+     * @param int $id
+     * @return Model|null
+     */
+    public static function find(int $id)
     {
         return Builder::find($id, new static());
     }
@@ -106,8 +110,11 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return Builder::all(new static());
     }
 
-    /** @param array<string, mixed> $params */
-    public static function create(array $params): static
+    /**
+     * @param array<string, mixed> $params
+     * @return Model|null
+     * */
+    public static function create(array $params)
     {
         $instance = new static();
 
