@@ -7,7 +7,7 @@ use Boil\Support\Concerns\ConfigPath;
 use Boil\Support\Concerns\ExtractModelArguments;
 use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class ApiRouter
 {
@@ -64,25 +64,30 @@ class ApiRouter
                     'methods' => $route->method,
                     'permission_callback' => '__return_true',
                     'callback' => function ($request) use ($route) {
-
                         $callable = $route->callback;
 
                         if ($callable instanceof \Closure) {
-                            $response = $this->app->call($callable, ExtractModelArguments::fromCallable($callable, $request->get_params()));
+                            $response = $this->app->call($callable, ExtractModelArguments::fromCallable($callable, $request->get_params(), [
+                                \WP_REST_Request::class => $request
+                            ]));
                         } else {
                             $controller = $this->app->make(
                                 $callable[0],
-                                ExtractModelArguments::fromConstructor($callable[0]) // @phpstan-ignore-line
+                                ExtractModelArguments::fromConstructor($callable[0], [
+                                    \WP_REST_Request::class => $request
+                                ])
                             );
 
                             $response = $this->app->call(
                                 [$controller, $callable[1]], // @phpstan-ignore-line
-                                ExtractModelArguments::fromMethod($controller, $callable[1], $request->get_params())
+                                ExtractModelArguments::fromMethod($controller, $callable[1], $request->get_params(), [
+                                    \WP_REST_Request::class => $request
+                                ])
                             );
                         }
 
-                        if (! $response instanceof \Illuminate\Http\Response) {
-                            $response = new Response($response, 200);
+                        if (! is_subclass_of($response, Response::class)) {
+                            $response = new JsonResponse($response, 200);
                         }
 
                         $response->send();

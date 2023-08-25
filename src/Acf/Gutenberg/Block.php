@@ -67,7 +67,7 @@ abstract class Block
         if (empty($data)) {
             return $data;
         }
-        
+
         $items = [];
 
         foreach ($data as $key => $value) {

@@ -7,8 +7,10 @@ use Boil\Database\Model;
 use Boil\Support\Concerns\ConfigPath;
 use Boil\Support\Concerns\ExtractModelArguments;
 use Boil\Support\Wordpress\WpHelper;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response as BaseResponse;
 
 class Router
 {
@@ -120,7 +122,7 @@ class Router
                 );
             }
 
-            if (! $response instanceof \Illuminate\Http\Response) {
+            if (! is_subclass_of($response, BaseResponse::class)) {
                 $response = new Response($response, 200);
             }
 

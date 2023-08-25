@@ -356,7 +356,7 @@ final class WP_Post {
      * @return array Object as array.
      */
     public function to_array() {
-        $post = get_object_vars( $this );
+        $post = get_object_vars($this);
 
         foreach ( array( 'ancestors', 'page_template', 'post_category', 'tags_input' ) as $key ) {
             if ( $this->__isset( $key ) ) {

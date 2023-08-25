@@ -20,7 +20,7 @@ class Component implements Arrayable, Jsonable
 {
     protected string $view = '';
 
-    protected ?string $prefix;
+    protected ?string $prefix = null;
 
     /**
      * @var array<string, mixed>

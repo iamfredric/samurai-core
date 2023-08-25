@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Boil\Database;
 
@@ -212,7 +212,11 @@ class Builder
         $this->setArgument($key, $value);
     }
 
-    protected function scopeLimit(int $limit): void
+    /**
+     * @param int $limit
+     * @return void
+     */
+    protected function scopeLimit($limit): void
     {
         $this->setArgument('posts_per_page', $limit);
     }

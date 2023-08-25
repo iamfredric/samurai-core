@@ -3,6 +3,7 @@
 namespace Boil\Support\Concerns;
 
 use Boil\Database\Model;
+use Illuminate\Http\Request;
 use ReflectionClass;
 use ReflectionFunction;
 use ReflectionMethod;
@@ -12,29 +13,32 @@ class ExtractModelArguments
 {
     /**
      * @param array<string, mixed> $arguments
+     * @param array<class-string, mixed> $bindings
      * @return mixed
      * @throws \ReflectionException
      */
-    public static function fromCallable(\Closure|string $callable, array $arguments = []): mixed
+    public static function fromCallable(\Closure|string $callable, array $arguments = [], array $bindings = []): mixed
     {
         return static::extractArgumentsFromReflector(
             new ReflectionFunction($callable),
-            $arguments
+            $arguments,
+            $bindings
         );
     }
 
     /**
      * @param class-string $className
      * @param array<string, mixed> $arguments
+     * @param array<class-string, mixed> $bindings
      * @return array<string, mixed>
      * @throws \ReflectionException
      */
-    public static function fromConstructor(string $className, array $arguments = []): array
+    public static function fromConstructor(string $className, array $arguments = [], array $bindings = []): array
     {
         $reflection = new ReflectionClass($className);
 
         if ($constructor = $reflection->getConstructor()) {
-            return static::extractArgumentsFromReflector($constructor, $arguments);
+            return static::extractArgumentsFromReflector($constructor, $arguments, $bindings);
         }
 
         return $arguments;
@@ -44,24 +48,27 @@ class ExtractModelArguments
      * @param object $class
      * @param string $method
      * @param array<string, mixed> $arguments
+     * @param array<class-string, mixed> $bindings
      * @return array<string, mixed>
      * @throws \ReflectionException
      */
-    public static function fromMethod(object $class, string $method, array $arguments = []): array
+    public static function fromMethod(object $class, string $method, array $arguments = [], array $bindings = []): array
     {
         return static::extractArgumentsFromReflector(
             new ReflectionMethod($class, $method),
-            $arguments
+            $arguments,
+            $bindings
         );
     }
 
     /**
      * @param ReflectionMethod|ReflectionFunction $reflection
      * @param array<string, mixed> $arguments
+     * @param array<class-string, mixed> $bindings
      * @return array<string, mixed>
      * @throws \ReflectionException
      */
-    protected static function extractArgumentsFromReflector(ReflectionMethod|ReflectionFunction $reflection, array $arguments): array
+    protected static function extractArgumentsFromReflector(ReflectionMethod|ReflectionFunction $reflection, array $arguments, array $bindings = []): array
     {
         foreach ($reflection->getParameters() as $parameter) {
             if (! $parameter->isOptional()) {
@@ -71,6 +78,11 @@ class ExtractModelArguments
 
                 /** @var class-string|null $name */
                 $name = method_exists($parameter, 'getName') ? $parameter->getName() : null;
+
+                if (isset($bindings[$type->getName()])) {
+                    $arguments[$name] = $bindings[$type->getName()];
+                    continue;
+                }
 
                 if ($isBuiltIn) {
                     continue;
@@ -84,7 +96,12 @@ class ExtractModelArguments
                     continue;
                 }
 
-                $reflector = new ReflectionClass($name);
+                if ($type->getName() == Request::class) {
+                    $arguments[$name] = Request::capture();
+                    continue;
+                }
+
+                $reflector = new ReflectionClass($type->getName());
 
                 if ($reflector->getParentClass() && $reflector->getParentClass()->getName() === Model::class) {
                     $arguments[$parameter->getName()] = $reflector->getName()::current(); // @phpstan-ignore-line

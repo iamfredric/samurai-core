@@ -77,6 +77,8 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     {
         if ($post) {
             $this->setAttributes($post);
+        } else {
+            $this->attributes = new Collection();
         }
     }
 
@@ -322,6 +324,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return $this->attributes->except($this->hidden)->toArray();
     }
 
+    // should
     /** @return array<string, mixed> */
     public function toWordpressArray(): array
     {

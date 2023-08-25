@@ -1,6 +1,8 @@
 <?php
 
+use Boil\Support\Translations\Translator;
 use Boil\Support\Wordpress\WpHelper;
+use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Str;
 
@@ -35,9 +37,11 @@ if (! function_exists('app')) {
     /**
      * Get the available container instance.
      *
-     * @param string|null $abstract
+     * @template T
+     *
+     * @param class-string<T>|null $abstract
      * @param array<string,mixed> $parameters
-     * @return mixed (as $abstract is null ? Application : mixed)
+     * @return ($abstract is null ? Application : T)
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
@@ -97,6 +101,7 @@ if (! function_exists('config')) {
      */
     function config($key, $default = null)
     {
+        /** @var Repository $config */
         $config = \Boil\Application::getInstance()->make('config');
 
         return $config->get($key, $default);
@@ -146,6 +151,7 @@ if (! function_exists('view')) {
      */
     function view(string $name = null, array $args = [])
     {
+        /** @var \Illuminate\View\Factory $blade */
         $blade = \Boil\Application::getInstance()->make('view');
 
         if ($name) {
@@ -208,11 +214,17 @@ if (! function_exists('translate')) {
     /**
      * @param string|null $string
      * @param string[] $attributes
-     * @return string
+     * @return ($string is null ? Translator : string)
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    function translate(?string $string, array $attributes = []): string
+    function translate(?string $string = null, array $attributes = []): string|Translator
     {
-        return app(\Boil\Support\Translations\Translator::class)->translate($string, $attributes);
+        $translator = app(Translator::class);
+
+        if ($string) {
+            return $translator->translate($string, $attributes);
+        }
+
+        return $translator;
     }
 }
