@@ -17,6 +17,9 @@ abstract class Block
     /** @var array<string, mixed> */
     protected array $data = [];
 
+    /** @var array<string, mixed> */
+    protected array $casts = [];
+
     /**
      * @param  array<string, mixed>  $data
      * @param  string  $content
