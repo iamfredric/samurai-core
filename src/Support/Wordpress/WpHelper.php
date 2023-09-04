@@ -42,6 +42,7 @@ use Tests\Support\Wordpress\WpHelperFake;
  * @method static \WP_Post[]|int[] get_posts(?array $args = null)
  * @method static void acf_register_block_type(array $args)
  * @method static array|false get_fields(int $post_id = false, bool $format_value = true, bool $load_value = true)
+ * @method static mixed apply_filters(string $tag, mixed $value)
  */
 class WpHelper
 {
