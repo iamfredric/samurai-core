@@ -2,9 +2,9 @@
 
 namespace Boil\Acf\Gutenberg;
 
-use Boil\Support\Wordpress\WpHelper;
 use Boil\Application;
 use Boil\Support\Concerns\ConfigPath;
+use Boil\Support\Wordpress\WpHelper;
 
 class GutenbergConfigurator
 {
@@ -17,7 +17,7 @@ class GutenbergConfigurator
     }
 
     /**
-     * @param class-string $className
+     * @param  class-string  $className
      * @return $this
      */
     public function block(string $className): static

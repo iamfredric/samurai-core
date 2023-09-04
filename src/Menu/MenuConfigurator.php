@@ -18,9 +18,7 @@ class MenuConfigurator
     }
 
     /**
-     * @param string $slug
-     * @param array<string, mixed> $args
-     * @return string|null
+     * @param  array<string, mixed>  $args
      */
     public function render(string $slug, array $args = []): ?string
     {

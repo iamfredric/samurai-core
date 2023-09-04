@@ -14,11 +14,7 @@ class HookConfigurator
     }
 
     /**
-     * @param string $name
-     * @param callable|string|string[] $callable
-     * @param int $priority
-     * @param int $acceptedArgs
-     * @return void
+     * @param  callable|string|string[]  $callable
      */
     public function action(string $name, callable|string|array $callable, int $priority = 10, int $acceptedArgs = 1): void
     {
@@ -30,11 +26,7 @@ class HookConfigurator
     }
 
     /**
-     * @param string $name
-     * @param callable|string|string[] $callable
-     * @param int $priority
-     * @param int $acceptedArgs
-     * @return void
+     * @param  callable|string|string[]  $callable
      */
     public function filter(string $name, callable|string|array $callable, int $priority = 10, int $acceptedArgs = 1): void
     {
@@ -53,9 +45,10 @@ class HookConfigurator
     }
 
     /**
-     * @param callable|string[]|string $callable
-     * @param mixed[] $args
+     * @param  callable|string[]|string  $callable
+     * @param  mixed[]  $args
      * @return mixed
+     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function resolveCallable(callable|array|string $callable, array $args = [])

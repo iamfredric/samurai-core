@@ -14,7 +14,7 @@ class MetaBuilder
 
     protected string $relation = 'AND';
 
-    public function where(string $key, mixed $compare = null, mixed $value = null): MetaBuilder
+    public function where(string|callable $key, mixed $compare = null, mixed $value = null): MetaBuilder
     {
         if (is_callable($key)) {
             return $this->buildGroup($key);

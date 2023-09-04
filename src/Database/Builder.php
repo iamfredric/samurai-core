@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Boil\Database;
 
@@ -31,15 +33,11 @@ class Builder
         'suppress_filters' => false,
     ];
 
-//    /** @var array<string, mixed> */
-//    protected $metaArguments = [];
+    //    /** @var array<string, mixed> */
+    //    protected $metaArguments = [];
 
-    /**
-     * @var Model|null
-     */
     protected ?Model $model;
 
-    /** @param  Model|null  $model */
     final public function __construct(Model $model = null)
     {
         $this->model = $model;
@@ -60,7 +58,7 @@ class Builder
         return null;
     }
 
-    public static function find(int $id, ?Model $model = null): ?Model
+    public static function find(int $id, Model $model = null): ?Model
     {
         $instance = new static($model);
 
@@ -82,7 +80,7 @@ class Builder
         return $posts;
     }
 
-    public function paginate(?int $limit = null): Pagination
+    public function paginate(int $limit = null): Pagination
     {
         $posts = [];
 
@@ -98,7 +96,7 @@ class Builder
     }
 
     /**
-     * @param  mixed $post
+     * @param  mixed  $post
      * @return Model
      */
     protected function buildItem($post)
@@ -146,7 +144,7 @@ class Builder
         $this->arguments[$key] = $value;
     }
 
-    /** @param array<string, mixed> $query */
+    /** @param  array<string, mixed>  $query */
     public function setTaxQuery(array $query): void
     {
         if (! isset($this->arguments['tax_query'])) {
@@ -156,14 +154,14 @@ class Builder
         $this->arguments['tax_query'][] = $query;
     }
 
-//    public function setMetaArgument($key, $compare = null, $value = null)
-//    {
-//        if (! $this->metaBuilder) {
-//            $this->metaBuilder = new MetaBuilder();
-//        }
-//
-//        $this->metaBuilder->setArgument($key, $compare, $value);
-//    }
+    //    public function setMetaArgument($key, $compare = null, $value = null)
+    //    {
+    //        if (! $this->metaBuilder) {
+    //            $this->metaBuilder = new MetaBuilder();
+    //        }
+    //
+    //        $this->metaBuilder->setArgument($key, $compare, $value);
+    //    }
 
     protected function scopeWhereMeta(string $key, mixed $compare = null, mixed $value = null): void
     {
@@ -184,10 +182,7 @@ class Builder
     }
 
     /**
-     * @param string $taxonomy
-     * @param int[] $terms
-     * @param string $field
-     * @return void
+     * @param  int[]  $terms
      */
     protected function scopeWhereTaxonomyIn(string $taxonomy, array $terms, string $field = 'term_id'): void
     {
@@ -213,8 +208,7 @@ class Builder
     }
 
     /**
-     * @param int $limit
-     * @return void
+     * @param  int  $limit
      */
     protected function scopeLimit($limit): void
     {
@@ -249,7 +243,6 @@ class Builder
 
         throw BuilderCallNotFoundException::methodNotFound($method);
     }
-
 
     public function __call(string $method, mixed $parameters): static
     {

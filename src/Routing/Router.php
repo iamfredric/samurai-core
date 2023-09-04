@@ -7,7 +7,6 @@ use Boil\Database\Model;
 use Boil\Support\Concerns\ConfigPath;
 use Boil\Support\Concerns\ExtractModelArguments;
 use Boil\Support\Wordpress\WpHelper;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response as BaseResponse;
@@ -126,6 +125,7 @@ class Router
                 $response = new Response($response, 200);
             }
 
+            /** @var BaseResponse $response */
             $response->send();
 
             return null;

@@ -18,10 +18,9 @@ abstract class Block
     protected array $data = [];
 
     /**
-     * @param array<string, mixed> $data
-     * @param string $content
-     * @param bool $preview
-     * @return void
+     * @param  array<string, mixed>  $data
+     * @param  string  $content
+     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function render($data, $content = '', bool $preview = false): void
@@ -61,7 +60,7 @@ abstract class Block
         return Str::kebab($item);
     }
 
-    /** @param array<string, mixed> $data */
+    /** @param  array<string, mixed>  $data */
     protected function transform(?array $data): mixed
     {
         if (empty($data)) {

@@ -53,6 +53,7 @@ it('can be updated', function () {
             'id' => 123,
             'title' => 'Example post updated',
         ],
+        'wp_insert_post' => fn () => 123,
     ]);
     $model = new Model(['id' => 123]);
 

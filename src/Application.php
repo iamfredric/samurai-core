@@ -99,7 +99,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
 
     public function langPath($path = ''): string
     {
-        return $this->joinPaths($this->langPath ?: $this->basePath('resources/lang') , $path);
+        return $this->joinPaths($this->langPath ?: $this->basePath('resources/lang'), $path);
     }
 
     public function publicPath($path = ''): string
@@ -117,7 +117,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return $this->joinPaths($this->storagePath ?: $this->basePath('storage'), $path);
     }
 
-    /** @param string[]|null $environments */
+    /** @param  string[]|null  $environments */
     public function environment(...$environments): string|bool
     {
         if (count($environments) > 0) {
@@ -214,7 +214,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
     }
 
     /**
-     * @param \Illuminate\Support\ServiceProvider|string $provider
+     * @param  \Illuminate\Support\ServiceProvider|string  $provider
      * @return \Illuminate\Support\ServiceProvider|null
      */
     protected function getProvider($provider)
@@ -238,9 +238,8 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
     }
 
     /**
-     * @param string $provider
-     * @param string|null $service
-     * @return void
+     * @param  string  $provider
+     * @param  string|null  $service
      */
     public function registerDeferredProvider($provider, $service = null): void
     {
@@ -290,8 +289,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
     }
 
     /**
-     * @param callable[] $callbacks
-     * @return void
+     * @param  callable[]  $callbacks
      */
     protected function fireAppCallbacks(array &$callbacks): void
     {
@@ -320,8 +318,8 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
     }
 
     /**
-     * @param string[] $bootstrappers
-     * @return void
+     * @param  string[]  $bootstrappers
+     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function bootstrapWith(array $bootstrappers): void
@@ -367,7 +365,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
     }
 
     /**
-     * @param string $locale
+     * @param  string  $locale
      * @return void
      */
     public function setLocale($locale)
@@ -380,7 +378,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
         return true;
     }
 
-    /** @param callable $callback */
+    /** @param  callable  $callback */
     public function terminating($callback)
     {
         $this->terminatingCallbacks[] = $callback;
@@ -445,7 +443,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
     }
 
     /**
-     * @param string $path
+     * @param  string  $path
      * @return string
      */
     public function path($path = '')

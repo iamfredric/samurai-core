@@ -22,7 +22,7 @@ class StringServiceProvider extends ServiceProvider
                 $number = '+'.substr($number, 2);
             }
 
-            if (!str_starts_with($number, '+')) {
+            if (! str_starts_with($number, '+')) {
                 $number = "+{$countryCode}".substr($number, 1);
             }
 

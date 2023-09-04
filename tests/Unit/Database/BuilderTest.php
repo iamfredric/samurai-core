@@ -195,7 +195,7 @@ it('can be used with macro', function () {
 it('can be affected by given model', function () {
     $model = new class extends Model
     {
-        public $type = 'post';
+        public ?string $type = 'post';
 
         public function scopeFoo($builder)
         {

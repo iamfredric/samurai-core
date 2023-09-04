@@ -68,9 +68,7 @@ class Translator
     }
 
     /**
-     * @param string $string
-     * @param array<string, string> $attributes
-     * @return string
+     * @param  array<string, string>  $attributes
      */
     public function get(string $string, array $attributes = []): string
     {
@@ -78,9 +76,7 @@ class Translator
     }
 
     /**
-     * @param string $string
-     * @param array<string, string> $attributes
-     * @return string
+     * @param  array<string, string>  $attributes
      */
     public function translate(string $string, array $attributes = []): string
     {
@@ -106,7 +102,7 @@ class Translator
         [$locale] = preg_split('/-|_/', $locale) ?: [null];
 
         if (empty($locale)) {
-            throw new \InvalidArgumentException("Could not determine locale");
+            throw new \InvalidArgumentException('Could not determine locale');
         }
 
         return $locale;
@@ -125,9 +121,7 @@ class Translator
     }
 
     /**
-     * @param string $string
-     * @param array<string, string> $attributes
-     * @return string
+     * @param  array<string, string>  $attributes
      */
     public function __invoke(string $string, array $attributes = []): string
     {

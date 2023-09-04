@@ -5,7 +5,7 @@ namespace Boil\Support\Transformers;
 class AutoCaster
 {
     /**
-     * @param mixed[] $attributes
+     * @param  mixed[]  $attributes
      */
     public function __construct(protected array $attributes)
     {

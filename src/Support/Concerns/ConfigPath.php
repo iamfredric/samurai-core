@@ -5,7 +5,7 @@ namespace Boil\Support\Concerns;
 class ConfigPath
 {
     /**
-     * @param string[]|string|null $paths
+     * @param  string[]|string|null  $paths
      */
     public function __construct(protected array|string|null $paths = null)
     {

@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 class MapKeysToCamel
 {
     /**
-     * @param array<string, mixed> $attributes
+     * @param  array<string, mixed>  $attributes
      */
     public function __construct(protected array $attributes)
     {

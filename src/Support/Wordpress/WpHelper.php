@@ -48,8 +48,7 @@ class WpHelper
     protected static ?WpHelperFake $instance = null;
 
     /**
-     * @param array<string, callable> $fakes
-     * @return WpHelperFake
+     * @param  array<string, callable>  $fakes
      */
     public static function fake(array $fakes = []): WpHelperFake
     {
@@ -70,9 +69,7 @@ class WpHelper
     }
 
     /**
-     * @param string $name
-     * @param mixed[] $arguments
-     * @return mixed
+     * @param  mixed[]  $arguments
      */
     public static function __callStatic(string $name, array $arguments): mixed
     {

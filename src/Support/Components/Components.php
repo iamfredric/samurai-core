@@ -18,8 +18,7 @@ class Components implements Arrayable, Countable, IteratorAggregate, Jsonable
     protected array $components = [];
 
     /**
-     * @param array<string, mixed> $components
-     * @param string|null $prefix
+     * @param  array<string, mixed>  $components
      */
     public function __construct(array $components = [], protected ?string $prefix = null)
     {
@@ -41,7 +40,7 @@ class Components implements Arrayable, Countable, IteratorAggregate, Jsonable
         return count($this->components) > 0;
     }
 
-    /** @param  array<string, mixed> $components */
+    /** @param  array<string, mixed>  $components */
     protected function resolveComponents(array $components): void
     {
         if (! $components) {
@@ -80,8 +79,7 @@ class Components implements Arrayable, Countable, IteratorAggregate, Jsonable
     }
 
     /**
-     * @param array<string, mixed> $attributes
-     * @param string $classname
+     * @param  array<string, mixed>  $attributes
      * @return Component
      */
     protected function initializeComponent(array $attributes, string $classname)

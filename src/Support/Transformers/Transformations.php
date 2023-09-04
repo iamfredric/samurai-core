@@ -8,7 +8,7 @@ class Transformations
     {
     }
 
-    /** @param class-string $classname */
+    /** @param  class-string  $classname */
     public function through(string $classname, mixed ...$args): static
     {
         $resolvedClass = new $classname($this->attributes, ...$args);

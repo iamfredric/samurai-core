@@ -5,7 +5,7 @@ namespace Boil\Support\Wordpress;
 class Link
 {
     /**
-     * @param array<string, mixed> $attributes
+     * @param  array<string, mixed>  $attributes
      */
     public function __construct(protected array $attributes)
     {
@@ -17,8 +17,7 @@ class Link
     }
 
     /**
-     * @param string|array<string, mixed> $class
-     * @return string
+     * @param  string|array<string, mixed>  $class
      */
     public function render(string|array $class = ''): string
     {

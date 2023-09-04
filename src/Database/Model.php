@@ -66,7 +66,6 @@ class Model implements Arrayable, Jsonable, ArrayAccess
 
     protected int $excerptLength = 120;
 
-    /** @var Collection */
     protected Collection $attributes;
 
     /** @var Term[] */
@@ -94,7 +93,6 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     }
 
     /**
-     * @param int $id
      * @return Model|null
      */
     public static function find(int $id)
@@ -102,7 +100,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return Builder::find($id, new static());
     }
 
-    public static function paginate(?int $limit = null): Pagination
+    public static function paginate(int $limit = null): Pagination
     {
         return (new Builder(new static()))->paginate($limit);
     }
@@ -113,7 +111,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
     }
 
     /**
-     * @param array<string, mixed> $params
+     * @param  array<string, mixed>  $params
      * @return Model|null
      * */
     public static function create(array $params)
@@ -127,7 +125,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return static::find($id);
     }
 
-    /** @param array<string, mixed> $args */
+    /** @param  array<string, mixed>  $args */
     public function update(array $args): static
     {
         $params = [];
@@ -207,7 +205,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return $this->attributes->get($key);
     }
 
-    public function getUrlAttribute(?string $url = null): ?string
+    public function getUrlAttribute(string $url = null): ?string
     {
         return $this->getAttribute('url', WpHelper::get_permalink($this->get('id'))) ?: null;
     }
@@ -248,6 +246,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         } elseif (isset($this->casts["{$key}.*"])) {
             /** @var class-string $castable */
             $castable = $this->casts["{$key}.*"];
+
             return (new Collection($value))
                 ->mapInto($castable);
         }

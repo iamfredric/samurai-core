@@ -7,8 +7,8 @@ use Illuminate\Support\Str;
 class AttributesWhenNull
 {
     /**
-     * @param mixed[] $attributes
-     * @param object $instance
+     * @param  mixed[]  $attributes
+     * @param  object  $instance
      */
     public function __construct(
         protected array $attributes,

@@ -61,12 +61,12 @@ class WpImage implements Arrayable, Jsonable
      */
     public function url($size = null)
     {
-        return $this->id() ? WpHelper::wp_get_attachment_image_url($this->id(), $size): false; // @phpstan-ignore-line
+        return $this->id() ? WpHelper::wp_get_attachment_image_url($this->id(), $size) : false; // @phpstan-ignore-line
     }
 
     /**
      * @param  string  $size
-     * @param  array<string, mixed> $attributes
+     * @param  array<string, mixed>  $attributes
      * @return string
      */
     public function render($size = null, $attributes = [])

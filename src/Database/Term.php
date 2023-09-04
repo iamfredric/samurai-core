@@ -17,7 +17,7 @@ class Term
     protected array $dates = [];
 
     /**
-     * @param \WP_Term|array<string, mixed>|null  $attributes
+     * @param  \WP_Term|array<string, mixed>|null  $attributes
      */
     final public function __construct($attributes = null)
     {
@@ -25,7 +25,7 @@ class Term
     }
 
     /**
-     * @param array<string, mixed> $arguments
+     * @param  array<string, mixed>  $arguments
      * @return Collection<static>
      */
     public static function all(array $arguments = [])
@@ -40,7 +40,6 @@ class Term
     }
 
     /**
-     * @param int $id
      * @return null|static
      */
     public static function find(int $id)
@@ -53,7 +52,6 @@ class Term
     }
 
     /**
-     * @param Model $model
      * @return Collection<static>
      */
     public static function forModel(Model $model)

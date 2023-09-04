@@ -9,8 +9,7 @@ use Boil\Support\Wordpress\WpHelper;
 class PostTypeConfigurator
 {
     /**
-     * @param ConfigPath $configPath
-     * @param PostType[] $postTypes
+     * @param  PostType[]  $postTypes
      */
     public function __construct(
         protected ConfigPath $configPath,

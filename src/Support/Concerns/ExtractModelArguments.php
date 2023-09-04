@@ -7,14 +7,13 @@ use Illuminate\Http\Request;
 use ReflectionClass;
 use ReflectionFunction;
 use ReflectionMethod;
-use Reflector;
 
 class ExtractModelArguments
 {
     /**
-     * @param array<string, mixed> $arguments
-     * @param array<class-string, mixed> $bindings
-     * @return mixed
+     * @param  array<string, mixed>  $arguments
+     * @param  array<class-string|string, mixed>  $bindings
+     *
      * @throws \ReflectionException
      */
     public static function fromCallable(\Closure|string $callable, array $arguments = [], array $bindings = []): mixed
@@ -27,10 +26,11 @@ class ExtractModelArguments
     }
 
     /**
-     * @param class-string $className
-     * @param array<string, mixed> $arguments
-     * @param array<class-string, mixed> $bindings
+     * @param  class-string  $className
+     * @param  array<string, mixed>  $arguments
+     * @param  array<class-string|string, mixed>  $bindings
      * @return array<string, mixed>
+     *
      * @throws \ReflectionException
      */
     public static function fromConstructor(string $className, array $arguments = [], array $bindings = []): array
@@ -45,11 +45,10 @@ class ExtractModelArguments
     }
 
     /**
-     * @param object $class
-     * @param string $method
-     * @param array<string, mixed> $arguments
-     * @param array<class-string, mixed> $bindings
+     * @param  array<string, mixed>  $arguments
+     * @param  array<class-string|string, mixed>  $bindings
      * @return array<string, mixed>
+     *
      * @throws \ReflectionException
      */
     public static function fromMethod(object $class, string $method, array $arguments = [], array $bindings = []): array
@@ -62,25 +61,28 @@ class ExtractModelArguments
     }
 
     /**
-     * @param ReflectionMethod|ReflectionFunction $reflection
-     * @param array<string, mixed> $arguments
-     * @param array<class-string, mixed> $bindings
+     * @param  array<string, mixed>  $arguments
+     * @param  array<class-string|string, mixed>  $bindings
      * @return array<string, mixed>
+     *
      * @throws \ReflectionException
      */
     protected static function extractArgumentsFromReflector(ReflectionMethod|ReflectionFunction $reflection, array $arguments, array $bindings = []): array
     {
         foreach ($reflection->getParameters() as $parameter) {
             if (! $parameter->isOptional()) {
-                /** @var null|\ReflectionIntersectionType|\ReflectionNamedType|\ReflectionUnionType $type */
+                /** @var null|\ReflectionParameter $type */
                 $type = $parameter->getType();
-                $isBuiltIn = method_exists($type, 'getType') && $type->isBuiltin(); // @phpstan-ignore-line
-
+                $isBuiltIn = $type->isBuiltin(); // @phpstan-ignore-line
+                if (empty($type)) {
+                    continue;
+                }
                 /** @var class-string|null $name */
                 $name = method_exists($parameter, 'getName') ? $parameter->getName() : null;
 
                 if (isset($bindings[$type->getName()])) {
                     $arguments[$name] = $bindings[$type->getName()];
+
                     continue;
                 }
 
@@ -88,7 +90,7 @@ class ExtractModelArguments
                     continue;
                 }
 
-                if(empty($name)) {
+                if (empty($name)) {
                     continue;
                 }
 
@@ -98,10 +100,11 @@ class ExtractModelArguments
 
                 if ($type->getName() == Request::class) {
                     $arguments[$name] = Request::capture();
+
                     continue;
                 }
 
-                $reflector = new ReflectionClass($type->getName());
+                $reflector = new ReflectionClass($type->getName()); // @phpstan-ignore-line
 
                 if ($reflector->getParentClass() && $reflector->getParentClass()->getName() === Model::class) {
                     $arguments[$parameter->getName()] = $reflector->getName()::current(); // @phpstan-ignore-line

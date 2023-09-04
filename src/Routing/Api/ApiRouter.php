@@ -23,9 +23,7 @@ class ApiRouter
     }
 
     /**
-     * @param string $uri
-     * @param string|string[]|\Closure $endpoint
-     * @return ApiRoute
+     * @param  string|string[]|\Closure  $endpoint
      */
     public function get(string $uri, string|array|\Closure $endpoint): ApiRoute
     {
@@ -33,9 +31,7 @@ class ApiRouter
     }
 
     /**
-     * @param string $uri
-     * @param string|string[]|\Closure $endpoint
-     * @return ApiRoute
+     * @param  string|string[]|\Closure  $endpoint
      */
     public function post(string $uri, string|array|\Closure $endpoint): ApiRoute
     {
@@ -43,9 +39,7 @@ class ApiRouter
     }
 
     /**
-     * @param string $uri
-     * @param string|string[]|\Closure $endpoint
-     * @return ApiRoute
+     * @param  string|string[]|\Closure  $endpoint
      */
     public function delete(string $uri, string|array|\Closure $endpoint): ApiRoute
     {
@@ -68,20 +62,20 @@ class ApiRouter
 
                         if ($callable instanceof \Closure) {
                             $response = $this->app->call($callable, ExtractModelArguments::fromCallable($callable, $request->get_params(), [
-                                \WP_REST_Request::class => $request
+                                \WP_REST_Request::class => $request, // @phpstan-ignore-line
                             ]));
                         } else {
                             $controller = $this->app->make(
                                 $callable[0],
-                                ExtractModelArguments::fromConstructor($callable[0], [
-                                    \WP_REST_Request::class => $request
+                                ExtractModelArguments::fromConstructor($callable[0], [ // @phpstan-ignore-line
+                                    \WP_REST_Request::class => $request, // @phpstan-ignore-line
                                 ])
                             );
 
                             $response = $this->app->call(
                                 [$controller, $callable[1]], // @phpstan-ignore-line
                                 ExtractModelArguments::fromMethod($controller, $callable[1], $request->get_params(), [
-                                    \WP_REST_Request::class => $request
+                                    \WP_REST_Request::class => $request, // @phpstan-ignore-line
                                 ])
                             );
                         }
@@ -90,6 +84,7 @@ class ApiRouter
                             $response = new JsonResponse($response, 200);
                         }
 
+                        /** @var JsonResponse $response */
                         $response->send();
                     },
                 ]);
@@ -97,47 +92,47 @@ class ApiRouter
         });
     }
 
-//    protected function routeResponse(ApiRoute $route, $request)
-//    {
-//        // Todo: Extract those arguments
-//        if (is_callable($route->callback)) {
-//            return call_user_func($route->callback);
-//        }
-//
-//        $class = $this->app->call($route->getClassName());
-//
-//        $method = new \ReflectionMethod($class, $route->getMethodName());
-//
-//        $params = $route->getUriParams();
-//
-//        $dependencies = [];
-//
-//        foreach ($method->getParameters() as $parameter) {
-//            $type = (string) $parameter->getType();
-//            if ($type === Request::class) {
-//                // Todo...
-//                $dependencies[] = new Request($request);
-//            } elseif ($type === 'WP_REST_Request') {
-//                $dependencies[] = $request;
-//            } elseif (in_array($parameter->getName(), $params)) {
-//                $dependencies[] = $request->get_param($parameter->getName());
-//            } elseif ($parameter->allowsNull()) {
-//                $dependencies[] = null;
-//            } elseif ($type) {
-//                $dependencies[] = $this->app->make($parameter->getClass()->name);
-//            } else {
-//                $dependencies[] = null;
-//            }
-//        }
-//
-//        $response = $method->invokeArgs(
-//            $class, $dependencies
-//        );
-//
-//        if ($response instanceof JsonResponse) {
-//            $response = new JsonResponse($response);
-//        }
-//
-//        return $response;
-//    }
+    //    protected function routeResponse(ApiRoute $route, $request)
+    //    {
+    //        // Todo: Extract those arguments
+    //        if (is_callable($route->callback)) {
+    //            return call_user_func($route->callback);
+    //        }
+    //
+    //        $class = $this->app->call($route->getClassName());
+    //
+    //        $method = new \ReflectionMethod($class, $route->getMethodName());
+    //
+    //        $params = $route->getUriParams();
+    //
+    //        $dependencies = [];
+    //
+    //        foreach ($method->getParameters() as $parameter) {
+    //            $type = (string) $parameter->getType();
+    //            if ($type === Request::class) {
+    //                // Todo...
+    //                $dependencies[] = new Request($request);
+    //            } elseif ($type === 'WP_REST_Request') {
+    //                $dependencies[] = $request;
+    //            } elseif (in_array($parameter->getName(), $params)) {
+    //                $dependencies[] = $request->get_param($parameter->getName());
+    //            } elseif ($parameter->allowsNull()) {
+    //                $dependencies[] = null;
+    //            } elseif ($type) {
+    //                $dependencies[] = $this->app->make($parameter->getClass()->name);
+    //            } else {
+    //                $dependencies[] = null;
+    //            }
+    //        }
+    //
+    //        $response = $method->invokeArgs(
+    //            $class, $dependencies
+    //        );
+    //
+    //        if ($response instanceof JsonResponse) {
+    //            $response = new JsonResponse($response);
+    //        }
+    //
+    //        return $response;
+    //    }
 }

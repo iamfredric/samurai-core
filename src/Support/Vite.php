@@ -98,8 +98,6 @@ class Vite implements Htmlable
 
     /**
      * Get the Content Security Policy nonce applied to all generated tags.
-     *
-     * @return string|null
      */
     public function cspNonce(): ?string
     {
@@ -133,7 +131,7 @@ class Vite implements Htmlable
     /**
      * Set the Vite entry points.
      *
-     * @param  string[] $entryPoints
+     * @param  string[]  $entryPoints
      * @return $this
      */
     public function withEntryPoints($entryPoints)
@@ -628,7 +626,7 @@ class Vite implements Htmlable
     /**
      * Get the path to a given asset when running in HMR mode.
      *
-     * @param string $asset
+     * @param  string  $asset
      * @return string
      */
     protected function hotAsset($asset)
@@ -726,7 +724,7 @@ class Vite implements Htmlable
     /**
      * Get the chunk for the given entry point / asset.
      *
-     * @param  array<string, mixed[]> $manifest
+     * @param  array<string, mixed[]>  $manifest
      * @param  string  $file
      * @return mixed[]
      *

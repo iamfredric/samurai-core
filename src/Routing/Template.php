@@ -14,10 +14,8 @@ class Template
     protected string|array|Closure|null $endpoint;
 
     /**
-     * @param string $name
-     * @param string|string[]|Closure|callable|null $endpoint
-     * @param array<string, mixed> $options
-     * @param string|null $view
+     * @param  string|string[]|Closure|callable|null  $endpoint
+     * @param  array<string, mixed>  $options
      */
     public function __construct(
         public readonly string $name,

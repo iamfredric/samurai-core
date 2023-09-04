@@ -37,10 +37,9 @@ class Component implements Arrayable, Jsonable
     protected ?string $prevComponent = null;
 
     /**
-     * @param array<string, mixed> $data
-     * @param string|null $prefix
+     * @param  array<string, mixed>  $data
      */
-    public function __construct(array $data, ?string $prefix = null)
+    public function __construct(array $data, string $prefix = null)
     {
         $this->view = $data['acf_fc_layout'];
 
@@ -95,7 +94,7 @@ class Component implements Arrayable, Jsonable
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      * @return array<string, mixed>
      */
     protected function appendDataAttributes(array $data): array

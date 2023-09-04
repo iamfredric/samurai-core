@@ -39,8 +39,8 @@ if (! function_exists('app')) {
      *
      * @template T
      *
-     * @param class-string<T>|null $abstract
-     * @param array<string,mixed> $parameters
+     * @param  class-string<T>|null  $abstract
+     * @param  array<string,mixed>  $parameters
      * @return ($abstract is null ? Application : T)
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
@@ -144,9 +144,9 @@ if (! function_exists('uploads_path')) {
 
 if (! function_exists('view')) {
     /**
-     * @param string|null $name
-     * @param array<string, mixed> $args
+     * @param  array<string, mixed>  $args
      * @return mixed (as $name is null ? \Illuminate\View\Factory : \Illuminate\Contracts\View\View)
+     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     function view(string $name = null, array $args = [])
@@ -212,12 +212,12 @@ if (! function_exists('theme_url')) {
 
 if (! function_exists('translate')) {
     /**
-     * @param string|null $string
-     * @param string[] $attributes
+     * @param  string[]  $attributes
      * @return ($string is null ? Translator : string)
+     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    function translate(?string $string = null, array $attributes = []): string|Translator
+    function translate(string $string = null, array $attributes = []): string|Translator
     {
         $translator = app(Translator::class);
 

@@ -133,6 +133,7 @@ class Taxonomy
 
     /**
      * @return array<string, mixed>
+     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function toArray(): array

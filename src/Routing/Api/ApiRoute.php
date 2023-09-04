@@ -5,10 +5,7 @@ namespace Boil\Routing\Api;
 class ApiRoute
 {
     /**
-     * @param string $method
-     * @param string $uri
-     * @param string|string[]|\Closure $callback
-     * @param string $namespace
+     * @param  string|string[]|\Closure  $callback
      */
     public function __construct(
         public string $method,

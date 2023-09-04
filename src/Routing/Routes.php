@@ -14,10 +14,7 @@ class Routes
     protected array $views = [];
 
     /**
-     * @param string $name
-     * @param string $view
-     * @param array<string, mixed> $options
-     * @return Template
+     * @param  array<string, mixed>  $options
      */
     public function view(string $name, string $view, array $options = []): Template
     {
@@ -25,9 +22,7 @@ class Routes
     }
 
     /**
-     * @param string $name
-     * @param string|string[]|callable $callback
-     * @return Template
+     * @param  string|string[]|callable  $callback
      */
     public function register(string $name, string|array|callable $callback): Template
     {
@@ -35,11 +30,8 @@ class Routes
     }
 
     /**
-     * @param string $key
-     * @param string $name
-     * @param string|string[]|callable $callback
-     * @param array<string, mixed> $options
-     * @return Template
+     * @param  string|string[]|callable  $callback
+     * @param  array<string, mixed>  $options
      */
     public function template(string $key, string $name, string|array|callable $callback, array $options = []): Template
     {

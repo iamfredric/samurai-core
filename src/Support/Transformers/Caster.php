@@ -5,8 +5,8 @@ namespace Boil\Support\Transformers;
 class Caster
 {
     /**
-     * @param array<int|string, mixed> $values
-     * @param string[] $casts
+     * @param  array<int|string, mixed>  $values
+     * @param  string[]  $casts
      */
     public function __construct(
         protected array $values,
@@ -30,10 +30,7 @@ class Caster
     }
 
     /**
-     * @param string $key
-     * @param mixed[] $keys
-     * @param string $cast
-     * @return mixed
+     * @param  mixed[]  $keys
      */
     protected function transformItem(string $key, array $keys, string $cast): mixed
     {
@@ -66,11 +63,7 @@ class Caster
     }
 
     /**
-     * @param mixed $value
-     * @param mixed $key
-     * @param mixed[] $keys
-     * @param string $cast
-     * @return mixed
+     * @param  mixed[]  $keys
      */
     protected function cast(mixed $value, mixed $key, array $keys, string $cast): mixed
     {

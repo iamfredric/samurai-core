@@ -11,7 +11,7 @@ class Image implements Arrayable, Jsonable
 {
     protected Collection $attributes;
 
-    /** @param array<string, mixed>|null $thumbnail */
+    /** @param  array<string, mixed>|null  $thumbnail */
     public function __construct(array $thumbnail = null)
     {
         $this->attributes = new Collection(Arr::dot($thumbnail ?: []));
@@ -41,7 +41,7 @@ class Image implements Arrayable, Jsonable
         return $this->attributes->get("sizes.{$size}.source-url") ?: $this->attributes->get('url');
     }
 
-    public function getWidth(?string $size = null): ?int
+    public function getWidth(string $size = null): ?int
     {
         if (empty($size)) {
             return $this->attributes->get('width');
@@ -50,7 +50,7 @@ class Image implements Arrayable, Jsonable
         return $this->attributes->get("sizes.{$size}-width") ?: $this->attributes->get('width');
     }
 
-    public function getHeight(?string $size = null): ?int
+    public function getHeight(string $size = null): ?int
     {
         if (empty($size)) {
             return $this->attributes->get('height');

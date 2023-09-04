@@ -12,26 +12,25 @@ class MaintenanceMode implements LaravelMaintenanceMode
     }
 
     /**
-     * @param array<string, mixed> $payload
-     * @return void
+     * @param  array<string, mixed>  $payload
      */
     public function activate(array $payload): void
     {
-//        if (! $this->active()) {
-//            file_put_contents(rtrim($this->path, '/') . '/.maintenance', json_encode($payload));
-//        }
+        //        if (! $this->active()) {
+        //            file_put_contents(rtrim($this->path, '/') . '/.maintenance', json_encode($payload));
+        //        }
     }
 
     public function deactivate(): void
     {
-//        if ($this->active()) {
-//            unlink(rtrim($this->path, '/') . '/.maintenance');
-//        }
+        //        if ($this->active()) {
+        //            unlink(rtrim($this->path, '/') . '/.maintenance');
+        //        }
     }
 
     public function active(): bool
     {
-        return file_exists(rtrim($this->path ?: '', '/') . '/.maintenance');
+        return file_exists(rtrim($this->path ?: '', '/').'/.maintenance');
     }
 
     /**
