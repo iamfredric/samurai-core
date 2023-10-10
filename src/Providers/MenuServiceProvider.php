@@ -1,9 +1,9 @@
 <?php
 
-namespace Boil\Providers;
+namespace Samurai\Providers;
 
-use Boil\Menu\MenuConfigurator;
 use Illuminate\Support\ServiceProvider;
+use Samurai\Menu\MenuConfigurator;
 
 class MenuServiceProvider extends ServiceProvider
 {

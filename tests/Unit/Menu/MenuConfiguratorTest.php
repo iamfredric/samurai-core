@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Menu\MenuConfiguratorTest;
 
-use Boil\Menu\MenuConfigurator;
-use Boil\Support\Wordpress\WpHelper;
+use Samurai\Menu\MenuConfigurator;
+use Samurai\Support\Wordpress\WpHelper;
 
 it('can be registered', function () {
     $helper = WpHelper::fake();

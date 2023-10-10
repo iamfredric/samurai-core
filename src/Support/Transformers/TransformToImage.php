@@ -1,8 +1,8 @@
 <?php
 
-namespace Boil\Support\Transformers;
+namespace Samurai\Support\Transformers;
 
-use Boil\Support\Wordpress\Image;
+use Samurai\Support\Wordpress\Image;
 
 class TransformToImage
 {

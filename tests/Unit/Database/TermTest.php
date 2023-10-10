@@ -2,9 +2,9 @@
 
 namespace Unit\Database;
 
-use Boil\Database\Model;
-use Boil\Database\Term;
-use Boil\Support\Wordpress\WpHelper;
+use Samurai\Database\Model;
+use Samurai\Database\Term;
+use Samurai\Support\Wordpress\WpHelper;
 
 it('can fetch all terms', function () {
     WpHelper::fake([

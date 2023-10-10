@@ -2,7 +2,7 @@
 
 namespace Unit\Acf;
 
-use Boil\Acf\AcfConfiguratorOptionsPage;
+use Samurai\Acf\AcfConfiguratorOptionsPage;
 
 it('can be casted to an array', function () {
     $optionsPage = new AcfConfiguratorOptionsPage(

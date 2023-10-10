@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Support\Translations;
 
-use Boil\Support\Translations\Translator;
+use Samurai\Support\Translations\Translator;
 
 it('translates a string', function () {
     $translator = new Translator();

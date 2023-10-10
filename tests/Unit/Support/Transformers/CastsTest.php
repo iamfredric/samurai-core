@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Support\Transformers\CastsTest;
 
-use Boil\Support\Transformers\Casts;
+use Samurai\Support\Transformers\Casts;
 
 it('casts things', function () {
     $caster = new Casts('zip', 'array');

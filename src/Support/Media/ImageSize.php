@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Support\Media;
+namespace Samurai\Support\Media;
 
 class ImageSize
 {

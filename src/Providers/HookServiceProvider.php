@@ -1,9 +1,9 @@
 <?php
 
-namespace Boil\Providers;
+namespace Samurai\Providers;
 
-use Boil\Hooks\HookConfigurator;
 use Illuminate\Support\ServiceProvider;
+use Samurai\Hooks\HookConfigurator;
 
 class HookServiceProvider extends ServiceProvider
 {

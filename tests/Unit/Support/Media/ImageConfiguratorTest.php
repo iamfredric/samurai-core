@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Support\Media\ImageConfiguratorTest;
 
-use Boil\Support\Concerns\ConfigPath;
-use Boil\Support\Media\ImageConfigurator;
-use Boil\Support\Wordpress\WpHelper;
+use Samurai\Support\Concerns\ConfigPath;
+use Samurai\Support\Media\ImageConfigurator;
+use Samurai\Support\Wordpress\WpHelper;
 
 it('registers image support and sizes', function () {
     $helper = WpHelper::fake([

@@ -1,16 +1,16 @@
 <?php
 
-namespace Boil\Http;
+namespace Samurai\Http;
 
-use Boil\Acf\Bootstrap\BootProviders;
-use Boil\Acf\Bootstrap\HandleExceptions;
-use Boil\Acf\Bootstrap\LoadConfiguration;
-use Boil\Acf\Bootstrap\LoadEnvironmentVariables;
-use Boil\Acf\Bootstrap\RegisterFacades;
-use Boil\Acf\Bootstrap\RegisterProviders;
-use Boil\Application;
-use Boil\Routing\Router;
 use Illuminate\Contracts\Http\Kernel as KernelContract;
+use Samurai\Acf\Bootstrap\BootProviders;
+use Samurai\Acf\Bootstrap\HandleExceptions;
+use Samurai\Acf\Bootstrap\LoadConfiguration;
+use Samurai\Acf\Bootstrap\LoadEnvironmentVariables;
+use Samurai\Acf\Bootstrap\RegisterFacades;
+use Samurai\Acf\Bootstrap\RegisterProviders;
+use Samurai\Application;
+use Samurai\Routing\Router;
 
 class Kernel implements KernelContract
 {

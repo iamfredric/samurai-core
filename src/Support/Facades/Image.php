@@ -1,10 +1,10 @@
 <?php
 
-namespace Boil\Support\Facades;
+namespace Samurai\Support\Facades;
 
-use Boil\Support\Media\ImageConfigurator;
-use Boil\Support\Media\ImageSize;
 use Illuminate\Support\Facades\Facade;
+use Samurai\Support\Media\ImageConfigurator;
+use Samurai\Support\Media\ImageSize;
 
 /**
  * @method static ImageConfigurator support(string...$types)

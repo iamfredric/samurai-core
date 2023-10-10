@@ -1,9 +1,9 @@
 <?php
 
-namespace Boil\Support\Media;
+namespace Samurai\Support\Media;
 
-use Boil\Support\Concerns\ConfigPath;
-use Boil\Support\Wordpress\WpHelper;
+use Samurai\Support\Concerns\ConfigPath;
+use Samurai\Support\Wordpress\WpHelper;
 
 class ImageConfigurator
 {

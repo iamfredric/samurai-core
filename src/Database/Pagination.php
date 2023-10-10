@@ -1,10 +1,10 @@
 <?php
 
-namespace Boil\Database;
+namespace Samurai\Database;
 
 use ArrayIterator;
-use Boil\Support\Wordpress\WpHelper;
 use IteratorAggregate;
+use Samurai\Support\Wordpress\WpHelper;
 
 class Pagination implements IteratorAggregate
 {

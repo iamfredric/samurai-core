@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Support\Transformers\AttributeGettersTest;
 
-use Boil\Support\Transformers\AttributeGetters;
+use Samurai\Support\Transformers\AttributeGetters;
 
 it('transforms data with attribute getters', function () {
     $transformer = new AttributeGetters([

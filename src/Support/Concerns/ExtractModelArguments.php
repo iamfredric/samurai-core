@@ -1,12 +1,12 @@
 <?php
 
-namespace Boil\Support\Concerns;
+namespace Samurai\Support\Concerns;
 
-use Boil\Database\Model;
 use Illuminate\Http\Request;
 use ReflectionClass;
 use ReflectionFunction;
 use ReflectionMethod;
+use Samurai\Database\Model;
 
 class ExtractModelArguments
 {

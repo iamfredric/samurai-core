@@ -1,10 +1,10 @@
 <?php
 
-namespace Boil\Menu;
+namespace Samurai\Menu;
 
-use Boil\Application;
-use Boil\Support\Concerns\ConfigPath;
-use Boil\Support\Wordpress\WpHelper;
+use Samurai\Application;
+use Samurai\Support\Concerns\ConfigPath;
+use Samurai\Support\Wordpress\WpHelper;
 
 class MenuConfigurator
 {

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Acf\Gutenberg;
 
-use Boil\Acf\Gutenberg\Block;
+use Samurai\Acf\Gutenberg\Block;
 
 it('has a render method', function () {
     $block = new ExampleBlock();

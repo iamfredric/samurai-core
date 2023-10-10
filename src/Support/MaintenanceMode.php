@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Support;
+namespace Samurai\Support;
 
 use Illuminate\Contracts\Foundation\MaintenanceMode as LaravelMaintenanceMode;
 

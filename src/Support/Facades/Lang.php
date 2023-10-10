@@ -1,9 +1,9 @@
 <?php
 
-namespace Boil\Support\Facades;
+namespace Samurai\Support\Facades;
 
-use Boil\Support\Translations\Translator;
 use Illuminate\Support\Facades\Facade;
+use Samurai\Support\Translations\Translator;
 
 class Lang extends Facade
 {

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Support\Wordpress\LinkTest;
 
-use Boil\Support\Wordpress\Link;
+use Samurai\Support\Wordpress\Link;
 
 it('can be an link', function () {
     $link = new Link([

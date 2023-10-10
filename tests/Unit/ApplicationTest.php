@@ -2,7 +2,7 @@
 
 namespace Unit;
 
-use Boil\Application;
+use Samurai\Application;
 
 it('displays the version', function () {
     $app = new Application(__DIR__);

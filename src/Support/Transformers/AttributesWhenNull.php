@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Support\Transformers;
+namespace Samurai\Support\Transformers;
 
 use Illuminate\Support\Str;
 

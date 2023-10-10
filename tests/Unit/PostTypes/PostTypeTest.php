@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\PostTypes\PostTypeTest;
 
-use Boil\PostTypes\PostType;
+use Samurai\PostTypes\PostType;
 
 it('can be a post type', function () {
     $postType = new PostType('test-post-type');

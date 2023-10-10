@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Exceptions;
+namespace Samurai\Exceptions;
 
 class BuilderCallNotFoundException extends \Exception
 {

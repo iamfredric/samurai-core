@@ -2,7 +2,7 @@
 
 namespace Unit\Routing;
 
-use Boil\Routing\Router;
+use Samurai\Routing\Router;
 
 it('captures the routes', function () {
     $router = new Router($this->app);

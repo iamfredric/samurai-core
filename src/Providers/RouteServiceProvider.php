@@ -1,11 +1,11 @@
 <?php
 
-namespace Boil\Providers;
+namespace Samurai\Providers;
 
-use Boil\Routing\Api\ApiRouter;
-use Boil\Routing\Router;
-use Boil\Routing\Routes;
 use Illuminate\Support\ServiceProvider;
+use Samurai\Routing\Api\ApiRouter;
+use Samurai\Routing\Router;
+use Samurai\Routing\Routes;
 
 class RouteServiceProvider extends ServiceProvider
 {

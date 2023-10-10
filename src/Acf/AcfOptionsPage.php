@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Acf;
+namespace Samurai\Acf;
 
 abstract class AcfOptionsPage
 {

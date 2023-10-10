@@ -80,7 +80,7 @@ it('has public method share', function () {
     expect($optionsPage->share())->toBeNull();
 });
 
-class TestOptionsPage extends \Boil\Acf\AcfOptionsPage
+class TestOptionsPage extends \Samurai\Acf\AcfOptionsPage
 {
     public function id(): string
     {

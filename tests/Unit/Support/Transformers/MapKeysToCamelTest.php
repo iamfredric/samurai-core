@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Support\Transformers\MapKeysToCamelTest;
 
-use Boil\Support\Transformers\MapKeysToCamel;
+use Samurai\Support\Transformers\MapKeysToCamel;
 
 it('transforms attribute keys to camel case', function () {
     $transformer = new MapKeysToCamel([

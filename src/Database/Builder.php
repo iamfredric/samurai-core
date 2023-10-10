@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Boil\Database;
+namespace Samurai\Database;
 
-use Boil\Exceptions\BuilderCallNotFoundException;
-use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
-
-// use Platon\Exceptions\BuilderCallNotFoundException;
+use Samurai\Exceptions\BuilderCallNotFoundException;
+use Samurai\Support\Wordpress\WpHelper;
 
 /**
  * @method Builder where($key, $value)

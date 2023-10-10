@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Support\Components\ComponentTest;
 
-use Boil\Support\Components\Component;
+use Samurai\Support\Components\Component;
 
 it('can be a component', function () {
     $component = new Component([

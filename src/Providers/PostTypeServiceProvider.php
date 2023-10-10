@@ -1,10 +1,10 @@
 <?php
 
-namespace Boil\Providers;
+namespace Samurai\Providers;
 
-use Boil\PostTypes\PostTypeConfigurator;
-use Boil\Support\Concerns\ConfigPath;
 use Illuminate\Support\ServiceProvider;
+use Samurai\PostTypes\PostTypeConfigurator;
+use Samurai\Support\Concerns\ConfigPath;
 
 class PostTypeServiceProvider extends ServiceProvider
 {

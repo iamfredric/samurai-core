@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Support\Components\ComponentsTest;
 
-use Boil\Support\Components\Component;
-use Boil\Support\Components\Components;
+use Samurai\Support\Components\Component;
+use Samurai\Support\Components\Components;
 
 it('determines if components exists')
     ->expect(new Components([]))->exists()->toBeFalse();

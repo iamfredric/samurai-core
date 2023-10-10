@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Routing\TemplateTest;
 
-use Boil\Routing\Template;
+use Samurai\Routing\Template;
 
 it('can be a template with class method call')
     ->expect(new Template('index', ['PostController', 'index']))

@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Unit\Database;
 
-use Boil\Database\Model;
-use Boil\Support\Wordpress\WpHelper;
+use Samurai\Database\Model;
+use Samurai\Support\Wordpress\WpHelper;
 
 it('can be constructed', function () {
     $model = new Model(postArray());

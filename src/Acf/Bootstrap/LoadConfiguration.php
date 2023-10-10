@@ -1,11 +1,11 @@
 <?php
 
-namespace Boil\Acf\Bootstrap;
+namespace Samurai\Acf\Bootstrap;
 
-use Boil\Application;
 use Exception;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
+use Samurai\Application;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 

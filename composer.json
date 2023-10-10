@@ -1,12 +1,12 @@
 {
-    "name": "iamfredric/samurai",
+    "name": "iamfredric/samurai-core",
 
     "autoload": {
         "files": [
             "src/helpers.php"
         ],
         "psr-4": {
-            "Boil\\": "src/"
+            "Samurai\\": "src/"
         }
     },
 

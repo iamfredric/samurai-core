@@ -2,8 +2,8 @@
 
 namespace Unit\Database;
 
-use Boil\Database\Builder;
-use Boil\Database\Model;
+use Samurai\Database\Builder;
+use Samurai\Database\Model;
 
 it('can use where', function () {
     $builder = new Builder();

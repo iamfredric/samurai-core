@@ -1,14 +1,14 @@
 <?php
 
-namespace Boil\Routing;
+namespace Samurai\Routing;
 
-use Boil\Application;
-use Boil\Database\Model;
-use Boil\Support\Concerns\ConfigPath;
-use Boil\Support\Concerns\ExtractModelArguments;
-use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Samurai\Application;
+use Samurai\Database\Model;
+use Samurai\Support\Concerns\ConfigPath;
+use Samurai\Support\Concerns\ExtractModelArguments;
+use Samurai\Support\Wordpress\WpHelper;
 use Symfony\Component\HttpFoundation\Response as BaseResponse;
 
 class Router

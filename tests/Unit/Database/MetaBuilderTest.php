@@ -2,7 +2,7 @@
 
 namespace Unit\Database;
 
-use Boil\Database\MetaBuilder;
+use Samurai\Database\MetaBuilder;
 
 it('builds meta queries', function () {
     $builder = new MetaBuilder();

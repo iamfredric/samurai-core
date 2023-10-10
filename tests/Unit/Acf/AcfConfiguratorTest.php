@@ -2,11 +2,11 @@
 
 namespace Tests\Support\Unit\Acf;
 
-use Boil\Acf\AcfConfigurator;
-use Boil\Acf\AcfOptionsPage;
-use Boil\Acf\Group;
-use Boil\Support\Concerns\ConfigPath;
-use Boil\Support\Wordpress\WpHelper;
+use Samurai\Acf\AcfConfigurator;
+use Samurai\Acf\AcfOptionsPage;
+use Samurai\Acf\Group;
+use Samurai\Support\Concerns\ConfigPath;
+use Samurai\Support\Wordpress\WpHelper;
 
 test('add options page', function () {
     $config = new AcfConfigurator(new ConfigPath([]));

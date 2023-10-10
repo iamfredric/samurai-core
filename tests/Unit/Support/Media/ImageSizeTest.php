@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Support\Media\ImageSizeTest;
 
-use Boil\Support\Media\ImageSize;
+use Samurai\Support\Media\ImageSize;
 
 it('creates an image size', function () {
     $size = new ImageSize('me-size', 100, 200, true);

@@ -1,11 +1,11 @@
 <?php
 
-namespace Boil\Acf;
+namespace Samurai\Acf;
 
-use Boil\Support\Concerns\ConfigPath;
-use Boil\Support\Facades\View;
-use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Support\Collection;
+use Samurai\Support\Concerns\ConfigPath;
+use Samurai\Support\Facades\View;
+use Samurai\Support\Wordpress\WpHelper;
 
 class AcfConfigurator
 {

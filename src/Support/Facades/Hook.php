@@ -1,9 +1,9 @@
 <?php
 
-namespace Boil\Support\Facades;
+namespace Samurai\Support\Facades;
 
-use Boil\Hooks\HookConfigurator;
 use Illuminate\Support\Facades\Facade;
+use Samurai\Hooks\HookConfigurator;
 
 /**
  * @method static void action(string $name, callable|string|array $callable, int $priority = 10, int $acceptedArgs = 1)

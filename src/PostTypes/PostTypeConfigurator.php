@@ -1,10 +1,10 @@
 <?php
 
-namespace Boil\PostTypes;
+namespace Samurai\PostTypes;
 
-use Boil\Support\Concerns\ConfigPath;
-use Boil\Support\Facades\Image;
-use Boil\Support\Wordpress\WpHelper;
+use Samurai\Support\Concerns\ConfigPath;
+use Samurai\Support\Facades\Image;
+use Samurai\Support\Wordpress\WpHelper;
 
 class PostTypeConfigurator
 {

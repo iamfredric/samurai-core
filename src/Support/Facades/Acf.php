@@ -1,10 +1,10 @@
 <?php
 
-namespace Boil\Support\Facades;
+namespace Samurai\Support\Facades;
 
-use Boil\Acf\AcfConfigurator;
-use Boil\Acf\AcfConfiguratorOptionsPage;
 use Illuminate\Support\Facades\Facade;
+use Samurai\Acf\AcfConfigurator;
+use Samurai\Acf\AcfConfiguratorOptionsPage;
 
 /**
  * @method static AcfConfiguratorOptionsPage addOptionsPage(string $id, string $title, string $menuTitle = null, string $parentSlug = null, int $position = null, string $capability = 'edit_posts', string $iconUrl = '', bool $redirect = false, bool $autoload = false, string $updateButtonLabel = null, string $updateMessage = null, string $slug = null)
@@ -15,6 +15,6 @@ class Acf extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \Boil\Acf\AcfConfigurator::class;
+        return \Samurai\Acf\AcfConfigurator::class;
     }
 }

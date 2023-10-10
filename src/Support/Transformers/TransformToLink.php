@@ -1,8 +1,8 @@
 <?php
 
-namespace Boil\Support\Transformers;
+namespace Samurai\Support\Transformers;
 
-use Boil\Support\Wordpress\Link;
+use Samurai\Support\Wordpress\Link;
 
 class TransformToLink
 {

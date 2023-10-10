@@ -1,12 +1,12 @@
 <?php
 
-namespace Boil\Routing\Api;
+namespace Samurai\Routing\Api;
 
-use Boil\Application;
-use Boil\Support\Concerns\ConfigPath;
-use Boil\Support\Concerns\ExtractModelArguments;
-use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Http\JsonResponse;
+use Samurai\Application;
+use Samurai\Support\Concerns\ConfigPath;
+use Samurai\Support\Concerns\ExtractModelArguments;
+use Samurai\Support\Wordpress\WpHelper;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApiRouter

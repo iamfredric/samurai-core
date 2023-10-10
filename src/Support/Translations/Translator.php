@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Support\Translations;
+namespace Samurai\Support\Translations;
 
 use Illuminate\Support\Collection;
 

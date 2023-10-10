@@ -1,10 +1,10 @@
 <?php
 
-namespace Boil\Providers;
+namespace Samurai\Providers;
 
-use Boil\Support\Concerns\ConfigPath;
-use Boil\Support\Media\ImageConfigurator;
 use Illuminate\Support\ServiceProvider;
+use Samurai\Support\Concerns\ConfigPath;
+use Samurai\Support\Media\ImageConfigurator;
 
 class ImageServiceProvider extends ServiceProvider
 {

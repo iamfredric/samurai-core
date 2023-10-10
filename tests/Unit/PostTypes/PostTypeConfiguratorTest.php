@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\PostTypes\PostTypeConfiguratorTest;
 
-use Boil\PostTypes\PostType;
-use Boil\PostTypes\PostTypeConfigurator;
-use Boil\Support\Concerns\ConfigPath;
-use Boil\Support\Wordpress\WpHelper;
+use Samurai\PostTypes\PostType;
+use Samurai\PostTypes\PostTypeConfigurator;
+use Samurai\Support\Concerns\ConfigPath;
+use Samurai\Support\Wordpress\WpHelper;
 
 it('can register post types', function () {
     $faker = WpHelper::fake([
@@ -26,7 +26,7 @@ it('can register post types', function () {
 
     $otherPostType->taxonomy($taxonomy = $configurator->taxonomy('test-taxonomy'))->supports('images');
 
-    expect($taxonomy)->toBeInstanceOf(\Boil\PostTypes\Taxonomy::class);
+    expect($taxonomy)->toBeInstanceOf(\Samurai\PostTypes\Taxonomy::class);
 
     $configurator->boot();
 

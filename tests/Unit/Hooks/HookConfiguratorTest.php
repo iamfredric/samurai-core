@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Hooks\HookConfiguratorTest;
 
-use Boil\Hooks\HookConfigurator;
-use Boil\Support\Wordpress\WpHelper;
+use Samurai\Hooks\HookConfigurator;
+use Samurai\Support\Wordpress\WpHelper;
 
 it('configures the hooks', function () {
     $hook = new HookConfigurator($this->app);

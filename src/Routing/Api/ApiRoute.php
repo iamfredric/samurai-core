@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Routing\Api;
+namespace Samurai\Routing\Api;
 
 class ApiRoute
 {

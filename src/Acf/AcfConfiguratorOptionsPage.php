@@ -1,10 +1,10 @@
 <?php
 
-namespace Boil\Acf;
+namespace Samurai\Acf;
 
-use Boil\Support\Wordpress\WpHelper;
 use Closure;
 use Illuminate\Support\Str;
+use Samurai\Support\Wordpress\WpHelper;
 
 class AcfConfiguratorOptionsPage
 {

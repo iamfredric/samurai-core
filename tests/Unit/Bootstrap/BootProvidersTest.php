@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Bootstrap\BootProvidersTest;
 
-use Boil\Acf\Bootstrap\BootProviders;
+use Samurai\Acf\Bootstrap\BootProviders;
 
 it('boots providers', function () {
     expect($this->app->isBooted())->toBeFalse();

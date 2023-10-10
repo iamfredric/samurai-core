@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Routing\RoutesTest;
 
-use Boil\Routing\Routes;
 use Illuminate\Http\Response;
+use Samurai\Routing\Routes;
 
 it('registers a route', function () {
     $routes = new Routes();
@@ -12,7 +12,7 @@ it('registers a route', function () {
         return 'test';
     });
 
-    expect($route)->toBeInstanceOf(\Boil\Routing\Template::class)
+    expect($route)->toBeInstanceOf(\Samurai\Routing\Template::class)
         ->name->toBe('index')
         ->getView()->toBeNull()
         ->options->toBe([])
@@ -29,7 +29,7 @@ it('registers a view', function () {
 
     $route = $routes->view('index', 'index');
 
-    expect($route)->toBeInstanceOf(\Boil\Routing\Template::class)
+    expect($route)->toBeInstanceOf(\Samurai\Routing\Template::class)
         ->name->toBe('index')
         ->getView()->toBe('index')
         ->options->toBe([])
@@ -41,7 +41,7 @@ it('registers a page template', function () {
 
     $template = $routes->template('index-template', 'Index template', 'TestController@test');
 
-    expect($template)->toBeInstanceOf(\Boil\Routing\Template::class)
+    expect($template)->toBeInstanceOf(\Samurai\Routing\Template::class)
         ->name->toBe('Index template')
         ->getView()->toBeNull()
         ->options->toBe([])
@@ -51,7 +51,7 @@ it('registers a page template', function () {
 
     expect(isset($routes->getTemplates()['index-template']))->toBeTrue();
 
-    expect($routes->isRegistered('index-template'))->toBeInstanceOf(\Boil\Routing\Template::class);
+    expect($routes->isRegistered('index-template'))->toBeInstanceOf(\Samurai\Routing\Template::class);
 });
 
 it('resolves a route', function () {

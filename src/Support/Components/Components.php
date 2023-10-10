@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Support\Components;
+namespace Samurai\Support\Components;
 
 use ArrayIterator;
 use Countable;

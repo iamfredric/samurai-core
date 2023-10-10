@@ -1,14 +1,14 @@
 <?php
 
-namespace Boil;
+namespace Samurai;
 
-use Boil\Support\MaintenanceMode;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Samurai\Support\MaintenanceMode;
 
 class Application extends Container implements \Illuminate\Contracts\Foundation\Application
 {

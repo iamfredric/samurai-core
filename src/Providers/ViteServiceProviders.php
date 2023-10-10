@@ -1,9 +1,9 @@
 <?php
 
-namespace Boil\Providers;
+namespace Samurai\Providers;
 
-use Boil\Support\Vite;
 use Illuminate\Support\ServiceProvider;
+use Samurai\Support\Vite;
 
 class ViteServiceProviders extends ServiceProvider
 {

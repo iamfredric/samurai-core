@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Support\Transformers\TransformToLinkTest;
 
-use Boil\Support\Transformers\TransformToLink;
+use Samurai\Support\Transformers\TransformToLink;
 
 it('transforms an array to a link if it has the correct keys', function () {
     $transformer = new TransformToLink([
@@ -11,7 +11,7 @@ it('transforms an array to a link if it has the correct keys', function () {
         'target' => '_blank',
     ]);
 
-    expect($transformer->transform())->toBeInstanceOf(\Boil\Support\Wordpress\Link::class);
+    expect($transformer->transform())->toBeInstanceOf(\Samurai\Support\Wordpress\Link::class);
 
     $transformer = new TransformToLink([
         'hello' => 'mate',

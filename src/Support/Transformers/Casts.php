@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Support\Transformers;
+namespace Samurai\Support\Transformers;
 
 class Casts
 {

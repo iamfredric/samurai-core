@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Routing\Api\ApiRouterTest;
 
-use Boil\Routing\Api\ApiRoute;
-use Boil\Routing\Api\ApiRouter;
-use Boil\Support\Wordpress\WpHelper;
+use Samurai\Routing\Api\ApiRoute;
+use Samurai\Routing\Api\ApiRouter;
+use Samurai\Support\Wordpress\WpHelper;
 
 it('can register a get route', function () {
     $router = new ApiRouter($this->app, 'test');

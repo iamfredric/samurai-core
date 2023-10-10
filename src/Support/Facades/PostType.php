@@ -1,13 +1,13 @@
 <?php
 
-namespace Boil\Support\Facades;
+namespace Samurai\Support\Facades;
 
-use Boil\PostTypes\PostTypeConfigurator;
 use Illuminate\Support\Facades\Facade;
+use Samurai\PostTypes\PostTypeConfigurator;
 
 /**
- * @method static \Boil\PostTypes\PostType register(PostType|string $type)
- * @method static \Boil\PostTypes\Taxonomy taxonomy(string $id)
+ * @method static \Samurai\PostTypes\PostType register(PostType|string $type)
+ * @method static \Samurai\PostTypes\Taxonomy taxonomy(string $id)
  *
  * @see PostTypeConfigurator
  */

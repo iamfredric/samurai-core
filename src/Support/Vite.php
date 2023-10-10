@@ -1,14 +1,14 @@
 <?php
 
-namespace Boil\Support;
+namespace Samurai\Support;
 
-use Boil\Application;
 use Exception;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
+use Samurai\Application;
 
 class Vite implements Htmlable
 {

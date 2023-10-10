@@ -1,16 +1,16 @@
 <?php
 
-namespace Boil\Acf\Gutenberg;
+namespace Samurai\Acf\Gutenberg;
 
-use Boil\Support\Transformers\AttributeGetters;
-use Boil\Support\Transformers\AttributesWhenNull;
-use Boil\Support\Transformers\AutoCaster;
-use Boil\Support\Transformers\Caster;
-use Boil\Support\Transformers\MapKeysToCamel;
-use Boil\Support\Transformers\Transformations;
-use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Samurai\Support\Transformers\AttributeGetters;
+use Samurai\Support\Transformers\AttributesWhenNull;
+use Samurai\Support\Transformers\AutoCaster;
+use Samurai\Support\Transformers\Caster;
+use Samurai\Support\Transformers\MapKeysToCamel;
+use Samurai\Support\Transformers\Transformations;
+use Samurai\Support\Wordpress\WpHelper;
 
 abstract class Block
 {

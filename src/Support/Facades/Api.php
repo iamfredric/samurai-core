@@ -1,9 +1,9 @@
 <?php
 
-namespace Boil\Support\Facades;
+namespace Samurai\Support\Facades;
 
-use Boil\Routing\Api\ApiRouter;
 use Illuminate\Support\Facades\Facade;
+use Samurai\Routing\Api\ApiRouter;
 
 class Api extends Facade
 {

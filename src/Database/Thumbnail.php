@@ -1,9 +1,9 @@
 <?php
 
-namespace Boil\Database;
+namespace Samurai\Database;
 
-use Boil\Support\Wordpress\Image;
-use Boil\Support\Wordpress\WpImage;
+use Samurai\Support\Wordpress\Image;
+use Samurai\Support\Wordpress\WpImage;
 
 /**
  * @property Image|WpImage $thumbnail

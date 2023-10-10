@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Database;
+namespace Samurai\Database;
 
 trait Components
 {
@@ -14,7 +14,7 @@ trait Components
         $key = $prefix ? "{$prefix}-components" : 'components';
 
         if (! $this->attributes->has($key)) {
-            $this->attributes->put($key, new \Boil\Support\Components\Components($this->fields->get($fieldname) ?: [], $prefix));
+            $this->attributes->put($key, new \Samurai\Support\Components\Components($this->fields->get($fieldname) ?: [], $prefix));
         }
 
         return $this->attributes->get($key);

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Support\Transformers\TransformToImageTest;
 
-use Boil\Support\Transformers\TransformToImage;
+use Samurai\Support\Transformers\TransformToImage;
 
 it('transforms an array to an image if it has the correct keys', function () {
     $transformer = new TransformToImage([
@@ -11,7 +11,7 @@ it('transforms an array to an image if it has the correct keys', function () {
         'height' => 100,
     ]);
 
-    expect($transformer->transform())->toBeInstanceOf(\Boil\Support\Wordpress\Image::class);
+    expect($transformer->transform())->toBeInstanceOf(\Samurai\Support\Wordpress\Image::class);
 
     $transformer = new TransformToImage([
         'hello' => 'mate',

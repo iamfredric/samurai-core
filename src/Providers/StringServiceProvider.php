@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Providers;
+namespace Samurai\Providers;
 
 use Carbon\Laravel\ServiceProvider;
 use Illuminate\Support\Str;

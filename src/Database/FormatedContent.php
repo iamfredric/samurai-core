@@ -1,8 +1,8 @@
 <?php
 
-namespace Boil\Database;
+namespace Samurai\Database;
 
-use Boil\Support\Wordpress\WpHelper;
+use Samurai\Support\Wordpress\WpHelper;
 
 trait FormatedContent
 {

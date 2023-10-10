@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Support\Wordpress\WpImageTest;
 
-use Boil\Support\Wordpress\WpHelper;
-use Boil\Support\Wordpress\WpImage;
+use Samurai\Support\Wordpress\WpHelper;
+use Samurai\Support\Wordpress\WpImage;
 
 it('can be a wordpress image', function () {
     WpHelper::fake([

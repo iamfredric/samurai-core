@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Support\Transformers\AttributesWhenNullTest;
 
-use Boil\Support\Transformers\AttributesWhenNull;
+use Samurai\Support\Transformers\AttributesWhenNull;
 
 it('transforms value to fallback method when is null', function () {
     $transformer = new AttributesWhenNull([

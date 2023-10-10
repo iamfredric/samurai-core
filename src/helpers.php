@@ -1,10 +1,10 @@
 <?php
 
-use Boil\Support\Translations\Translator;
-use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Str;
+use Samurai\Support\Translations\Translator;
+use Samurai\Support\Wordpress\WpHelper;
 
 if (! function_exists('start_app')) {
     function start_app(string $dir): void
@@ -13,7 +13,7 @@ if (! function_exists('start_app')) {
             define('APP_START', microtime(true));
         }
 
-        $app = new \Boil\Application(dirname($dir));
+        $app = new \Samurai\Application(dirname($dir));
 
         if (function_exists('get_locale')) {
             $app->setLocale(get_locale());
@@ -21,7 +21,7 @@ if (! function_exists('start_app')) {
 
         $app->singleton(
             Illuminate\Contracts\Http\Kernel::class,
-            Boil\Http\Kernel::class
+            Samurai\Http\Kernel::class
         );
 
         /** @var \Illuminate\Contracts\Http\Kernel $kernel */
@@ -52,10 +52,10 @@ if (! function_exists('app')) {
     function app(string $abstract = null, array $parameters = []): mixed
     {
         if (is_null($abstract)) {
-            return \Boil\Application::getInstance();
+            return \Samurai\Application::getInstance();
         }
 
-        return \Boil\Application::getInstance()->make($abstract, $parameters);
+        return \Samurai\Application::getInstance()->make($abstract, $parameters);
     }
 }
 
@@ -106,7 +106,7 @@ if (! function_exists('config')) {
     function config($key, $default = null)
     {
         /** @var Repository $config */
-        $config = \Boil\Application::getInstance()->make('config');
+        $config = \Samurai\Application::getInstance()->make('config');
 
         return $config->get($key, $default);
     }
@@ -156,7 +156,7 @@ if (! function_exists('view')) {
     function view(string $name = null, array $args = [])
     {
         /** @var \Illuminate\View\Factory $blade */
-        $blade = \Boil\Application::getInstance()->make('view');
+        $blade = \Samurai\Application::getInstance()->make('view');
 
         if ($name) {
             return $blade->make($name, $args);

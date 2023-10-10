@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Support\Concerns;
+namespace Samurai\Support\Concerns;
 
 class ConfigPath
 {

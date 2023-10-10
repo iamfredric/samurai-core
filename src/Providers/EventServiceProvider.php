@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Providers;
+namespace Samurai\Providers;
 
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;

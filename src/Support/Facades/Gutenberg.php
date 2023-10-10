@@ -1,14 +1,14 @@
 <?php
 
-namespace Boil\Support\Facades;
+namespace Samurai\Support\Facades;
 
-use Boil\Acf\Gutenberg\GutenbergConfigurator;
 use Illuminate\Support\Facades\Facade;
+use Samurai\Acf\Gutenberg\GutenbergConfigurator;
 
 /**
  * @method static GutenbergConfigurator block(string $className)
  *
- * @see \Boil\Acf\Gutenberg\GutenbergConfigurator
+ * @see \Samurai\Acf\Gutenberg\GutenbergConfigurator
  */
 class Gutenberg extends Facade
 {

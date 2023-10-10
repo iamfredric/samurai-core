@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Support\Facades;
+namespace Samurai\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

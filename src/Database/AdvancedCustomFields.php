@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Database;
+namespace Samurai\Database;
 
 trait AdvancedCustomFields
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Routing;
+namespace Samurai\Routing;
 
 class Routes
 {

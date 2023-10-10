@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\PostTypes\TaxonomyTest;
 
-use Boil\PostTypes\Taxonomy;
+use Samurai\PostTypes\Taxonomy;
 
 it('can be a taxonomy', function () {
     $taxonomy = new Taxonomy('test-taxonomy');

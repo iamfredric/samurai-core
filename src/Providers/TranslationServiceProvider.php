@@ -1,9 +1,9 @@
 <?php
 
-namespace Boil\Providers;
+namespace Samurai\Providers;
 
-use Boil\Support\Translations\Translator;
 use Carbon\Laravel\ServiceProvider;
+use Samurai\Support\Translations\Translator;
 
 class TranslationServiceProvider extends ServiceProvider
 {

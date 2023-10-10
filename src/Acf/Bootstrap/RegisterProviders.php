@@ -1,8 +1,8 @@
 <?php
 
-namespace Boil\Acf\Bootstrap;
+namespace Samurai\Acf\Bootstrap;
 
-use Boil\Application;
+use Samurai\Application;
 
 class RegisterProviders
 {

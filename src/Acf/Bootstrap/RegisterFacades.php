@@ -1,9 +1,9 @@
 <?php
 
-namespace Boil\Acf\Bootstrap;
+namespace Samurai\Acf\Bootstrap;
 
-use Boil\Application;
 use Illuminate\Support\Facades\Facade;
+use Samurai\Application;
 
 class RegisterFacades
 {

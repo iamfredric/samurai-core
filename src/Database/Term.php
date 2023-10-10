@@ -1,10 +1,10 @@
 <?php
 
-namespace Boil\Database;
+namespace Samurai\Database;
 
-use Boil\Support\Wordpress\WpHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Samurai\Support\Wordpress\WpHelper;
 
 class Term
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\Support\Wordpress;
+namespace Samurai\Support\Wordpress;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;

@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Support\Concerns\ExtractModelArgumentsTest;
 
-use Boil\Database\Model;
-use Boil\Support\Concerns\ExtractModelArguments;
-use Boil\Support\Wordpress\WpHelper;
+use Samurai\Database\Model;
+use Samurai\Support\Concerns\ExtractModelArguments;
+use Samurai\Support\Wordpress\WpHelper;
 
 it('extracts from callable', function () {
     WpHelper::fake();

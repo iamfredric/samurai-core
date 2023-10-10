@@ -1,15 +1,15 @@
 <?php
 
-namespace Boil\Database;
+namespace Samurai\Database;
 
 use ArrayAccess;
-use Boil\Support\Wordpress\WpHelper;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ReflectionClass;
+use Samurai\Support\Wordpress\WpHelper;
 
 /**
  * @property int $id
@@ -38,13 +38,13 @@ use ReflectionClass;
  * @property int $comment_count
  * @property string $filter
  *
- * @method static \Boil\Database\Builder where($key, $value)
- * @method static \Boil\Database\Builder whereMeta($key, $compare, $value = null)
- * @method static \Boil\Database\Builder whereTaxonomyIn($taxonomy, $terms, $field = 'term_id')
- * @method static \Boil\Database\Builder orderBy($orderBy, $direction = 'asc')
- * @method static \Boil\Database\Builder limit($limit)
- * @method static \Boil\Database\Builder latest($orderBy = 'date')
- * @method static \Boil\Database\Builder oldest($orderBy = 'date')
+ * @method static \Samurai\Database\Builder where($key, $value)
+ * @method static \Samurai\Database\Builder whereMeta($key, $compare, $value = null)
+ * @method static \Samurai\Database\Builder whereTaxonomyIn($taxonomy, $terms, $field = 'term_id')
+ * @method static \Samurai\Database\Builder orderBy($orderBy, $direction = 'asc')
+ * @method static \Samurai\Database\Builder limit($limit)
+ * @method static \Samurai\Database\Builder latest($orderBy = 'date')
+ * @method static \Samurai\Database\Builder oldest($orderBy = 'date')
  */
 class Model implements Arrayable, Jsonable, ArrayAccess
 {

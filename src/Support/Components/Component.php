@@ -1,13 +1,7 @@
 <?php
 
-namespace Boil\Support\Components;
+namespace Samurai\Support\Components;
 
-use Boil\Support\Transformers\AttributeGetters;
-use Boil\Support\Transformers\AttributesWhenNull;
-use Boil\Support\Transformers\AutoCaster;
-use Boil\Support\Transformers\Caster;
-use Boil\Support\Transformers\MapKeysToCamel;
-use Boil\Support\Transformers\Transformations;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\View\View;
@@ -15,6 +9,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionMethod;
+use Samurai\Support\Transformers\AttributeGetters;
+use Samurai\Support\Transformers\AttributesWhenNull;
+use Samurai\Support\Transformers\AutoCaster;
+use Samurai\Support\Transformers\Caster;
+use Samurai\Support\Transformers\MapKeysToCamel;
+use Samurai\Support\Transformers\Transformations;
 
 class Component implements Arrayable, Jsonable
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Boil\Support\Facades;
+namespace Samurai\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static \Boil\Routing\Template register(string $name, string|array|callable $callback)
- * @method static \Boil\Routing\Template view(string $name, string $view, array $options = [])
- * @method static \Boil\Routing\Template template(string $key, string $name, string|array|callable $callback, array $options = [])
+ * @method static \Samurai\Routing\Template register(string $name, string|array|callable $callback)
+ * @method static \Samurai\Routing\Template view(string $name, string $view, array $options = [])
+ * @method static \Samurai\Routing\Template template(string $key, string $name, string|array|callable $callback, array $options = [])
  */
 class Route extends Facade
 {

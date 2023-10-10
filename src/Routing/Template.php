@@ -1,10 +1,10 @@
 <?php
 
-namespace Boil\Routing;
+namespace Samurai\Routing;
 
-use Boil\Application;
 use Closure;
 use Illuminate\Http\Response;
+use Samurai\Application;
 
 class Template
 {

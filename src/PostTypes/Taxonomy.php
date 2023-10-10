@@ -1,6 +1,6 @@
 <?php
 
-namespace Boil\PostTypes;
+namespace Samurai\PostTypes;
 
 class Taxonomy
 {
