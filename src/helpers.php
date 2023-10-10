@@ -15,6 +15,10 @@ if (! function_exists('start_app')) {
 
         $app = new \Boil\Application(dirname($dir));
 
+        if (function_exists('get_locale')) {
+            $app->setLocale(get_locale());
+        }
+
         $app->singleton(
             Illuminate\Contracts\Http\Kernel::class,
             Boil\Http\Kernel::class
@@ -210,14 +214,14 @@ if (! function_exists('theme_url')) {
     }
 }
 
-if (! function_exists('translate')) {
+if (! function_exists('string_translate')) {
     /**
      * @param  string[]  $attributes
      * @return ($string is null ? Translator : string)
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    function translate(string $string = null, array $attributes = []): string|Translator
+    function string_translate(string $string = null, array $attributes = []): string|Translator
     {
         $translator = app(Translator::class);
 

@@ -2,6 +2,7 @@
 
 namespace Boil\Acf;
 
+use Boil\Support\Wordpress\WpHelper;
 use Closure;
 use Illuminate\Support\Str;
 
@@ -43,8 +44,8 @@ class AcfConfiguratorOptionsPage
             'redirect' => $this->redirect,
             'post_id' => $this->id,
             'autoload' => $this->autoload,
-            'update_button' => $this->updateButtonLabel,
-            'updated_message' => $this->updateMessage,
+            'update_button' => $this->updateButtonLabel ?: WpHelper::__('Update'),
+            'updated_message' => $this->updateMessage ?: WpHelper::__('Updated.'),
         ];
     }
 

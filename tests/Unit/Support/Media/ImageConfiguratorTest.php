@@ -9,7 +9,7 @@ use Boil\Support\Wordpress\WpHelper;
 it('registers image support and sizes', function () {
     $helper = WpHelper::fake([
         'add_action' => function ($action, $callback) {
-            if ($action === 'after_setup_theme') {
+            if ($action === 'init') {
                 $callback();
             }
         },

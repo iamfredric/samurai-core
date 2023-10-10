@@ -38,7 +38,7 @@ class Image implements Arrayable, Jsonable
             return $this->attributes->get('url');
         }
 
-        return $this->attributes->get("sizes.{$size}.source-url") ?: $this->attributes->get('url');
+        return $this->attributes->get("sizes.{$size}") ?: $this->attributes->get('url');
     }
 
     public function getWidth(string $size = null): ?int

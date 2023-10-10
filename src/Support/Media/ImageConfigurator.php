@@ -37,7 +37,7 @@ class ImageConfigurator
     {
         $this->routesPath->include();
 
-        WpHelper::add_action('after_setup_theme', function () {
+        WpHelper::add_action('init', function () {
             if ($this->types) {
                 WpHelper::add_theme_support('post-thumbnails', $this->types);
             }

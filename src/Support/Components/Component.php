@@ -54,8 +54,8 @@ class Component implements Arrayable, Jsonable
         $this->data = (new Transformations($this->data))
             ->through(Caster::class, $this->casts ?? [])
             ->through(AutoCaster::class)
-            ->through(AttributeGetters::class, $this)
             ->through(AttributesWhenNull::class, $this)
+            ->through(AttributeGetters::class, $this)
             ->through(MapKeysToCamel::class)
             ->output();
 
@@ -66,7 +66,7 @@ class Component implements Arrayable, Jsonable
         if ($path = config('features.acf.components_path')) {
             $view = str_replace('{name}', $this->prefix ? "{$this->prefix}.{$this->view}" : $this->view, $path);
         } else {
-            $view = $this->prefix ? "components.{$this->prefix}.{$this->view}" : "components.{$this->view}";
+            $view = $this->prefix ? "blocks.{$this->prefix}.{$this->view}" : "blocks.{$this->view}";
         }
 
         return view($view, $this->attributes());

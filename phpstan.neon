@@ -6,3 +6,4 @@ parameters:
     - tests/Support/wordpressClasses.php
   reportUnmatchedIgnoredErrors: true
   checkGenericClassInNonGenericObjectType: false
+  excludePaths: [src/Acf/Layout.php]

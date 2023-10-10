@@ -58,4 +58,12 @@ class Link
     {
         return isset($this->attributes[$key]);
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(): array
+    {
+        return $this->attributes;
+    }
 }

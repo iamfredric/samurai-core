@@ -370,6 +370,12 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
      */
     public function setLocale($locale)
     {
+        if (empty($locale)) {
+            return;
+        }
+
+        [$locale] = preg_split('/[-_]/', $locale) ?: [];
+
         $this->locale = $locale;
     }
 

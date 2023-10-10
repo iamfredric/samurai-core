@@ -27,10 +27,15 @@ trait Thumbnail
      */
     protected function localizeThumbnail()
     {
-        if (method_exists($this, 'getFieldsAttribute') && $this->fields->has('thumbnail')) {
-            return new Image($this->fields->get('thumbnail'));
+        if (method_exists($this, 'getFieldsAttribute') && $this->fields->has($this->getThumbnailFieldName())) {
+            return new Image($this->fields->get($this->getThumbnailFieldName()));
         }
 
         return new WpImage($this->id);
+    }
+
+    protected function getThumbnailFieldName(): string
+    {
+        return 'thumbnail';
     }
 }

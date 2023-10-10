@@ -99,7 +99,9 @@ class Router
                     $attributes[$postType] = $model::current();
                 }
 
-                $response = new Response(view($this->currentRoute->getView(), $attributes));
+                $status = in_array($template, ['404', '404.php']) ? 404 : 200;
+
+                $response = new Response(view($this->currentRoute->getView(), $attributes), $status);
                 $response->send();
 
                 return null;
