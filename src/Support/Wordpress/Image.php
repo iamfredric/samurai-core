@@ -113,7 +113,7 @@ class Image implements Arrayable, Jsonable
 
     protected function generateStyleSheet(string $size = null): string
     {
-        if (! $srcset = WpHelper::wp_get_attachment_image_srcset($this->id(), $size)) { // @phpstan-ignore-line
+        if (! $srcset = WpHelper::wp_get_attachment_image_srcset($this->id(), '1920x880')) { // @phpstan-ignore-line
             return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).')}</style>';
         }
 

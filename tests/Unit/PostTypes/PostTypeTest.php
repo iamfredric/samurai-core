@@ -35,7 +35,6 @@ it('can be a post type', function () {
         'delete_with_user' => true,
         'hierarchical' => true,
         'has_archive' => true,
-        'query_var' => false,
         'capability_type' => 'edit_posts',
         'show_in_rest' => true,
         'supports' => [

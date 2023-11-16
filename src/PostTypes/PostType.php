@@ -167,7 +167,7 @@ class PostType
      */
     public function toArray(): array
     {
-        return [
+        $attributes = [
             'public' => $this->public,
             'show_ui' => $this->showUi,
             'show_in_menu' => $this->showInMenu,
@@ -178,7 +178,6 @@ class PostType
             'delete_with_user' => $this->deleteWithUser,
             'hierarchical' => $this->hierarchical,
             'has_archive' => $this->hasArchives,
-            'query_var' => $this->queryVar,
             'capability_type' => $this->capabilityType,
             'show_in_rest' => $this->showInRest,
             'supports' => $this->supports,
@@ -205,5 +204,11 @@ class PostType
                 'archive_title' => string_translate('Archive: :attributes', ['attributes' => $this->plural]),
             ],
         ];
+
+        if ($this->queryVar) {
+            $attributes['query_var'] = $this->queryVar;
+        }
+
+        return $attributes;
     }
 }

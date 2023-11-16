@@ -43,6 +43,9 @@ use Tests\Support\Wordpress\WpHelperFake;
  * @method static void acf_register_block_type(array $args)
  * @method static array|false get_fields(int $post_id = false, bool $format_value = true, bool $load_value = true)
  * @method static mixed apply_filters(string $tag, mixed $value)
+ * @method static mixed add_rewrite_rule(string $regex, string $query, string $after = 'bottom')
+ * @method static mixed remove_menu_page(string $menu_slug)
+ * @method static mixed remove_meta_box(string $id, string $screen, string $context = 'advanced')
  */
 class WpHelper
 {

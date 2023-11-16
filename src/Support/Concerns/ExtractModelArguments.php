@@ -73,7 +73,7 @@ class ExtractModelArguments
             if (! $parameter->isOptional()) {
                 /** @var null|\ReflectionParameter $type */
                 $type = $parameter->getType();
-                $isBuiltIn = $type->isBuiltin(); // @phpstan-ignore-line
+                $isBuiltIn = $type?->isBuiltin(); // @phpstan-ignore-line
                 if (empty($type)) {
                     continue;
                 }

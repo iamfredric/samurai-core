@@ -18,7 +18,7 @@ class Kernel implements KernelContract
     protected array $bootstrappers = [
         LoadEnvironmentVariables::class,
         LoadConfiguration::class,
-        HandleExceptions::class,
+        // HandleExceptions::class,
         RegisterFacades::class,
         RegisterProviders::class,
         BootProviders::class,

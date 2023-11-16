@@ -3,12 +3,13 @@
 namespace Samurai\Acf\Bootstrap;
 
 use Samurai\Application;
+use Spatie\Ignition\Ignition;
 
 class HandleExceptions
 {
     public function bootstrap(Application $app): void
     {
-        \Spatie\Ignition\Ignition::make()
+        Ignition::make()
             ->applicationPath($app->basePath())
             ->shouldDisplayException($app->hasDebugModeEnabled())
             ->register();

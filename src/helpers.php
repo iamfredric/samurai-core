@@ -23,7 +23,6 @@ if (! function_exists('start_app')) {
             Illuminate\Contracts\Http\Kernel::class,
             Samurai\Http\Kernel::class
         );
-
         /** @var \Illuminate\Contracts\Http\Kernel $kernel */
         $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 

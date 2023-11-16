@@ -75,11 +75,57 @@ class Router
                 return $template;
             }, 1, 3);
         }
+
+        foreach ($this->app['router']->getCustomRoutes() as $route) {
+            WpHelper::add_action('init', function () use ($route) {
+                WpHelper::add_rewrite_rule($route->getRegex(), $route->getQuery(), 'top');
+            });
+
+            WpHelper::add_action('query_vars', function ($vars) use ($route) {
+                foreach ($route->getQueryVars() as $var) {
+                    array_push($vars, $var);
+                }
+
+                return $vars;
+            });
+        }
     }
 
     public function send(): void
     {
         WpHelper::add_action('template_include', function ($template) {
+            if ($pageName = WpHelper::get_query_var('pagename')) {
+                if ($route = $this->app['router']->getCustomRoutes()[$pageName] ?? null) {
+                    $callable = $route->getCallable();
+
+                    if ($callable instanceof \Closure) {
+                        $response = $this->app->call($callable, ExtractModelArguments::fromCallable($callable, $route->getQueryVars()->mapWithKeys(fn ($name) => [
+                            $name => WpHelper::get_query_var($name),
+                        ])->toArray()));
+                    } else {
+
+                        $controller = $this->app->make(
+                            $callable[0],
+                            ExtractModelArguments::fromConstructor($callable[0])
+                        );
+
+                        $response = $this->app->call(
+                            [$controller, $callable[1]], // @phpstan-ignore-line
+                            ExtractModelArguments::fromMethod($controller, $callable[1], $route->getQueryVars()->mapWithKeys(fn ($name) => [
+                                $name => WpHelper::get_query_var($name),
+                            ])->toArray())
+                        );
+                    }
+
+                    if (! is_subclass_of($response, BaseResponse::class)) {
+                        $response = new Response($response, 200);
+                    }
+
+                    /** @var BaseResponse $response */
+                    $response->send();
+                }
+            }
+
             if ($template === 'search.php') {
                 $this->currentRoute = $this->app['router']->getSearchTemplate();
             }

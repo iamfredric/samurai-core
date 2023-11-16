@@ -13,6 +13,9 @@ class Routes
     /** @var array<string, Template> */
     protected array $views = [];
 
+    /** @var array<string, CustomRoute> */
+    protected array $customRoutes = [];
+
     /**
      * @param  array<string, mixed>  $options
      */
@@ -27,6 +30,22 @@ class Routes
     public function register(string $name, string|array|callable $callback): Template
     {
         return $this->routes[$name] = new Template($name, $callback);
+    }
+
+    /**
+     * @param  string|string[]|callable  $callback
+     */
+    public function get(string $endpoint, string|array|callable $callback): CustomRoute
+    {
+        $route = new CustomRoute($endpoint, $callback);
+
+        return $this->customRoutes[$route->id()] = $route;
+    }
+
+    /** @return CustomRoute[] */
+    public function getCustomRoutes(): array
+    {
+        return $this->customRoutes;
     }
 
     /**
