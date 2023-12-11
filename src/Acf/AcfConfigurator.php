@@ -17,6 +17,7 @@ class AcfConfigurator
         protected ConfigPath $configPath,
         protected array $groups = [],
         protected array $optionsPages = [],
+        protected array $gutenbergBlocks = [],
     ) {
         //        $this->groups = $this->app['config']->get('features.acf.groups', []);
         //        $this->optionsPages = (new Collection($this->app['config']->get('features.acf.options_pages', [])))
@@ -88,6 +89,23 @@ class AcfConfigurator
         return $this;
     }
 
+    /** @param class-string $block */
+    public function addGutenbergBlock(string $block): static
+    {
+        $this->gutenbergBlocks[] = $block;
+
+        return $this;
+    }
+
+    /** @param class-string[] $blocks */
+    public function addGutenbergBlocks(array $blocks): static
+    {
+        $this->gutenbergBlocks = array_merge($this->gutenbergBlocks, $blocks);
+
+        return $this;
+    }
+
+
     public function boot(): void
     {
         $this->configPath->include();
@@ -103,6 +121,14 @@ class AcfConfigurator
 
             foreach ($this->groups as $group) {
                 WpHelper::register_extended_field_group((new $group())->toArray()); // @phpstan-ignore-line
+            }
+
+            foreach ($this->gutenbergBlocks as $block) {
+                $callable = new $block();
+
+                WpHelper::acf_register_block_type($callable->getBlockRegistrationsAttributes());
+
+                WpHelper::register_extended_field_group($callable->getFieldGroupRegistrationAttributes());
             }
         });
 
