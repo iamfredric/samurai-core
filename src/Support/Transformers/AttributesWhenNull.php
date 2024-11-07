@@ -13,8 +13,7 @@ class AttributesWhenNull
     public function __construct(
         protected array $attributes,
         protected $instance
-    ) {
-    }
+    ) {}
 
     /**
      * @return mixed[]

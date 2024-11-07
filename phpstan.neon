@@ -4,6 +4,11 @@ parameters:
     - src
   bootstrapFiles:
     - tests/Support/wordpressClasses.php
+    - tests/Support/acfField.php
+    - tests/Support/acfLocation.php
+
   reportUnmatchedIgnoredErrors: true
-  checkGenericClassInNonGenericObjectType: false
   excludePaths: [src/Acf/Layout.php]
+
+  ignoreErrors:
+    - identifier: missingType.generics

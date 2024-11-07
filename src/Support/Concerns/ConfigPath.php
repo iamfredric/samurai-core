@@ -7,9 +7,7 @@ class ConfigPath
     /**
      * @param  string[]|string|null  $paths
      */
-    public function __construct(protected array|string|null $paths = null)
-    {
-    }
+    public function __construct(protected array|string|null $paths = null) {}
 
     public function exists(): bool
     {

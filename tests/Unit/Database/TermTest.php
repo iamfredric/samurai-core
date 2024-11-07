@@ -91,7 +91,7 @@ it('can get the url attribute', function () {
 });
 
 it('can get the type', function () {
-    $term = new Term();
+    $term = new Term;
 
     expect($term->type())->toBe('term');
 });

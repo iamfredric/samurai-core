@@ -5,7 +5,7 @@ namespace Tests\Unit\Support\Translations;
 use Samurai\Support\Translations\Translator;
 
 it('translates a string', function () {
-    $translator = new Translator();
+    $translator = new Translator;
 
     $translator->setTranslation('sv_SE', 'Hello world', 'Hej världen');
     $translator->setTranslation('sv_SE', 'Hello :name', 'Hej :name');
@@ -17,7 +17,7 @@ it('translates a string', function () {
 });
 
 it('loads json file and php file of translations by given path', function () {
-    $translator = new Translator();
+    $translator = new Translator;
 
     $translator->loadFromPath(dirname(__DIR__, 3).'/boilerplate/lang');
 

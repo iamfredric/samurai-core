@@ -8,9 +8,7 @@ use Samurai\Support\Wordpress\WpHelper;
 
 class MenuConfigurator
 {
-    public function __construct(protected Application $app)
-    {
-    }
+    public function __construct(protected Application $app) {}
 
     public function register(string $slug, string $label): void
     {

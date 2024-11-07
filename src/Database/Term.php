@@ -30,7 +30,7 @@ class Term
      */
     public static function all(array $arguments = [])
     {
-        $instance = new static();
+        $instance = new static;
 
         return (new Collection(
             WpHelper::get_terms(array_merge($arguments, [ // @phpstan-ignore-line
@@ -56,7 +56,7 @@ class Term
      */
     public static function forModel(Model $model)
     {
-        $instance = new static();
+        $instance = new static;
 
         return (new Collection(WpHelper::get_the_terms($model->id, $instance->type()))) // @phpstan-ignore-line
             ->filter()

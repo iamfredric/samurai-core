@@ -20,7 +20,5 @@ it('casts things', function () {
 
 class ExampleClass
 {
-    public function __construct(protected string $thing)
-    {
-    }
+    public function __construct(protected string $thing) {}
 }

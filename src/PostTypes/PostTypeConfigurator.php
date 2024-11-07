@@ -14,8 +14,7 @@ class PostTypeConfigurator
     public function __construct(
         protected ConfigPath $configPath,
         protected array $postTypes = [],
-    ) {
-    }
+    ) {}
 
     public function register(PostType|string $type): PostType
     {

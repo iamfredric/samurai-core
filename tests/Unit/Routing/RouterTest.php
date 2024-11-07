@@ -10,6 +10,4 @@ it('captures the routes', function () {
     $router->capture();
 })->todo();
 
-it('sends route response', function () {
-
-})->todo();
+it('sends route response', function () {})->todo();

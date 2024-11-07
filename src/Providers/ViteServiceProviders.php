@@ -9,6 +9,6 @@ class ViteServiceProviders extends ServiceProvider
 {
     public function register()
     {
-        $this->app->singleton('Illuminate\\Foundation\\Vite', fn ($app) => new Vite());
+        $this->app->singleton('Illuminate\\Foundation\\Vite', fn ($app) => new Vite);
     }
 }

@@ -9,9 +9,7 @@ class MapKeysToCamel
     /**
      * @param  array<string, mixed>  $attributes
      */
-    public function __construct(protected array $attributes)
-    {
-    }
+    public function __construct(protected array $attributes) {}
 
     /**
      * @return array<string, mixed>

@@ -8,7 +8,7 @@ it('transforms value to fallback method when is null', function () {
     $transformer = new AttributesWhenNull([
         'title' => null,
         'contents' => 'Zup mate',
-    ], new ExampleClass());
+    ], new ExampleClass);
 
     expect($transformer->transform())->toBe([
         'title' => 'hello world',

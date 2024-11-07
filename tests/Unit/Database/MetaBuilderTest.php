@@ -5,7 +5,7 @@ namespace Unit\Database;
 use Samurai\Database\MetaBuilder;
 
 it('builds meta queries', function () {
-    $builder = new MetaBuilder();
+    $builder = new MetaBuilder;
 
     $builder->where('thing', 'is-this')
         ->where('other-thing', '!=', 'that')

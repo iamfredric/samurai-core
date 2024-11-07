@@ -48,7 +48,7 @@ if (! function_exists('app')) {
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    function app(string $abstract = null, array $parameters = []): mixed
+    function app(?string $abstract = null, array $parameters = []): mixed
     {
         if (is_null($abstract)) {
             return \Samurai\Application::getInstance();
@@ -69,7 +69,7 @@ if (! function_exists('theme_url')) {
     /**
      * Basic helper for getting the theme url
      *
-     * @param  string  $url optional
+     * @param  string  $url  optional
      * @return string
      */
     function theme_url($url = '')
@@ -152,7 +152,7 @@ if (! function_exists('view')) {
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    function view(string $name = null, array $args = [])
+    function view(?string $name = null, array $args = [])
     {
         /** @var \Illuminate\View\Factory $blade */
         $blade = \Samurai\Application::getInstance()->make('view');
@@ -220,7 +220,7 @@ if (! function_exists('string_translate')) {
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    function string_translate(string $string = null, array $attributes = []): string|Translator
+    function string_translate(?string $string = null, array $attributes = []): string|Translator
     {
         $translator = app(Translator::class);
 

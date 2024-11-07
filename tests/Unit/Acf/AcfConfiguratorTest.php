@@ -50,7 +50,7 @@ it('can add option pages via config', function () {
 });
 
 it('can add one or many groups', function () {
-    $config = new AcfConfigurator(new ConfigPath());
+    $config = new AcfConfigurator(new ConfigPath);
 
     $config->addGroup('me-group');
 

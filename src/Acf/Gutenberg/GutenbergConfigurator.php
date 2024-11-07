@@ -13,8 +13,7 @@ class GutenbergConfigurator
 
     public function __construct(
         protected Application $app,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  class-string  $className

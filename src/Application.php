@@ -45,6 +45,9 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
 
     protected string $locale = 'en';
 
+    /** @var array<string, mixed> */
+    protected array $deferredServices = [];
+
     public function __construct(protected string $basePath)
     {
         if ($basePath) {

@@ -6,9 +6,7 @@ use Samurai\Support\Wordpress\Link;
 
 class TransformToLink
 {
-    public function __construct(protected mixed $value)
-    {
-    }
+    public function __construct(protected mixed $value) {}
 
     public function transform(): mixed
     {

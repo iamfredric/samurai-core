@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 use Samurai\Routing\Routes;
 
 it('registers a route', function () {
-    $routes = new Routes();
+    $routes = new Routes;
 
     $route = $routes->register('index', function () {
         return 'test';
@@ -25,7 +25,7 @@ it('registers a route', function () {
 });
 
 it('registers a view', function () {
-    $routes = new Routes();
+    $routes = new Routes;
 
     $route = $routes->view('index', 'index');
 
@@ -37,7 +37,7 @@ it('registers a view', function () {
 });
 
 it('registers a page template', function () {
-    $routes = new Routes();
+    $routes = new Routes;
 
     $template = $routes->template('index-template', 'Index template', 'TestController@test');
 
@@ -55,7 +55,7 @@ it('registers a page template', function () {
 });
 
 it('resolves a route', function () {
-    $routes = new Routes();
+    $routes = new Routes;
 
     $route = $routes->register('index', function () {
         return 'test';
@@ -65,7 +65,7 @@ it('resolves a route', function () {
 });
 
 it('gets search template', function () {
-    $routes = new Routes();
+    $routes = new Routes;
 
     $route = $routes->register('search', function () {
         return 'test';

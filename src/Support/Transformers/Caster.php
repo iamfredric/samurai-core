@@ -11,8 +11,7 @@ class Caster
     public function __construct(
         protected array $values,
         protected array $casts
-    ) {
-    }
+    ) {}
 
     /**
      * @return mixed[]
@@ -71,7 +70,7 @@ class Caster
             return array_map(function ($value) use ($cast) {
                 return (new Casts($value, $cast))->transform();
             }, $value ?: []);
-        } elseif ($key === '*' && count($keys) > 0) {
+        } elseif ($key === '*') {
             $key = array_shift($keys);
 
             return array_map(function ($value) use ($cast, $key, $keys) {

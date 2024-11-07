@@ -10,8 +10,9 @@ use Samurai\Support\Wordpress\WpHelper;
 class AcfConfigurator
 {
     /**
-     * @param  string[]  $groups
+     * @param  class-string<Group>[]  $groups
      * @param  string[]|AcfConfiguratorOptionsPage[]  $optionsPages
+     * @param  class-string<GutenbergBlock>[]  $gutenbergBlocks
      */
     public function __construct(
         protected ConfigPath $configPath,
@@ -43,16 +44,16 @@ class AcfConfigurator
     public function addOptionsPage(
         string $id,
         string $title,
-        string $menuTitle = null,
-        string $parentSlug = null,
-        int $position = null,
+        ?string $menuTitle = null,
+        ?string $parentSlug = null,
+        ?int $position = null,
         string $capability = 'edit_posts',
         string $iconUrl = '',
         bool $redirect = false,
         bool $autoload = false,
-        string $updateButtonLabel = null,
-        string $updateMessage = null,
-        string $slug = null,
+        ?string $updateButtonLabel = null,
+        ?string $updateMessage = null,
+        ?string $slug = null,
     ): AcfConfiguratorOptionsPage {
         $optionsPage = new AcfConfiguratorOptionsPage(
             $id,
@@ -74,6 +75,7 @@ class AcfConfigurator
         return $optionsPage;
     }
 
+    /** @param class-string<Group> $group */
     public function addGroup(string $group): static
     {
         $this->groups[] = $group;
@@ -81,7 +83,7 @@ class AcfConfigurator
         return $this;
     }
 
-    /** @param  string[]  $groups */
+    /** @param  class-string<Group>[]  $groups */
     public function addGroups(array $groups): static
     {
         $this->groups = array_merge($this->groups, $groups);
@@ -89,7 +91,7 @@ class AcfConfigurator
         return $this;
     }
 
-    /** @param class-string $block */
+    /** @param class-string<GutenbergBlock> $block */
     public function addGutenbergBlock(string $block): static
     {
         $this->gutenbergBlocks[] = $block;
@@ -97,14 +99,13 @@ class AcfConfigurator
         return $this;
     }
 
-    /** @param class-string[] $blocks */
+    /** @param class-string<GutenbergBlock>[] $blocks */
     public function addGutenbergBlocks(array $blocks): static
     {
         $this->gutenbergBlocks = array_merge($this->gutenbergBlocks, $blocks);
 
         return $this;
     }
-
 
     public function boot(): void
     {
@@ -120,11 +121,11 @@ class AcfConfigurator
             }
 
             foreach ($this->groups as $group) {
-                WpHelper::register_extended_field_group((new $group())->toArray()); // @phpstan-ignore-line
+                WpHelper::register_extended_field_group((new $group)->toArray());
             }
 
             foreach ($this->gutenbergBlocks as $block) {
-                $callable = new $block();
+                $callable = new $block;
 
                 WpHelper::acf_register_block_type($callable->getBlockRegistrationsAttributes());
 
@@ -149,7 +150,7 @@ class AcfConfigurator
     protected function initializeOptionsPageFromString(string $optionsPage): AcfConfiguratorOptionsPage
     {
         /** @var AcfOptionsPage $option */
-        $option = new $optionsPage();
+        $option = new $optionsPage;
 
         return new AcfConfiguratorOptionsPage(
             $option->id(),

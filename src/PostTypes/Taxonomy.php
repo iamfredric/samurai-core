@@ -16,8 +16,7 @@ class Taxonomy
         protected bool $showTagCloud = false,
         protected ?string $slug = null,
         protected bool $showInRest = false,
-    ) {
-    }
+    ) {}
 
     public function plural(string $plural): static
     {

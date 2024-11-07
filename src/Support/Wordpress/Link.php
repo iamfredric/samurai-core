@@ -7,9 +7,7 @@ class Link
     /**
      * @param  array<string, mixed>  $attributes
      */
-    public function __construct(protected array $attributes)
-    {
-    }
+    public function __construct(protected array $attributes) {}
 
     public function exists(): bool
     {

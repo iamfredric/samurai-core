@@ -7,9 +7,7 @@ class AutoCaster
     /**
      * @param  mixed[]  $attributes
      */
-    public function __construct(protected array $attributes)
-    {
-    }
+    public function __construct(protected array $attributes) {}
 
     /**
      * @return mixed[]

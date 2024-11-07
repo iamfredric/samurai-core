@@ -10,8 +10,7 @@ class HookConfigurator
 {
     public function __construct(
         protected Application $app
-    ) {
-    }
+    ) {}
 
     /**
      * @param  callable|string|string[]  $callable

@@ -8,11 +8,9 @@ class WpHelperFake
 {
     protected array $called = [];
 
-    public function __construct(protected array $fakes = [])
-    {
-    }
+    public function __construct(protected array $fakes = []) {}
 
-    public function assertCalled($function, callable $callable = null)
+    public function assertCalled($function, ?callable $callable = null)
     {
         Assert::assertTrue(isset($this->called[$function]));
 

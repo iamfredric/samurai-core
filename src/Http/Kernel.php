@@ -24,9 +24,7 @@ class Kernel implements KernelContract
         BootProviders::class,
     ];
 
-    public function __construct(protected Application $app)
-    {
-    }
+    public function __construct(protected Application $app) {}
 
     public function bootstrap(): void
     {

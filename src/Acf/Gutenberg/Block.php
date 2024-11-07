@@ -87,7 +87,7 @@ abstract class Block
             ->output();
     }
 
-    public function data(string $key = null, mixed $default = null): mixed
+    public function data(?string $key = null, mixed $default = null): mixed
     {
         if ($key) {
             $data = Arr::dot($this->data);

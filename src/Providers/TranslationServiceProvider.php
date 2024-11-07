@@ -10,7 +10,7 @@ class TranslationServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(Translator::class, function ($app) {
-            $translator = new Translator();
+            $translator = new Translator;
 
             $translator->setLocale($app->getLocale());
 

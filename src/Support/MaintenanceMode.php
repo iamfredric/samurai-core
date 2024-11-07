@@ -8,8 +8,7 @@ class MaintenanceMode implements LaravelMaintenanceMode
 {
     public function __construct(
         protected ?string $path
-    ) {
-    }
+    ) {}
 
     /**
      * @param  array<string, mixed>  $payload

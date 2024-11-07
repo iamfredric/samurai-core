@@ -15,9 +15,7 @@ class Router
 {
     protected ?Template $currentRoute = null;
 
-    public function __construct(protected Application $app)
-    {
-    }
+    public function __construct(protected Application $app) {}
 
     public function capture(): void
     {

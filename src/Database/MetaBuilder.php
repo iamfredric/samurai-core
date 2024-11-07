@@ -61,14 +61,14 @@ class MetaBuilder
 
     protected function buildGroup(callable $callable): MetaBuilder
     {
-        $callable($group = new MetaBuilder());
+        $callable($group = new MetaBuilder);
 
         $this->groups[] = $group;
 
         return $this;
     }
 
-    public function setArgument(string $key, ?string $compare, string $value = null): MetaBuilder
+    public function setArgument(string $key, ?string $compare, ?string $value = null): MetaBuilder
     {
         $this->arguments[] = [
             'key' => $key,

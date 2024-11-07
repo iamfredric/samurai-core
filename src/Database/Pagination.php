@@ -12,9 +12,7 @@ class Pagination implements IteratorAggregate
      * @param  Model[]  $items
      * @param  \WP_Query  $query
      */
-    public function __construct(protected array $items, protected $query)
-    {
-    }
+    public function __construct(protected array $items, protected $query) {}
 
     /**
      * @param  array<string, mixed>  $args

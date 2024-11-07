@@ -7,8 +7,7 @@ class Casts
     public function __construct(
         protected mixed $value,
         protected ?string $cast = null
-    ) {
-    }
+    ) {}
 
     public function transform(): mixed
     {

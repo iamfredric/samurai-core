@@ -46,7 +46,7 @@ use Samurai\Support\Wordpress\WpHelper;
  * @method static \Samurai\Database\Builder latest($orderBy = 'date')
  * @method static \Samurai\Database\Builder oldest($orderBy = 'date')
  */
-class Model implements Arrayable, Jsonable, ArrayAccess
+class Model implements Arrayable, ArrayAccess, Jsonable
 {
     protected ?string $type = null;
 
@@ -77,7 +77,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         if ($post) {
             $this->setAttributes($post);
         } else {
-            $this->attributes = new Collection();
+            $this->attributes = new Collection;
         }
     }
 
@@ -97,17 +97,17 @@ class Model implements Arrayable, Jsonable, ArrayAccess
      */
     public static function find(int $id)
     {
-        return Builder::find($id, new static());
+        return Builder::find($id, new static);
     }
 
-    public static function paginate(int $limit = null): Pagination
+    public static function paginate(?int $limit = null): Pagination
     {
-        return (new Builder(new static()))->paginate($limit);
+        return (new Builder(new static))->paginate($limit);
     }
 
     public static function all(): Collection
     {
-        return Builder::all(new static());
+        return Builder::all(new static);
     }
 
     /**
@@ -116,7 +116,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
      * */
     public static function create(array $params)
     {
-        $instance = new static();
+        $instance = new static;
 
         $params['post_type'] = $instance->getType();
 
@@ -138,7 +138,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
 
         $model = static::create($params);
 
-        $this->attributes = $model?->attributes ?? new Collection();
+        $this->attributes = $model?->attributes ?? new Collection;
 
         return $this;
     }
@@ -205,7 +205,7 @@ class Model implements Arrayable, Jsonable, ArrayAccess
         return $this->attributes->get($key);
     }
 
-    public function getUrlAttribute(string $url = null): ?string
+    public function getUrlAttribute(?string $url = null): ?string
     {
         return $this->getAttribute('url', WpHelper::get_permalink($this->get('id'))) ?: null;
     }
@@ -385,12 +385,12 @@ class Model implements Arrayable, Jsonable, ArrayAccess
 
     public static function query(): Builder
     {
-        return new Builder(new static());
+        return new Builder(new static);
     }
 
     public static function __callStatic(string $method, mixed $args): Builder
     {
-        $instance = new static();
+        $instance = new static;
 
         return (new Builder($instance))->__call($method, $args);
     }

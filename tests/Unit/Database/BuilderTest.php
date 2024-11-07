@@ -6,7 +6,7 @@ use Samurai\Database\Builder;
 use Samurai\Database\Model;
 
 it('can use where', function () {
-    $builder = new Builder();
+    $builder = new Builder;
 
     $builder->where('foo', 'bar');
 
@@ -25,7 +25,7 @@ it('can use where', function () {
 });
 
 it('can use whereMeta', function () {
-    $builder = new Builder();
+    $builder = new Builder;
 
     $builder->whereMeta('foo', 'bar');
 
@@ -58,7 +58,7 @@ it('can use whereMeta', function () {
 });
 
 it('can use orWhereMeta', function () {
-    $builder = new Builder();
+    $builder = new Builder;
 
     $builder->whereMeta('foo', 'bar');
 
@@ -91,7 +91,7 @@ it('can use orWhereMeta', function () {
 });
 
 it('can use whereTaxonomyIn', function () {
-    $builder = new Builder();
+    $builder = new Builder;
 
     $builder->whereTaxonomyIn('taxonomy_name', [2, 4], 'tax_field');
 
@@ -109,7 +109,7 @@ it('can use whereTaxonomyIn', function () {
 });
 
 it('can use orderBy', function () {
-    $builder = new Builder();
+    $builder = new Builder;
 
     $builder->orderBy('foo', 'desc');
 
@@ -121,7 +121,7 @@ it('can use orderBy', function () {
 });
 
 it('can use limit', function () {
-    $builder = new Builder();
+    $builder = new Builder;
 
     $builder->limit(10);
 
@@ -132,7 +132,7 @@ it('can use limit', function () {
 });
 
 it('can use latest', function () {
-    $builder = new Builder();
+    $builder = new Builder;
 
     $builder->latest();
 
@@ -144,7 +144,7 @@ it('can use latest', function () {
 });
 
 it('can use oldest', function () {
-    $builder = new Builder();
+    $builder = new Builder;
 
     $builder->oldest();
 
@@ -156,7 +156,7 @@ it('can use oldest', function () {
 });
 
 it('can use when', function () {
-    $builder = new Builder();
+    $builder = new Builder;
 
     $builder->when(true, function ($builder) {
         $builder->where('foo', 'bar');
@@ -182,7 +182,7 @@ it('can be used with macro', function () {
         $builder->where('thing', 'was-registered');
     });
 
-    $builder = new Builder();
+    $builder = new Builder;
 
     $builder->thing();
 

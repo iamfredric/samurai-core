@@ -4,9 +4,7 @@ namespace Samurai\Support\Transformers;
 
 class Transformations
 {
-    public function __construct(protected mixed $attributes)
-    {
-    }
+    public function __construct(protected mixed $attributes) {}
 
     /** @param  class-string  $classname */
     public function through(string $classname, mixed ...$args): static

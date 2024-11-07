@@ -36,7 +36,7 @@ class Builder
 
     protected ?Model $model;
 
-    final public function __construct(Model $model = null)
+    final public function __construct(?Model $model = null)
     {
         $this->model = $model;
 
@@ -56,7 +56,7 @@ class Builder
         return null;
     }
 
-    public static function find(int $id, Model $model = null): ?Model
+    public static function find(int $id, ?Model $model = null): ?Model
     {
         $instance = new static($model);
 
@@ -69,7 +69,7 @@ class Builder
 
     public function get(): Collection
     {
-        $posts = new Collection();
+        $posts = new Collection;
 
         foreach ((array) WpHelper::get_posts($this->getArguments()) as $post) {
             $posts->push($this->buildItem($post));
@@ -78,7 +78,7 @@ class Builder
         return $posts;
     }
 
-    public function paginate(int $limit = null): Pagination
+    public function paginate(?int $limit = null): Pagination
     {
         $posts = [];
 
@@ -164,7 +164,7 @@ class Builder
     protected function scopeWhereMeta(string $key, mixed $compare = null, mixed $value = null): void
     {
         if (! $this->metaBuilder) {
-            $this->metaBuilder = new MetaBuilder();
+            $this->metaBuilder = new MetaBuilder;
         }
 
         $this->metaBuilder->where($key, $compare, $value);
@@ -173,7 +173,7 @@ class Builder
     protected function scopeOrWhereMeta(string $key, mixed $compare = null, mixed $value = null): void
     {
         if (! $this->metaBuilder) {
-            $this->metaBuilder = new MetaBuilder();
+            $this->metaBuilder = new MetaBuilder;
         }
 
         $this->metaBuilder->orWhere($key, $compare, $value);
@@ -249,7 +249,7 @@ class Builder
 
     public static function __callStatic(string $method, mixed $parameters): static
     {
-        $instance = new static();
+        $instance = new static;
 
         return $instance->__call($method, $parameters);
     }

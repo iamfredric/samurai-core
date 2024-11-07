@@ -102,7 +102,7 @@ class WpImage implements Arrayable, Jsonable
         return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).")}{$css}</style>";
     }
 
-    public function styles(string $size = null): ?string
+    public function styles(?string $size = null): ?string
     {
         if ($style = $this->style($size)) {
             WpHelper::add_action('wp_head', function () use ($style) {

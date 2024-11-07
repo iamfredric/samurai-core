@@ -39,7 +39,7 @@ class Component implements Arrayable, Jsonable
     /**
      * @param  array<string, mixed>  $data
      */
-    public function __construct(array $data, string $prefix = null)
+    public function __construct(array $data, ?string $prefix = null)
     {
         $this->view = $data['acf_fc_layout'];
 
@@ -72,7 +72,7 @@ class Component implements Arrayable, Jsonable
         return view($view, $this->attributes());
     }
 
-    public function data(string $key = null): mixed
+    public function data(?string $key = null): mixed
     {
         if ($key) {
             return $this->data[Str::camel($key)] ?? null;

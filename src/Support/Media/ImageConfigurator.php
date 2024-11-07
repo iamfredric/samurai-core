@@ -13,9 +13,7 @@ class ImageConfigurator
     /** @var ImageSize[] */
     protected array $imageSizes = [];
 
-    public function __construct(protected ConfigPath $routesPath)
-    {
-    }
+    public function __construct(protected ConfigPath $routesPath) {}
 
     public function support(string ...$types): static
     {
@@ -26,8 +24,8 @@ class ImageConfigurator
 
     public function register(
         string $name,
-        int $width = null,
-        int $height = null,
+        ?int $width = null,
+        ?int $height = null,
         bool $crop = true
     ): ImageSize {
         return $this->imageSizes[] = new ImageSize($name, $width, $height, $crop);

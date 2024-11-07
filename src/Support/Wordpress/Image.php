@@ -12,7 +12,7 @@ class Image implements Arrayable, Jsonable
     protected Collection $attributes;
 
     /** @param  array<string, mixed>|null  $thumbnail */
-    public function __construct(array $thumbnail = null)
+    public function __construct(?array $thumbnail = null)
     {
         $this->attributes = new Collection(Arr::dot($thumbnail ?: []));
     }
@@ -32,7 +32,7 @@ class Image implements Arrayable, Jsonable
         return $this->attributes->get('title');
     }
 
-    public function url(string $size = null): ?string
+    public function url(?string $size = null): ?string
     {
         if (empty($size)) {
             return $this->attributes->get('url');
@@ -41,7 +41,7 @@ class Image implements Arrayable, Jsonable
         return $this->attributes->get("sizes.{$size}") ?: $this->attributes->get('url');
     }
 
-    public function getWidth(string $size = null): ?int
+    public function getWidth(?string $size = null): ?int
     {
         if (empty($size)) {
             return $this->attributes->get('width');
@@ -50,7 +50,7 @@ class Image implements Arrayable, Jsonable
         return $this->attributes->get("sizes.{$size}-width") ?: $this->attributes->get('width');
     }
 
-    public function getHeight(string $size = null): ?int
+    public function getHeight(?string $size = null): ?int
     {
         if (empty($size)) {
             return $this->attributes->get('height');
@@ -72,7 +72,7 @@ class Image implements Arrayable, Jsonable
     /**
      * @param  array<string, string>  $attributes
      */
-    public function render(string $size = null, $attributes = []): string
+    public function render(?string $size = null, $attributes = []): string
     {
         if ($srcset = $this->getSrcSet($size)) {
             $attributes['srcset'] = $srcset;
@@ -95,7 +95,7 @@ class Image implements Arrayable, Jsonable
         return "<img {$attributes}>";
     }
 
-    public function getSrcSet(string $size = null): ?string
+    public function getSrcSet(?string $size = null): ?string
     {
         $size ??= 'default';
 
@@ -111,7 +111,7 @@ class Image implements Arrayable, Jsonable
         return $this->attributes->get('caption');
     }
 
-    protected function generateStyleSheet(string $size = null): string
+    protected function generateStyleSheet(?string $size = null): string
     {
         if (! $srcset = WpHelper::wp_get_attachment_image_srcset($this->id(), '1920x880')) { // @phpstan-ignore-line
             return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).')}</style>';
@@ -131,7 +131,7 @@ class Image implements Arrayable, Jsonable
         return "<style>#{$this->identifier()} {background-image: url(".$this->url($size).")}{$css}</style>";
     }
 
-    public function styles(string $size = null): ?string
+    public function styles(?string $size = null): ?string
     {
         if ($style = $this->generateStyleSheet($size)) {
             WpHelper::add_action('wp_head', function () use ($style) {

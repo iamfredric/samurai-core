@@ -19,8 +19,7 @@ class ApiRouter
     public function __construct(
         protected Application $app,
         protected string $namespace
-    ) {
-    }
+    ) {}
 
     /**
      * @param  string|string[]|\Closure  $endpoint

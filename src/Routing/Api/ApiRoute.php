@@ -12,8 +12,7 @@ class ApiRoute
         public string $uri,
         public string|array|\Closure $callback,
         public string $namespace
-    ) {
-    }
+    ) {}
 
     public function getUri(): string
     {

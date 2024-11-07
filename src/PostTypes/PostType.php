@@ -40,8 +40,7 @@ class PostType
             'post-formats',
         ],
         public array $taxonomies = [],
-    ) {
-    }
+    ) {}
 
     public function taxonomy(Taxonomy $taxonomy): static
     {
